@@ -1,0 +1,15 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Results and large binary artifacts
+source/tcn/results
+source/tcn/results.zip
+source/tcn/runs/

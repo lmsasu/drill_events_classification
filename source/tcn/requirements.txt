@@ -1,0 +1,3 @@
+keras-tcn
+tensorboard
+# tensorflow[and-gpu]0
