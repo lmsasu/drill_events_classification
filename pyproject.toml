@@ -17,10 +17,14 @@ dependencies = [
     "scikit-learn>=1.8.0",
     "seaborn>=0.13.2",
     "tensorboard>=2.20.0",
-    "tensorflow>=2.21.0",
+    "tensorflow[and-cuda]==2.21.0",
+]
+
+  [project.optional-dependencies]
+  pytorch = [
     "torch>=2.11.0",
     "torchvision>=0.26.0",
-]
+  ]
 
 [[tool.uv.index]]
 name = "pytorch-cu130"
