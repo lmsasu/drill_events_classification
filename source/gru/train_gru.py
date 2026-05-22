@@ -66,7 +66,6 @@ HP_FIXED: dict[str, Any] = {
 
 
 def set_reproducibility(seed: int, deterministic: bool, benchmark: bool) -> None:
-    """Set RNG seeds and cuDNN behavior for reproducible experiments."""
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
@@ -83,13 +82,7 @@ def set_reproducibility(seed: int, deterministic: bool, benchmark: bool) -> None
     torch.backends.cudnn.benchmark = benchmark
 
 
-class LSTMClassifier(nn.Module):
-    """Sequence classifier that uses a stacked LSTM followed by a linear head.
-
-    The last hidden state of the top LSTM layer is fed into a fully-connected
-    layer that produces one logit per class.
-    """
-
+class GRUClassifier(nn.Module):
     def __init__(
         self,
         input_size: int,
@@ -98,18 +91,8 @@ class LSTMClassifier(nn.Module):
         num_classes: int,
         dropout: float = 0.3,
     ) -> None:
-        """Initialise the LSTM and the classification head.
-
-        Args:
-            input_size: Number of input features at each time step.
-            hidden_size: Number of hidden units in each LSTM layer.
-            num_layers: Number of stacked LSTM layers.
-            num_classes: Number of output classes.
-            dropout: Dropout probability applied between LSTM layers (ignored
-                when num_layers == 1).
-        """
         super().__init__()
-        self.lstm = nn.LSTM(
+        self.gru = nn.GRU(
             input_size,
             hidden_size,
             num_layers=num_layers,
@@ -119,15 +102,7 @@ class LSTMClassifier(nn.Module):
         self.fc = nn.Linear(hidden_size, num_classes)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        """Run a forward pass.
-
-        Args:
-            x: Input tensor of shape (batch, sequence_length, input_size).
-
-        Returns:
-            Logits tensor of shape (batch, num_classes).
-        """
-        _, (h_n, _) = self.lstm(x)
+        _, h_n = self.gru(x)
         return self.fc(h_n[-1])
 
 
@@ -141,25 +116,6 @@ def make_loaders(
     batch_size: int,
     seed: int,
 ) -> tuple[DataLoader, DataLoader, DataLoader]:
-    """Wrap numpy arrays in PyTorch DataLoaders.
-
-    One-hot label arrays are converted to class-index tensors as required by
-    CrossEntropyLoss.  Feature arrays stay on CPU; batches are moved to the
-    target device inside the training loop.
-
-    Args:
-        x_train: Training features, shape (n, window, features).
-        x_val: Validation features.
-        x_test: Test features.
-        y_train: Training labels in one-hot encoding, shape (n, num_classes).
-        y_val: Validation labels in one-hot encoding.
-        y_test: Test labels in one-hot encoding.
-        batch_size: Mini-batch size for all loaders.
-
-    Returns:
-        A tuple of (train_loader, val_loader, test_loader).
-    """
-
     def to_dataset(x: np.ndarray, y: np.ndarray) -> TensorDataset:
         return TensorDataset(
             torch.tensor(x, dtype=torch.float32),
@@ -192,29 +148,13 @@ def make_loaders(
 
 
 def run_epoch(
-    model: LSTMClassifier,
+    model: GRUClassifier,
     loader: DataLoader,
     criterion: nn.Module,
     optimizer: torch.optim.Optimizer | None = None,
     device: torch.device | str = "cpu",
     grad_clip_norm: float | None = None,
 ) -> tuple[float, float]:
-    """Run one full pass over a data loader.
-
-    When *optimizer* is provided the model is set to training mode and
-    gradients are updated; otherwise the model runs in evaluation mode with
-    gradient computation disabled.
-
-    Args:
-        model: The LSTM classifier.
-        loader: DataLoader yielding (x, y) batches.
-        criterion: Loss function (CrossEntropyLoss).
-        optimizer: Optimizer for the training pass; ``None`` for evaluation.
-        device: Device to move batches to before the forward pass.
-
-    Returns:
-        A tuple of (mean_loss, accuracy) over the full loader.
-    """
     training = optimizer is not None
     model.train(training)
     total_loss, correct, total = 0.0, 0, 0
@@ -243,15 +183,6 @@ def plot_history(
     dir_name: str,
     save_eps: bool = True,
 ) -> None:
-    """Save loss and accuracy curves as PNG (and optionally EPS) files.
-
-    Args:
-        history: Dict with keys ``train_loss``, ``val_loss``,
-            ``train_accuracy``, ``val_accuracy``; each value is a list of
-            per-epoch scalars.
-        dir_name: Directory where plot files are written.
-        save_eps: When ``True``, also save an EPS copy of each figure.
-    """
     os.makedirs(dir_name, exist_ok=True)
     epoch_range = range(1, len(history["train_loss"]) + 1)
     for metric in ("loss", "accuracy"):
@@ -270,27 +201,13 @@ def plot_history(
 
 
 def write_predictions(
-    model: LSTMClassifier,
+    model: GRUClassifier,
     loader: DataLoader,
     y_onehot: np.ndarray,
     dir_name: str,
     subset_type: str,
     device: torch.device | str,
 ) -> None:
-    """Write an Excel file with model predictions for a data subset.
-
-    Each row contains the flattened input window, the predicted class index,
-    and the ground-truth class index.
-
-    Args:
-        model: Trained LSTM classifier.
-        loader: DataLoader for the subset (train / val / test).
-        y_onehot: One-hot ground-truth labels for the full subset,
-            shape (n, num_classes).
-        dir_name: Directory where the Excel file is written.
-        subset_type: Label used in the output filename (e.g. ``"train"``).
-        device: Device to run inference on.
-    """
     model.eval()
     all_x, all_preds = [], []
     with torch.no_grad():
@@ -314,25 +231,7 @@ def play(
     verbose: bool = True,
     save_eps: bool = False,
     **hyperparameters: Any,
-) -> tuple[dict[str, list[float]], np.ndarray, np.ndarray, np.ndarray, LSTMClassifier]:
-    """Train and evaluate the LSTM classifier.
-
-    Orchestrates data preparation, model construction, the training loop,
-    metric logging, plot generation, and prediction export.  Results are
-    written to a timestamped sub-directory under ``results/``.
-
-    Args:
-        df: Raw dataset DataFrame as returned by ``load_dataset``.
-        verbose: When ``True``, log dataset statistics during preparation.
-        save_eps: When ``True``, also save EPS versions of all figures.
-        **hyperparameters: Training configuration.  Expected keys:
-            ``lookback_window``, ``batch_size``, ``epochs``,
-            ``hidden_size``, ``num_layers``, ``dropout``,
-            ``learning_rate``.
-
-    Returns:
-        A tuple of (history, x_test, y_test, y_pred_classes_test, model).
-    """
+) -> tuple[dict[str, list[float]], np.ndarray, np.ndarray, np.ndarray, GRUClassifier]:
     run_config = dict(hyperparameters)
     run_config.setdefault("seed", 42)
     run_config.setdefault("deterministic", True)
@@ -351,7 +250,7 @@ def play(
 
     dir_root_results = "results"
     timestamp = str(pd.Timestamp.now().strftime("%Y-%m-%d_%H-%M-%S"))
-    dir_name = os.path.join(dir_root_results, f"results_lstm_{timestamp}")
+    dir_name = os.path.join(dir_root_results, f"results_gru_{timestamp}")
     os.makedirs(dir_name, exist_ok=True)
 
     with open(os.path.join(dir_name, "hyperparameters.txt"), "wt") as f:
@@ -391,7 +290,7 @@ def play(
         seed=int(run_config["seed"]),
     )
 
-    model = LSTMClassifier(
+    model = GRUClassifier(
         input_size=x_train.shape[2],
         hidden_size=run_config["hidden_size"],
         num_layers=run_config["num_layers"],
@@ -591,7 +490,7 @@ def play(
         plt.savefig(os.path.join(dir_name, f"{_cm_filename}.eps"), bbox_inches="tight")
     plt.close()
 
-    all_results_path = os.path.join(dir_root_results, "all_results_lstm.xlsx")
+    all_results_path = os.path.join(dir_root_results, "all_results_gru.xlsx")
     summary_keys = list(summary_metrics.keys())
     all_results_columns = (
         ["timestamp"] + list(run_config.keys()) + list(history.keys()) + summary_keys

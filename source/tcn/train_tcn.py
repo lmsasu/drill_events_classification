@@ -24,6 +24,7 @@ from sklearn.metrics import (
 from sklearn.model_selection import ParameterSampler
 from sklearn.preprocessing import LabelEncoder
 from scipy.stats import loguniform, randint, uniform
+from pytorch_tcn import TCN
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from shared_modules.data_preparation import load_dataset, prepare_data
@@ -45,28 +46,29 @@ SEARCH_SEED: int | None = 0  # set to None for a non-reproducible search
 #     [v1, v2, ...]        uniform draw from list
 HP_DISTRIBUTIONS: dict[str, Any] = {
     "lookback_window": randint(10, 51),
-    "batch_size": [16, 32, 64],
-    "hidden_size": [64, 128, 256],
-    "num_layers": randint(1, 5),
-    "dropout": uniform(0.1, 0.4),
-    "learning_rate": loguniform(1e-4, 1e-2),
+    "batch_size":      [16, 32, 64],
+    "hidden_size":     [32, 64, 128, 256],
+    "num_levels":      randint(2, 7),
+    "kernel_size":     [2, 3, 5, 7],
+    "dropout":         uniform(0.1, 0.4),
+    "learning_rate":   loguniform(1e-4, 1e-2),
 }
 
 # ↓ Fixed hyperparameters — passed unchanged to every trial.
 HP_FIXED: dict[str, Any] = {
-    "epochs": 50,
-    "seed": 42,
-    "deterministic": True,
-    "benchmark": False,
-    "early_stopping_patience": 8,
+    "epochs":                   50,
+    "seed":                     42,
+    "deterministic":            True,
+    "benchmark":                False,
+    "early_stopping_patience":  8,
     "early_stopping_min_delta": 0.0,
-    "grad_clip_norm": 1.0,
+    "grad_clip_norm":           1.0,
 }
 # ── End of random search configuration ────────────────────────────────────────
 
 
 def set_reproducibility(seed: int, deterministic: bool, benchmark: bool) -> None:
-    """Set RNG seeds and cuDNN behavior for reproducible experiments."""
+    """Set RNG seeds and cuDNN behaviour for reproducible experiments."""
     random.seed(seed)
     np.random.seed(seed)
     torch.manual_seed(seed)
@@ -83,38 +85,43 @@ def set_reproducibility(seed: int, deterministic: bool, benchmark: bool) -> None
     torch.backends.cudnn.benchmark = benchmark
 
 
-class LSTMClassifier(nn.Module):
-    """Sequence classifier that uses a stacked LSTM followed by a linear head.
+class TCNClassifier(nn.Module):
+    """Causal TCN encoder followed by a linear classification head.
 
-    The last hidden state of the top LSTM layer is fed into a fully-connected
-    layer that produces one logit per class.
+    The TCN processes the input sequence and the representation at the final
+    time step is fed into a fully-connected layer that produces one logit per
+    class.
     """
 
     def __init__(
         self,
         input_size: int,
         hidden_size: int,
-        num_layers: int,
+        num_levels: int,
         num_classes: int,
-        dropout: float = 0.3,
+        kernel_size: int = 3,
+        dropout: float = 0.2,
     ) -> None:
-        """Initialise the LSTM and the classification head.
+        """Initialise the TCN encoder and the classification head.
 
         Args:
             input_size: Number of input features at each time step.
-            hidden_size: Number of hidden units in each LSTM layer.
-            num_layers: Number of stacked LSTM layers.
+            hidden_size: Number of channels in every TCN level.
+            num_levels: Number of stacked TCN levels (depth of the network).
+                The effective receptive field grows exponentially with this
+                value: ``(kernel_size - 1) * (2 ** num_levels - 1) + 1``.
             num_classes: Number of output classes.
-            dropout: Dropout probability applied between LSTM layers (ignored
-                when num_layers == 1).
+            kernel_size: Width of each dilated causal convolution kernel.
+            dropout: Dropout probability applied inside each TCN residual block.
         """
         super().__init__()
-        self.lstm = nn.LSTM(
-            input_size,
-            hidden_size,
-            num_layers=num_layers,
-            batch_first=True,
-            dropout=dropout if num_layers > 1 else 0.0,
+        self.tcn = TCN(
+            num_inputs=input_size,
+            num_channels=[hidden_size] * num_levels,
+            kernel_size=kernel_size,
+            dropout=dropout,
+            causal=True,
+            input_shape="NCL",
         )
         self.fc = nn.Linear(hidden_size, num_classes)
 
@@ -122,13 +129,14 @@ class LSTMClassifier(nn.Module):
         """Run a forward pass.
 
         Args:
-            x: Input tensor of shape (batch, sequence_length, input_size).
+            x: Input tensor of shape ``(batch, sequence_length, input_size)``.
 
         Returns:
-            Logits tensor of shape (batch, num_classes).
+            Logits tensor of shape ``(batch, num_classes)``.
         """
-        _, (h_n, _) = self.lstm(x)
-        return self.fc(h_n[-1])
+        # TCN expects (batch, features, seq_len); transpose from loader format.
+        out = self.tcn(x.transpose(1, 2))   # (batch, hidden_size, seq_len)
+        return self.fc(out[:, :, -1])        # last time step → (batch, num_classes)
 
 
 def make_loaders(
@@ -148,16 +156,17 @@ def make_loaders(
     target device inside the training loop.
 
     Args:
-        x_train: Training features, shape (n, window, features).
+        x_train: Training features, shape ``(n, window, features)``.
         x_val: Validation features.
         x_test: Test features.
-        y_train: Training labels in one-hot encoding, shape (n, num_classes).
+        y_train: Training labels in one-hot encoding, shape ``(n, num_classes)``.
         y_val: Validation labels in one-hot encoding.
         y_test: Test labels in one-hot encoding.
         batch_size: Mini-batch size for all loaders.
+        seed: Base seed for the DataLoader worker RNG.
 
     Returns:
-        A tuple of (train_loader, val_loader, test_loader).
+        A tuple of ``(train_loader, val_loader, test_loader)``.
     """
 
     def to_dataset(x: np.ndarray, y: np.ndarray) -> TensorDataset:
@@ -192,7 +201,7 @@ def make_loaders(
 
 
 def run_epoch(
-    model: LSTMClassifier,
+    model: TCNClassifier,
     loader: DataLoader,
     criterion: nn.Module,
     optimizer: torch.optim.Optimizer | None = None,
@@ -206,14 +215,16 @@ def run_epoch(
     gradient computation disabled.
 
     Args:
-        model: The LSTM classifier.
-        loader: DataLoader yielding (x, y) batches.
+        model: The TCN classifier.
+        loader: DataLoader yielding ``(x, y)`` batches.
         criterion: Loss function (CrossEntropyLoss).
         optimizer: Optimizer for the training pass; ``None`` for evaluation.
         device: Device to move batches to before the forward pass.
+        grad_clip_norm: Maximum gradient norm for clipping; skipped when
+            ``None`` or ``<= 0``.
 
     Returns:
-        A tuple of (mean_loss, accuracy) over the full loader.
+        A tuple of ``(mean_loss, accuracy)`` over the full loader.
     """
     training = optimizer is not None
     model.train(training)
@@ -270,7 +281,7 @@ def plot_history(
 
 
 def write_predictions(
-    model: LSTMClassifier,
+    model: TCNClassifier,
     loader: DataLoader,
     y_onehot: np.ndarray,
     dir_name: str,
@@ -279,14 +290,11 @@ def write_predictions(
 ) -> None:
     """Write an Excel file with model predictions for a data subset.
 
-    Each row contains the flattened input window, the predicted class index,
-    and the ground-truth class index.
-
     Args:
-        model: Trained LSTM classifier.
+        model: Trained TCN classifier.
         loader: DataLoader for the subset (train / val / test).
         y_onehot: One-hot ground-truth labels for the full subset,
-            shape (n, num_classes).
+            shape ``(n, num_classes)``.
         dir_name: Directory where the Excel file is written.
         subset_type: Label used in the output filename (e.g. ``"train"``).
         device: Device to run inference on.
@@ -314,8 +322,8 @@ def play(
     verbose: bool = True,
     save_eps: bool = False,
     **hyperparameters: Any,
-) -> tuple[dict[str, list[float]], np.ndarray, np.ndarray, np.ndarray, LSTMClassifier]:
-    """Train and evaluate the LSTM classifier.
+) -> tuple[dict[str, list[float]], np.ndarray, np.ndarray, np.ndarray, TCNClassifier]:
+    """Train and evaluate the TCN classifier.
 
     Orchestrates data preparation, model construction, the training loop,
     metric logging, plot generation, and prediction export.  Results are
@@ -326,12 +334,11 @@ def play(
         verbose: When ``True``, log dataset statistics during preparation.
         save_eps: When ``True``, also save EPS versions of all figures.
         **hyperparameters: Training configuration.  Expected keys:
-            ``lookback_window``, ``batch_size``, ``epochs``,
-            ``hidden_size``, ``num_layers``, ``dropout``,
-            ``learning_rate``.
+            ``lookback_window``, ``batch_size``, ``epochs``, ``hidden_size``,
+            ``num_levels``, ``kernel_size``, ``dropout``, ``learning_rate``.
 
     Returns:
-        A tuple of (history, x_test, y_test, y_pred_classes_test, model).
+        A tuple of ``(history, x_test, y_test, y_pred_classes_test, model)``.
     """
     run_config = dict(hyperparameters)
     run_config.setdefault("seed", 42)
@@ -351,7 +358,7 @@ def play(
 
     dir_root_results = "results"
     timestamp = str(pd.Timestamp.now().strftime("%Y-%m-%d_%H-%M-%S"))
-    dir_name = os.path.join(dir_root_results, f"results_lstm_{timestamp}")
+    dir_name = os.path.join(dir_root_results, f"results_tcn_{timestamp}")
     os.makedirs(dir_name, exist_ok=True)
 
     with open(os.path.join(dir_name, "hyperparameters.txt"), "wt") as f:
@@ -381,21 +388,18 @@ def play(
     logger.info("cuDNN version: %s", cudnn_version)
 
     train_loader, val_loader, test_loader = make_loaders(
-        x_train,
-        x_val,
-        x_test,
-        y_train,
-        y_val,
-        y_test,
+        x_train, x_val, x_test,
+        y_train, y_val, y_test,
         run_config["batch_size"],
         seed=int(run_config["seed"]),
     )
 
-    model = LSTMClassifier(
+    model = TCNClassifier(
         input_size=x_train.shape[2],
         hidden_size=run_config["hidden_size"],
-        num_layers=run_config["num_layers"],
+        num_levels=run_config["num_levels"],
         num_classes=y_train.shape[1],
+        kernel_size=run_config["kernel_size"],
         dropout=run_config["dropout"],
     ).to(device)
 
@@ -421,11 +425,7 @@ def play(
 
     for epoch in range(1, epochs + 1):
         train_loss, train_acc = run_epoch(
-            model,
-            train_loader,
-            criterion,
-            optimizer,
-            device,
+            model, train_loader, criterion, optimizer, device,
             grad_clip_norm=grad_clip_norm,
         )
         val_loss, val_acc = run_epoch(model, val_loader, criterion, device=device)
@@ -435,12 +435,7 @@ def play(
         history["val_accuracy"].append(val_acc)
         logger.info(
             "Epoch %d/%d — loss: %.4f, acc: %.4f, val_loss: %.4f, val_acc: %.4f",
-            epoch,
-            epochs,
-            train_loss,
-            train_acc,
-            val_loss,
-            val_acc,
+            epoch, epochs, train_loss, train_acc, val_loss, val_acc,
         )
 
         if val_loss < (best_val_loss_for_early_stop - early_stopping_min_delta):
@@ -461,9 +456,7 @@ def play(
             stopped_early = True
             logger.info(
                 "Early stopping at epoch %d (patience=%d, min_delta=%.6f)",
-                epoch,
-                early_stopping_patience,
-                early_stopping_min_delta,
+                epoch, early_stopping_patience, early_stopping_min_delta,
             )
             break
 
@@ -591,7 +584,7 @@ def play(
         plt.savefig(os.path.join(dir_name, f"{_cm_filename}.eps"), bbox_inches="tight")
     plt.close()
 
-    all_results_path = os.path.join(dir_root_results, "all_results_lstm.xlsx")
+    all_results_path = os.path.join(dir_root_results, "all_results_tcn.xlsx")
     summary_keys = list(summary_metrics.keys())
     all_results_columns = (
         ["timestamp"] + list(run_config.keys()) + list(history.keys()) + summary_keys
@@ -633,9 +626,7 @@ if __name__ == "__main__":
     dataset_path = Path(__file__).resolve().parents[2] / "data" / "DataBaseTCN.xlsx"
     df = load_dataset(dataset_path)
 
-    sampler = ParameterSampler(
-        HP_DISTRIBUTIONS, n_iter=N_TRIALS, random_state=SEARCH_SEED
-    )
+    sampler = ParameterSampler(HP_DISTRIBUTIONS, n_iter=N_TRIALS, random_state=SEARCH_SEED)
     for trial, params in enumerate(sampler, start=1):
         full_params = {**HP_FIXED, **params}
         logger.info("Trial %d/%d — hyperparameters: %s", trial, N_TRIALS, full_params)
