@@ -1,5 +1,15 @@
+import logging
 import os
+import sys
+from datetime import datetime
 from pathlib import Path
+
+# Must be set before TensorFlow is imported.
+# Disables the cuDNN v8/v9 frontend graph API, which fails on Pascal (SM 6.1)
+# with cuDNN 9.x ("No algorithm worked" / CUDNN_STATUS_EXECUTION_FAILED).
+os.environ.setdefault("TF_ENABLE_CUDNN_FRONTEND", "0")
+# Prevent TF from pre-allocating the entire GPU VRAM at startup.
+os.environ.setdefault("TF_FORCE_GPU_ALLOW_GROWTH", "true")
 
 import keras
 import numpy as np
@@ -9,12 +19,27 @@ import seaborn as sns
 import tensorflow as tf
 from keras.metrics import AUC
 from sklearn.metrics import classification_report, confusion_matrix
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
 from tcn import TCN
 from tensorflow.keras.layers import Dense, Input
 from tensorflow.keras.models import Model
-from tensorflow.keras.utils import to_categorical
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+from shared_modules.data_preparation import load_dataset, prepare_data
+
+logger = logging.getLogger(__name__)
+
+
+def setup_logging() -> None:
+    log_dir = Path("log")
+    log_dir.mkdir(exist_ok=True)
+    log_file = log_dir / f"{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.log"
+    fmt = logging.Formatter("%(asctime)s %(levelname)s %(message)s")
+    file_handler = logging.FileHandler(log_file)
+    file_handler.setFormatter(fmt)
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(fmt)
+    logging.basicConfig(level=logging.INFO, handlers=[file_handler, stream_handler])
+
 
 dict_hyperparams = {
     "lookback_window": 25,
@@ -31,7 +56,7 @@ dict_hyperparams = {
 
 def plot_save(history, directory_name, epochs, save_eps=False) -> None:
     os.makedirs(directory_name, exist_ok=True)
-    print("Plotting training history")
+    logger.info("Plotting training history")
     score_names = list(history.history.keys())
     count_perfomance_scores = len(score_names) // 2
     epoch_range = range(1, epochs + 1)
@@ -72,11 +97,11 @@ def write_predictions(model, x, y_groundtruth, original_labels, dir_name, subset
 
 def play(
     df: pd.DataFrame,
-    verbose: bool = False,
+    verbose: bool = True,
     save_eps: bool = False,
     **hyperparameters,
 ):
-    print("Play function called with hyperparameters:", hyperparameters)
+    logger.info("Play function called with hyperparameters: %s", hyperparameters)
 
     dir_root_results = "results"
     timestamp = str(pd.Timestamp.now().strftime("%Y-%m-%d_%H-%M-%S"))
@@ -88,52 +113,16 @@ def play(
         for key, value in hyperparameters.items():
             f.write(f"\t{key}: {value}\n")
 
-    output_column = "Task"
-    df[output_column] = df[output_column].fillna("OPR")
-    features = df.drop(columns=["Task"]).values
-
-    if verbose:
-        unique_text = df[output_column].dropna().unique()
-        print(f"Unique text strings in {output_column}:", unique_text)
-        print(df.head())
-        print("Column names:", df.columns)
-        nan_rows = df[df[output_column].isna()]
-        print(f"Rows with NaN values in column {output_column}:")
-        print("rows with nans:\n", nan_rows)
-
-    label_encoder = LabelEncoder()
-    encoded_labels = label_encoder.fit_transform(df["Task"])
-    labels = to_categorical(encoded_labels)
-
-    if verbose:
-        print("Feature shape:", features.shape)
-        print("Label shape:", labels.shape)
-        print("Labels:", encoded_labels)
-
     lookback_window = hyperparameters["lookback_window"]
-    x, y = [], []
-    for i in range(lookback_window, len(labels)):
-        x.append(features[i - lookback_window : i])
-        y.append(labels[i])
-    x, y = np.array(x), np.array(y)
-
-    x_train, x_temp, y_train, y_temp = train_test_split(
-        x, y, test_size=0.3, random_state=42
+    x_train, x_val, x_test, y_train, y_val, y_test, label_encoder = prepare_data(
+        df, lookback_window, verbose=verbose
     )
-    x_val, x_test, y_val, y_test = train_test_split(
-        x_temp, y_temp, test_size=0.5, random_state=42
-    )
-
-    if verbose:
-        print(f"{x_train.shape=}, {y_train.shape=}")
-        print(f"{x_val.shape=}, {y_val.shape=}")
-        print(f"{x_test.shape=}, {y_test.shape=}")
 
     # TensorBoard scalar callback fails with multi-label metrics (shape != scalar).
     # Use a per-epoch CSV logger instead to avoid the ValueError from tensorboard/plugins/scalar/summary_v2.py.
     csv_logger = keras.callbacks.CSVLogger(os.path.join(dir_name, "training_log.csv"))
 
-    i = Input(shape=(lookback_window, features.shape[1]))
+    i = Input(shape=(lookback_window, x_train.shape[2]))
     m = TCN(
         use_batch_norm=hyperparameters["use_batch_norm"],
         nb_stacks=hyperparameters["nb_stacks"],
@@ -141,7 +130,7 @@ def play(
         kernel_size=hyperparameters["kernel_size"],
         activation=hyperparameters["activation"],
     )(i)
-    m = Dense(labels.shape[1], activation="softmax")(m)
+    m = Dense(y_train.shape[1], activation="softmax")(m)
     model = Model(inputs=i, outputs=m)
 
     metrics = [
@@ -149,7 +138,7 @@ def play(
         "precision",
         "recall",
         "f1_score",
-        AUC(multi_label=True, num_labels=labels.shape[1]),
+        AUC(multi_label=True, num_labels=y_train.shape[1]),
     ]
     model.compile(
         optimizer=hyperparameters["optimizer"],
@@ -176,10 +165,10 @@ def play(
     original_labels = label_encoder.inverse_transform(
         np.arange(len(label_encoder.classes_))
     )
-    print("Original Labels:", original_labels)
+    logger.info("Original Labels: %s", original_labels)
 
-    print(
-        "Classification Report:\n",
+    logger.info(
+        "Classification Report:\n%s",
         classification_report(y_true_classes_test, y_pred_classes_test),
     )
     with open(os.path.join(dir_name, "classification_report.txt"), "wt") as f:
@@ -227,27 +216,25 @@ def play(
     df_results.loc[len(df_results)] = lst_row
     df_results.to_excel(all_results_path, index=False)
 
-    print("Writing train predictions...")
+    logger.info("Writing train predictions...")
     write_predictions(model, x_train, y_train, original_labels, dir_name, "train")
-    print("Writing val predictions...")
+    logger.info("Writing val predictions...")
     write_predictions(model, x_val, y_val, original_labels, dir_name, "val")
-    print("Writing test predictions...")
+    logger.info("Writing test predictions...")
     write_predictions(model, x_test, y_test, original_labels, dir_name, "test")
 
     return history, x_test, y_test, y_pred_test, y_pred_classes_test, model
 
 
 if __name__ == "__main__":
-    print("Num GPUs Available:", len(tf.config.list_physical_devices("GPU")))
+    setup_logging()
+    gpus = tf.config.list_physical_devices("GPU")
+    for gpu in gpus:
+        tf.config.experimental.set_memory_growth(gpu, True)
+    logger.info("Num GPUs Available: %d", len(gpus))
 
     dataset_path = Path(__file__).resolve().parents[2] / "data" / "DataBaseTCN.xlsx"
-    if not dataset_path.exists():
-        raise FileNotFoundError(
-            f"Dataset not found at {dataset_path}. "
-            f"Current working directory is {Path.cwd()}."
-        )
-
-    df = pd.read_excel(dataset_path)
+    df = load_dataset(dataset_path)
     history, x_test, y_test, y_pred_test, y_pred_classes_test, model = play(
-        df, **dict_hyperparams
+        df, verbose=True, **dict_hyperparams
     )
