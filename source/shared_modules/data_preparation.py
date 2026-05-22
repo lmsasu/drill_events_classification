@@ -5,8 +5,6 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
-from tensorflow.keras.utils import to_categorical
-
 logger = logging.getLogger(__name__)
 
 
@@ -39,7 +37,7 @@ def prepare_data(
 
     label_encoder = LabelEncoder()
     encoded_labels = label_encoder.fit_transform(df[output_column])
-    labels = to_categorical(encoded_labels)
+    labels = np.eye(encoded_labels.max() + 1, dtype=np.float32)[encoded_labels]
 
     if verbose:
         logger.info("Feature shape: %s", features.shape)

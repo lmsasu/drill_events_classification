@@ -1,12 +1,10 @@
 import logging
 import os
+import random
 import sys
+import time
 from pathlib import Path
 from typing import Any
-
-# Prevent TF (loaded transitively via data_preparation) from pre-allocating GPU VRAM.
-os.environ.setdefault("TF_FORCE_GPU_ALLOW_GROWTH", "true")
-os.environ.setdefault("TF_ENABLE_CUDNN_FRONTEND", "0")
 
 import numpy as np
 import pandas as pd
@@ -21,6 +19,7 @@ from sklearn.preprocessing import LabelEncoder
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from shared_modules.data_preparation import load_dataset, prepare_data
 from shared_modules.logging_setup import setup_logging
+from shared_modules.timing import timeit
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +32,31 @@ dict_hyperparams: dict[str, Any] = {
     "num_layers": 2,
     "dropout": 0.3,
     "learning_rate": 1e-3,
+    "seed": 42,
+    "deterministic": True,
+    "benchmark": False,
+    "early_stopping_patience": 8,
+    "early_stopping_min_delta": 0.0,
+    "grad_clip_norm": 1.0,
 }
+
+
+def set_reproducibility(seed: int, deterministic: bool, benchmark: bool) -> None:
+    """Set RNG seeds and cuDNN behavior for reproducible experiments."""
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+
+    if deterministic and benchmark:
+        logger.warning(
+            "deterministic=True is incompatible with benchmark=True; forcing benchmark=False"
+        )
+        benchmark = False
+
+    torch.backends.cudnn.deterministic = deterministic
+    torch.backends.cudnn.benchmark = benchmark
 
 
 class LSTMClassifier(nn.Module):
@@ -92,6 +115,7 @@ def make_loaders(
     y_val: np.ndarray,
     y_test: np.ndarray,
     batch_size: int,
+    seed: int,
 ) -> tuple[DataLoader, DataLoader, DataLoader]:
     """Wrap numpy arrays in PyTorch DataLoaders.
 
@@ -111,16 +135,35 @@ def make_loaders(
     Returns:
         A tuple of (train_loader, val_loader, test_loader).
     """
+
     def to_dataset(x: np.ndarray, y: np.ndarray) -> TensorDataset:
         return TensorDataset(
             torch.tensor(x, dtype=torch.float32),
             torch.tensor(np.argmax(y, axis=1), dtype=torch.long),
         )
 
+    def seed_worker(_: int) -> None:
+        worker_seed = torch.initial_seed() % (2**32)
+        np.random.seed(worker_seed)
+        random.seed(worker_seed)
+
+    use_cuda = torch.cuda.is_available()
+    num_workers = max(1, min(4, (os.cpu_count() or 1))) if use_cuda else 0
+    generator = torch.Generator()
+    generator.manual_seed(seed)
+    loader_kwargs = {
+        "batch_size": batch_size,
+        "pin_memory": use_cuda,
+        "num_workers": num_workers,
+        "persistent_workers": num_workers > 0,
+        "worker_init_fn": seed_worker,
+        "generator": generator,
+    }
+
     return (
-        DataLoader(to_dataset(x_train, y_train), batch_size=batch_size, shuffle=True),
-        DataLoader(to_dataset(x_val, y_val), batch_size=batch_size),
-        DataLoader(to_dataset(x_test, y_test), batch_size=batch_size),
+        DataLoader(to_dataset(x_train, y_train), shuffle=True, **loader_kwargs),
+        DataLoader(to_dataset(x_val, y_val), shuffle=False, **loader_kwargs),
+        DataLoader(to_dataset(x_test, y_test), shuffle=False, **loader_kwargs),
     )
 
 
@@ -130,6 +173,7 @@ def run_epoch(
     criterion: nn.Module,
     optimizer: torch.optim.Optimizer | None = None,
     device: torch.device | str = "cpu",
+    grad_clip_norm: float | None = None,
 ) -> tuple[float, float]:
     """Run one full pass over a data loader.
 
@@ -152,12 +196,17 @@ def run_epoch(
     total_loss, correct, total = 0.0, 0, 0
     with torch.set_grad_enabled(training):
         for xb, yb in loader:
-            xb, yb = xb.to(device), yb.to(device)
+            xb = xb.to(device, non_blocking=True)
+            yb = yb.to(device, non_blocking=True)
             logits = model(xb)
             loss = criterion(logits, yb)
             if training:
                 optimizer.zero_grad()
                 loss.backward()
+                if grad_clip_norm is not None and grad_clip_norm > 0:
+                    torch.nn.utils.clip_grad_norm_(
+                        model.parameters(), max_norm=grad_clip_norm
+                    )
                 optimizer.step()
             total_loss += loss.item() * len(yb)
             correct += (logits.argmax(1) == yb).sum().item()
@@ -222,15 +271,20 @@ def write_predictions(
     all_x, all_preds = [], []
     with torch.no_grad():
         for xb, _ in loader:
-            all_preds.append(model(xb.to(device)).argmax(1).cpu().numpy())
+            all_preds.append(
+                model(xb.to(device, non_blocking=True)).argmax(1).cpu().numpy()
+            )
             all_x.append(xb.numpy())
     x_arr = np.concatenate(all_x)
     df_out = pd.DataFrame(x_arr.reshape(x_arr.shape[0], -1))
     df_out["predicted"] = np.concatenate(all_preds)
     df_out["y_groundtruth"] = np.argmax(y_onehot, axis=1)
-    df_out.to_excel(os.path.join(dir_name, f"{subset_type}_predictions.xlsx"), index=False)
+    df_out.to_excel(
+        os.path.join(dir_name, f"{subset_type}_predictions.xlsx"), index=False
+    )
 
 
+@timeit
 def play(
     df: pd.DataFrame,
     verbose: bool = True,
@@ -255,7 +309,21 @@ def play(
     Returns:
         A tuple of (history, x_test, y_test, y_pred_classes_test, model).
     """
-    logger.info("Play function called with hyperparameters: %s", hyperparameters)
+    run_config = dict(hyperparameters)
+    run_config.setdefault("seed", 42)
+    run_config.setdefault("deterministic", True)
+    run_config.setdefault("benchmark", False)
+    run_config.setdefault("early_stopping_patience", 8)
+    run_config.setdefault("early_stopping_min_delta", 0.0)
+    run_config.setdefault("grad_clip_norm", 1.0)
+
+    set_reproducibility(
+        seed=int(run_config["seed"]),
+        deterministic=bool(run_config["deterministic"]),
+        benchmark=bool(run_config["benchmark"]),
+    )
+
+    logger.info("Play function called with hyperparameters: %s", run_config)
 
     dir_root_results = "results"
     timestamp = str(pd.Timestamp.now().strftime("%Y-%m-%d_%H-%M-%S"))
@@ -264,10 +332,13 @@ def play(
 
     with open(os.path.join(dir_name, "hyperparameters.txt"), "wt") as f:
         f.write("Hyperparameters:\n")
-        for key, value in hyperparameters.items():
+        for key, value in run_config.items():
             f.write(f"\t{key}: {value}\n")
+        f.write("\nRuntime flags:\n")
+        f.write(f"\tcudnn_deterministic: {torch.backends.cudnn.deterministic}\n")
+        f.write(f"\tcudnn_benchmark: {torch.backends.cudnn.benchmark}\n")
 
-    lookback_window: int = hyperparameters["lookback_window"]
+    lookback_window: int = run_config["lookback_window"]
     x_train, x_val, x_test, y_train, y_val, y_test, label_encoder = prepare_data(
         df, lookback_window, verbose=verbose
     )
@@ -275,28 +346,64 @@ def play(
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     logger.info("Using device: %s", device)
 
+    cuda_available = torch.cuda.is_available()
+    gpu_name = torch.cuda.get_device_name(0) if cuda_available else "cpu"
+    cudnn_enabled = torch.backends.cudnn.enabled
+    cudnn_version = torch.backends.cudnn.version()
+
+    logger.info("CUDA available: %s", cuda_available)
+    logger.info("GPU name: %s", gpu_name)
+    logger.info("cuDNN enabled: %s", cudnn_enabled)
+    logger.info("cuDNN version: %s", cudnn_version)
+
     train_loader, val_loader, test_loader = make_loaders(
-        x_train, x_val, x_test, y_train, y_val, y_test, hyperparameters["batch_size"]
+        x_train,
+        x_val,
+        x_test,
+        y_train,
+        y_val,
+        y_test,
+        run_config["batch_size"],
+        seed=int(run_config["seed"]),
     )
 
     model = LSTMClassifier(
         input_size=x_train.shape[2],
-        hidden_size=hyperparameters["hidden_size"],
-        num_layers=hyperparameters["num_layers"],
+        hidden_size=run_config["hidden_size"],
+        num_layers=run_config["num_layers"],
         num_classes=y_train.shape[1],
-        dropout=hyperparameters["dropout"],
+        dropout=run_config["dropout"],
     ).to(device)
 
     criterion = nn.CrossEntropyLoss()
-    optimizer = torch.optim.AdamW(model.parameters(), lr=hyperparameters["learning_rate"])
+    optimizer = torch.optim.AdamW(model.parameters(), lr=run_config["learning_rate"])
 
     history: dict[str, list[float]] = {
-        "train_loss": [], "val_loss": [], "train_accuracy": [], "val_accuracy": []
+        "train_loss": [],
+        "val_loss": [],
+        "train_accuracy": [],
+        "val_accuracy": [],
     }
-    epochs: int = hyperparameters["epochs"]
+    epochs: int = run_config["epochs"]
+    early_stopping_patience = int(run_config["early_stopping_patience"])
+    early_stopping_min_delta = float(run_config["early_stopping_min_delta"])
+    grad_clip_norm = float(run_config["grad_clip_norm"])
+    best_val_loss_for_early_stop = float("inf")
+    epochs_without_improvement = 0
+    best_model_state: dict[str, torch.Tensor] | None = None
+    checkpoint_path = os.path.join(dir_name, "best_model.pt")
+    stopped_early = False
+    train_start_time = time.perf_counter()
 
     for epoch in range(1, epochs + 1):
-        train_loss, train_acc = run_epoch(model, train_loader, criterion, optimizer, device)
+        train_loss, train_acc = run_epoch(
+            model,
+            train_loader,
+            criterion,
+            optimizer,
+            device,
+            grad_clip_norm=grad_clip_norm,
+        )
         val_loss, val_acc = run_epoch(model, val_loader, criterion, device=device)
         history["train_loss"].append(train_loss)
         history["val_loss"].append(val_loss)
@@ -304,10 +411,81 @@ def play(
         history["val_accuracy"].append(val_acc)
         logger.info(
             "Epoch %d/%d — loss: %.4f, acc: %.4f, val_loss: %.4f, val_acc: %.4f",
-            epoch, epochs, train_loss, train_acc, val_loss, val_acc,
+            epoch,
+            epochs,
+            train_loss,
+            train_acc,
+            val_loss,
+            val_acc,
         )
 
-    pd.DataFrame(history).to_csv(os.path.join(dir_name, "training_log.csv"), index=False)
+        if val_loss < (best_val_loss_for_early_stop - early_stopping_min_delta):
+            best_val_loss_for_early_stop = val_loss
+            epochs_without_improvement = 0
+            best_model_state = {
+                key: value.detach().cpu().clone()
+                for key, value in model.state_dict().items()
+            }
+            torch.save(best_model_state, checkpoint_path)
+        else:
+            epochs_without_improvement += 1
+
+        if (
+            early_stopping_patience > 0
+            and epochs_without_improvement >= early_stopping_patience
+        ):
+            stopped_early = True
+            logger.info(
+                "Early stopping at epoch %d (patience=%d, min_delta=%.6f)",
+                epoch,
+                early_stopping_patience,
+                early_stopping_min_delta,
+            )
+            break
+
+    if best_model_state is not None:
+        model.load_state_dict(best_model_state)
+        logger.info("Restored best checkpoint from %s", checkpoint_path)
+
+    total_train_time_seconds = time.perf_counter() - train_start_time
+    best_epoch_idx = int(np.argmin(history["val_loss"]))
+    best_epoch = best_epoch_idx + 1
+    best_val_loss = float(history["val_loss"][best_epoch_idx])
+    best_val_accuracy = float(history["val_accuracy"][best_epoch_idx])
+
+    logger.info("Best epoch (by val_loss): %d", best_epoch)
+    logger.info("Best val_loss: %.6f", best_val_loss)
+    logger.info("Best val_accuracy: %.6f", best_val_accuracy)
+    logger.info("Total train time (s): %.3f", total_train_time_seconds)
+
+    pd.DataFrame(history).to_csv(
+        os.path.join(dir_name, "training_log.csv"), index=False
+    )
+
+    summary_metrics = {
+        "best_epoch": best_epoch,
+        "best_val_loss": best_val_loss,
+        "best_val_accuracy": best_val_accuracy,
+        "stopped_early": stopped_early,
+        "epochs_ran": len(history["train_loss"]),
+        "total_train_time_seconds": total_train_time_seconds,
+        "cuda_available": cuda_available,
+        "gpu_name": gpu_name,
+        "cudnn_enabled": cudnn_enabled,
+        "cudnn_version": cudnn_version,
+        "cudnn_deterministic": torch.backends.cudnn.deterministic,
+        "cudnn_benchmark": torch.backends.cudnn.benchmark,
+    }
+
+    with open(os.path.join(dir_name, "hyperparameters.txt"), "at") as f:
+        f.write("\nRun summary:\n")
+        for key, value in summary_metrics.items():
+            f.write(f"\t{key}: {value}\n")
+
+    pd.DataFrame([summary_metrics]).to_csv(
+        os.path.join(dir_name, "run_summary.csv"), index=False
+    )
+
     plot_history(history, dir_name, save_eps=save_eps)
 
     model.eval()
@@ -315,7 +493,9 @@ def play(
     all_true: list[np.ndarray] = []
     with torch.no_grad():
         for xb, yb in test_loader:
-            all_preds.append(model(xb.to(device)).argmax(1).cpu().numpy())
+            all_preds.append(
+                model(xb.to(device, non_blocking=True)).argmax(1).cpu().numpy()
+            )
             all_true.append(yb.numpy())
     y_pred_classes_test = np.concatenate(all_preds)
     y_true_classes_test = np.concatenate(all_true)
@@ -336,8 +516,12 @@ def play(
     cm = confusion_matrix(y_true_classes_test, y_pred_classes_test)
     plt.figure(figsize=(8, 6))
     sns.heatmap(
-        cm, annot=True, cmap="Reds", fmt="d",
-        xticklabels=original_labels, yticklabels=original_labels,
+        cm,
+        annot=True,
+        cmap="Reds",
+        fmt="d",
+        xticklabels=original_labels,
+        yticklabels=original_labels,
     )
     plt.xlabel("Predicted")
     plt.ylabel("Actual")
@@ -349,19 +533,25 @@ def play(
     plt.close()
 
     all_results_path = os.path.join(dir_root_results, "all_results_lstm.xlsx")
+    summary_keys = list(summary_metrics.keys())
+    all_results_columns = (
+        ["timestamp"] + list(run_config.keys()) + list(history.keys()) + summary_keys
+    )
+
     if os.path.exists(all_results_path):
         df_results = pd.read_excel(all_results_path)
+        for col in all_results_columns:
+            if col not in df_results.columns:
+                df_results[col] = pd.NA
     else:
-        df_results = pd.DataFrame(
-            columns=["timestamp"] + list(hyperparameters.keys()) + list(history.keys())
-        )
+        df_results = pd.DataFrame(columns=all_results_columns)
 
-    lst_row = (
-        [timestamp]
-        + [str(hyperparameters[k]) for k in hyperparameters]
-        + [str(history[m][-1]) for m in history]
-    )
-    df_results.loc[len(df_results)] = lst_row
+    row_data: dict[str, Any] = {"timestamp": timestamp}
+    row_data.update({k: run_config[k] for k in run_config})
+    row_data.update({m: history[m][-1] for m in history})
+    row_data.update(summary_metrics)
+    df_results.loc[len(df_results)] = row_data
+    df_results = df_results[all_results_columns]
     df_results.to_excel(all_results_path, index=False)
 
     logger.info("Writing train predictions...")
