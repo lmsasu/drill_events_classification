@@ -1,7 +1,6 @@
 import logging
 import os
 import sys
-from datetime import datetime
 from pathlib import Path
 
 # Must be set before TensorFlow is imported.
@@ -25,20 +24,9 @@ from tensorflow.keras.models import Model
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from shared_modules.data_preparation import load_dataset, prepare_data
+from shared_modules.logging_setup import setup_logging
 
 logger = logging.getLogger(__name__)
-
-
-def setup_logging() -> None:
-    log_dir = Path("log")
-    log_dir.mkdir(exist_ok=True)
-    log_file = log_dir / f"{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.log"
-    fmt = logging.Formatter("%(asctime)s %(levelname)s %(message)s")
-    file_handler = logging.FileHandler(log_file)
-    file_handler.setFormatter(fmt)
-    stream_handler = logging.StreamHandler()
-    stream_handler.setFormatter(fmt)
-    logging.basicConfig(level=logging.INFO, handlers=[file_handler, stream_handler])
 
 
 dict_hyperparams = {
