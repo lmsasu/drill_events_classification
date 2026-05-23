@@ -1,0 +1,2371 @@
+2026-05-23 08:31:53,973 INFO Torch version: 2.12.0+cu130
+2026-05-23 08:31:54,107 INFO CUDA available: True
+2026-05-23 08:31:54,108 INFO GPU: NVIDIA GeForce RTX 5060
+2026-05-23 08:31:55,779 INFO Trial 1/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.33713784729000734), 'hidden_size': 64, 'learning_rate': np.float64(0.0016051911333587634), 'lookback_window': 13, 'num_layers': 4}
+2026-05-23 08:31:55,779 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.33713784729000734), 'hidden_size': 64, 'learning_rate': np.float64(0.0016051911333587634), 'lookback_window': 13, 'num_layers': 4}
+2026-05-23 08:31:55,844 INFO Using device: cuda
+2026-05-23 08:31:55,845 INFO CUDA available: True
+2026-05-23 08:31:55,845 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 08:31:55,845 INFO cuDNN enabled: True
+2026-05-23 08:31:55,845 INFO cuDNN version: 92000
+2026-05-23 08:32:04,393 INFO Epoch 1/100 — loss: 0.5985, acc: 0.8012, val_loss: 0.7854, val_acc: 0.7900
+2026-05-23 08:32:12,380 INFO Epoch 2/100 — loss: 0.4967, acc: 0.8420, val_loss: 0.8378, val_acc: 0.8044
+2026-05-23 08:32:20,381 INFO Epoch 3/100 — loss: 0.4825, acc: 0.8461, val_loss: 0.7886, val_acc: 0.7994
+2026-05-23 08:32:28,362 INFO Epoch 4/100 — loss: 0.4761, acc: 0.8483, val_loss: 0.8088, val_acc: 0.8004
+2026-05-23 08:32:36,346 INFO Epoch 5/100 — loss: 0.4714, acc: 0.8505, val_loss: 0.8514, val_acc: 0.8032
+2026-05-23 08:32:44,049 INFO Epoch 6/100 — loss: 0.4752, acc: 0.8500, val_loss: 0.8579, val_acc: 0.7951
+2026-05-23 08:32:52,126 INFO Epoch 7/100 — loss: 0.4716, acc: 0.8497, val_loss: 0.7467, val_acc: 0.7955
+2026-05-23 08:33:00,186 INFO Epoch 8/100 — loss: 0.4669, acc: 0.8520, val_loss: 0.8740, val_acc: 0.8030
+2026-05-23 08:33:07,897 INFO Epoch 9/100 — loss: 0.4638, acc: 0.8529, val_loss: 0.7763, val_acc: 0.8042
+2026-05-23 08:33:15,844 INFO Epoch 10/100 — loss: 0.4699, acc: 0.8507, val_loss: 0.8169, val_acc: 0.8037
+2026-05-23 08:33:24,119 INFO Epoch 11/100 — loss: 0.4725, acc: 0.8492, val_loss: 0.8750, val_acc: 0.7818
+2026-05-23 08:33:33,672 INFO Epoch 12/100 — loss: 0.4674, acc: 0.8509, val_loss: 0.8240, val_acc: 0.7956
+2026-05-23 08:33:43,311 INFO Epoch 13/100 — loss: 0.4700, acc: 0.8509, val_loss: 0.7487, val_acc: 0.8109
+2026-05-23 08:33:52,716 INFO Epoch 14/100 — loss: 0.4681, acc: 0.8506, val_loss: 0.8472, val_acc: 0.8003
+2026-05-23 08:34:02,289 INFO Epoch 15/100 — loss: 0.4679, acc: 0.8506, val_loss: 0.8134, val_acc: 0.7943
+2026-05-23 08:34:02,290 INFO Early stopping at epoch 15 (patience=8, min_delta=0.000000)
+2026-05-23 08:34:02,291 INFO Restored best checkpoint from results/results_gru_2026-05-23_08-31-55/best_model.pt
+2026-05-23 08:34:02,291 INFO Best epoch (by val_loss): 7
+2026-05-23 08:34:02,291 INFO Best val_loss: 0.746680
+2026-05-23 08:34:02,291 INFO Best val_accuracy: 0.795538
+2026-05-23 08:34:02,291 INFO Total train time (s): 125.941
+2026-05-23 08:34:02,294 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 08:34:09,568 INFO Train — acc: 0.8658  prec: 0.8655  rec: 0.8658  f1: 0.8631  auc: 0.9614
+2026-05-23 08:34:09,568 INFO Val — acc: 0.7955  prec: 0.8314  rec: 0.7955  f1: 0.7892  auc: 0.8977
+2026-05-23 08:34:09,568 INFO Test — acc: 0.8761  prec: 0.8825  rec: 0.8761  f1: 0.8709  auc: 0.9166
+2026-05-23 08:34:09,702 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 08:34:09,820 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 08:34:09,854 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.92      0.85      0.89      2710
+          mp       0.89      0.76      0.82     18376
+          pd       0.83      0.84      0.84     27263
+          rh       0.74      0.43      0.54      1525
+          rl       0.88      0.90      0.89      2357
+          st       0.88      0.95      0.91     36862
+
+    accuracy                           0.87     89093
+   macro avg       0.86      0.79      0.82     89093
+weighted avg       0.87      0.87      0.86     89093
+
+2026-05-23 08:34:09,859 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.99      0.42      0.59      1292
+          mp       0.86      0.83      0.84      3047
+          pd       0.93      0.67      0.78      6951
+          rh       0.87      0.55      0.67       295
+          rl       0.80      0.95      0.87       764
+          st       0.69      0.97      0.81      6745
+
+    accuracy                           0.80     19094
+   macro avg       0.86      0.73      0.76     19094
+weighted avg       0.83      0.80      0.79     19094
+
+2026-05-23 08:34:09,864 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.99      0.88      0.93       303
+          mp       0.89      0.82      0.86      2469
+          pd       0.92      0.69      0.79      5034
+          rh       0.91      0.56      0.69       454
+          rl       1.00      0.94      0.97       697
+          st       0.85      0.99      0.91     10137
+
+    accuracy                           0.88     19094
+   macro avg       0.93      0.81      0.86     19094
+weighted avg       0.88      0.88      0.87     19094
+
+2026-05-23 08:34:10,002 INFO Writing train predictions...
+2026-05-23 08:34:35,209 INFO Writing val predictions...
+2026-05-23 08:34:40,003 INFO Writing test predictions...
+2026-05-23 08:34:45,842 INFO play executed in 170.064 seconds
+2026-05-23 08:34:45,843 INFO Trial 2/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 32, 'dropout': np.float64(0.34942547871438895), 'hidden_size': 256, 'learning_rate': np.float64(0.0007501954443620128), 'lookback_window': 16, 'num_layers': 1}
+2026-05-23 08:34:45,844 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 32, 'dropout': np.float64(0.34942547871438895), 'hidden_size': 256, 'learning_rate': np.float64(0.0007501954443620128), 'lookback_window': 16, 'num_layers': 1}
+2026-05-23 08:34:45,917 INFO Using device: cuda
+2026-05-23 08:34:45,917 INFO CUDA available: True
+2026-05-23 08:34:45,917 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 08:34:45,917 INFO cuDNN enabled: True
+2026-05-23 08:34:45,917 INFO cuDNN version: 92000
+2026-05-23 08:34:50,163 INFO Epoch 1/100 — loss: 0.5433, acc: 0.8183, val_loss: 0.7345, val_acc: 0.8210
+2026-05-23 08:34:54,114 INFO Epoch 2/100 — loss: 0.3997, acc: 0.8719, val_loss: 0.7167, val_acc: 0.8253
+2026-05-23 08:34:58,154 INFO Epoch 3/100 — loss: 0.3722, acc: 0.8794, val_loss: 0.6997, val_acc: 0.8282
+2026-05-23 08:35:02,247 INFO Epoch 4/100 — loss: 0.3491, acc: 0.8864, val_loss: 0.7351, val_acc: 0.8261
+2026-05-23 08:35:06,269 INFO Epoch 5/100 — loss: 0.3376, acc: 0.8896, val_loss: 0.7972, val_acc: 0.8155
+2026-05-23 08:35:10,235 INFO Epoch 6/100 — loss: 0.3223, acc: 0.8942, val_loss: 0.7763, val_acc: 0.8251
+2026-05-23 08:35:14,325 INFO Epoch 7/100 — loss: 0.3088, acc: 0.8990, val_loss: 0.7673, val_acc: 0.8289
+2026-05-23 08:35:18,369 INFO Epoch 8/100 — loss: 0.2944, acc: 0.9026, val_loss: 0.8213, val_acc: 0.8261
+2026-05-23 08:35:22,552 INFO Epoch 9/100 — loss: 0.2861, acc: 0.9049, val_loss: 0.7527, val_acc: 0.8351
+2026-05-23 08:35:26,612 INFO Epoch 10/100 — loss: 0.2756, acc: 0.9083, val_loss: 0.9110, val_acc: 0.8069
+2026-05-23 08:35:30,677 INFO Epoch 11/100 — loss: 0.2655, acc: 0.9113, val_loss: 0.7504, val_acc: 0.8338
+2026-05-23 08:35:30,677 INFO Early stopping at epoch 11 (patience=8, min_delta=0.000000)
+2026-05-23 08:35:30,677 INFO Restored best checkpoint from results/results_gru_2026-05-23_08-34-45/best_model.pt
+2026-05-23 08:35:30,677 INFO Best epoch (by val_loss): 3
+2026-05-23 08:35:30,678 INFO Best val_loss: 0.699721
+2026-05-23 08:35:30,678 INFO Best val_accuracy: 0.828166
+2026-05-23 08:35:30,678 INFO Total train time (s): 44.756
+2026-05-23 08:35:30,679 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 08:35:34,917 INFO Train — acc: 0.8790  prec: 0.8788  rec: 0.8790  f1: 0.8776  auc: 0.9701
+2026-05-23 08:35:34,917 INFO Val — acc: 0.8282  prec: 0.8476  rec: 0.8282  f1: 0.8216  auc: 0.9299
+2026-05-23 08:35:34,917 INFO Test — acc: 0.8936  prec: 0.8938  rec: 0.8936  f1: 0.8888  auc: 0.9497
+2026-05-23 08:35:35,011 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 08:35:35,114 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 08:35:35,147 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.98      0.84      0.90      2707
+          mp       0.88      0.78      0.82     18376
+          pd       0.84      0.88      0.86     27263
+          rh       0.70      0.53      0.61      1525
+          rl       0.93      0.88      0.90      2357
+          st       0.91      0.95      0.93     36862
+
+    accuracy                           0.88     89090
+   macro avg       0.87      0.81      0.84     89090
+weighted avg       0.88      0.88      0.88     89090
+
+2026-05-23 08:35:35,152 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.99      0.39      0.56      1292
+          mp       0.85      0.80      0.83      3047
+          pd       0.92      0.78      0.85      6951
+          rh       0.74      0.54      0.62       295
+          rl       0.82      0.93      0.87       764
+          st       0.75      0.97      0.85      6745
+
+    accuracy                           0.83     19094
+   macro avg       0.85      0.74      0.76     19094
+weighted avg       0.85      0.83      0.82     19094
+
+2026-05-23 08:35:35,157 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.98      0.86      0.92       303
+          mp       0.84      0.79      0.82      2469
+          pd       0.92      0.80      0.86      5034
+          rh       0.82      0.35      0.49       454
+          rl       1.00      0.91      0.95       697
+          st       0.89      0.99      0.94     10137
+
+    accuracy                           0.89     19094
+   macro avg       0.91      0.78      0.83     19094
+weighted avg       0.89      0.89      0.89     19094
+
+2026-05-23 08:35:35,301 INFO Writing train predictions...
+2026-05-23 08:36:04,904 INFO Writing val predictions...
+2026-05-23 08:36:10,002 INFO Writing test predictions...
+2026-05-23 08:36:16,274 INFO play executed in 90.431 seconds
+2026-05-23 08:36:16,274 INFO Trial 3/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.2090625178320453), 'hidden_size': 128, 'learning_rate': np.float64(0.0038322168504927897), 'lookback_window': 33, 'num_layers': 3}
+2026-05-23 08:36:16,275 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.2090625178320453), 'hidden_size': 128, 'learning_rate': np.float64(0.0038322168504927897), 'lookback_window': 33, 'num_layers': 3}
+2026-05-23 08:36:16,359 INFO Using device: cuda
+2026-05-23 08:36:16,359 INFO CUDA available: True
+2026-05-23 08:36:16,359 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 08:36:16,359 INFO cuDNN enabled: True
+2026-05-23 08:36:16,359 INFO cuDNN version: 92000
+2026-05-23 08:36:24,176 INFO Epoch 1/100 — loss: 0.5914, acc: 0.7997, val_loss: 0.6024, val_acc: 0.8470
+2026-05-23 08:36:31,806 INFO Epoch 2/100 — loss: 0.5453, acc: 0.8168, val_loss: 0.7298, val_acc: 0.8420
+2026-05-23 08:36:41,139 INFO Epoch 3/100 — loss: 0.5204, acc: 0.8236, val_loss: 0.6629, val_acc: 0.8228
+2026-05-23 08:36:50,630 INFO Epoch 4/100 — loss: 0.5334, acc: 0.8195, val_loss: 0.6318, val_acc: 0.8509
+2026-05-23 08:37:00,141 INFO Epoch 5/100 — loss: 0.5242, acc: 0.8223, val_loss: 0.6809, val_acc: 0.8392
+2026-05-23 08:37:09,603 INFO Epoch 6/100 — loss: 0.5124, acc: 0.8255, val_loss: 0.7576, val_acc: 0.8386
+2026-05-23 08:37:18,991 INFO Epoch 7/100 — loss: 0.5134, acc: 0.8275, val_loss: 0.6179, val_acc: 0.8601
+2026-05-23 08:37:27,792 INFO Epoch 8/100 — loss: 0.5076, acc: 0.8284, val_loss: 0.6642, val_acc: 0.8216
+2026-05-23 08:37:35,360 INFO Epoch 9/100 — loss: 0.5051, acc: 0.8244, val_loss: 0.5587, val_acc: 0.8606
+2026-05-23 08:37:42,961 INFO Epoch 10/100 — loss: 0.5063, acc: 0.8214, val_loss: 0.6052, val_acc: 0.8316
+2026-05-23 08:37:50,445 INFO Epoch 11/100 — loss: 0.4975, acc: 0.8252, val_loss: 0.7072, val_acc: 0.7935
+2026-05-23 08:37:57,900 INFO Epoch 12/100 — loss: 0.4902, acc: 0.8295, val_loss: 0.5699, val_acc: 0.8493
+2026-05-23 08:38:05,415 INFO Epoch 13/100 — loss: 0.4757, acc: 0.8345, val_loss: 0.6521, val_acc: 0.8605
+2026-05-23 08:38:15,081 INFO Epoch 14/100 — loss: 0.4707, acc: 0.8379, val_loss: 0.5983, val_acc: 0.8600
+2026-05-23 08:38:25,639 INFO Epoch 15/100 — loss: 0.4739, acc: 0.8363, val_loss: 0.5583, val_acc: 0.8658
+2026-05-23 08:38:36,138 INFO Epoch 16/100 — loss: 0.4581, acc: 0.8402, val_loss: 0.6123, val_acc: 0.8326
+2026-05-23 08:38:46,715 INFO Epoch 17/100 — loss: 0.4582, acc: 0.8403, val_loss: 0.6073, val_acc: 0.8465
+2026-05-23 08:38:57,325 INFO Epoch 18/100 — loss: 0.4452, acc: 0.8444, val_loss: 0.6044, val_acc: 0.8509
+2026-05-23 08:39:07,787 INFO Epoch 19/100 — loss: 0.4440, acc: 0.8443, val_loss: 0.5648, val_acc: 0.8507
+2026-05-23 08:39:18,419 INFO Epoch 20/100 — loss: 0.4605, acc: 0.8389, val_loss: 0.6916, val_acc: 0.8243
+2026-05-23 08:39:29,040 INFO Epoch 21/100 — loss: 0.4513, acc: 0.8422, val_loss: 0.6424, val_acc: 0.8667
+2026-05-23 08:39:39,640 INFO Epoch 22/100 — loss: 0.4533, acc: 0.8417, val_loss: 0.6442, val_acc: 0.8501
+2026-05-23 08:39:50,227 INFO Epoch 23/100 — loss: 0.4421, acc: 0.8456, val_loss: 0.6395, val_acc: 0.8215
+2026-05-23 08:39:50,227 INFO Early stopping at epoch 23 (patience=8, min_delta=0.000000)
+2026-05-23 08:39:50,228 INFO Restored best checkpoint from results/results_gru_2026-05-23_08-36-16/best_model.pt
+2026-05-23 08:39:50,228 INFO Best epoch (by val_loss): 15
+2026-05-23 08:39:50,228 INFO Best val_loss: 0.558270
+2026-05-23 08:39:50,228 INFO Best val_accuracy: 0.865769
+2026-05-23 08:39:50,228 INFO Total train time (s): 213.862
+2026-05-23 08:39:50,230 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 08:40:01,196 INFO Train — acc: 0.8434  prec: 0.8532  rec: 0.8434  f1: 0.8400  auc: 0.9618
+2026-05-23 08:40:01,196 INFO Val — acc: 0.8658  prec: 0.8682  rec: 0.8658  f1: 0.8559  auc: 0.9593
+2026-05-23 08:40:01,196 INFO Test — acc: 0.8976  prec: 0.8937  rec: 0.8976  f1: 0.8893  auc: 0.9756
+2026-05-23 08:40:01,314 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 08:40:01,451 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 08:40:01,489 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.88      0.78      0.83      2695
+          mp       0.85      0.66      0.74     18376
+          pd       0.73      0.93      0.82     27263
+          rh       0.60      0.21      0.31      1520
+          rl       0.77      0.86      0.81      2357
+          st       0.96      0.90      0.93     36862
+
+    accuracy                           0.84     89073
+   macro avg       0.80      0.72      0.74     89073
+weighted avg       0.85      0.84      0.84     89073
+
+2026-05-23 08:40:01,494 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.95      0.40      0.56      1292
+          mp       0.87      0.72      0.79      3047
+          pd       0.85      0.94      0.90      6951
+          rh       0.66      0.34      0.45       295
+          rl       0.79      0.93      0.85       764
+          st       0.88      0.96      0.92      6745
+
+    accuracy                           0.87     19094
+   macro avg       0.83      0.72      0.74     19094
+weighted avg       0.87      0.87      0.86     19094
+
+2026-05-23 08:40:01,499 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.88      0.86      0.87       303
+          mp       0.86      0.65      0.74      2469
+          pd       0.83      0.91      0.87      5034
+          rh       0.69      0.17      0.27       454
+          rl       0.90      0.92      0.91       697
+          st       0.94      0.98      0.96     10137
+
+    accuracy                           0.90     19094
+   macro avg       0.85      0.75      0.77     19094
+weighted avg       0.89      0.90      0.89     19094
+
+2026-05-23 08:40:01,643 INFO Writing train predictions...
+2026-05-23 08:41:03,771 INFO Writing val predictions...
+2026-05-23 08:41:14,234 INFO Writing test predictions...
+2026-05-23 08:41:26,655 INFO play executed in 310.381 seconds
+2026-05-23 08:41:26,656 INFO Trial 4/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.25711391844033193), 'hidden_size': 128, 'learning_rate': np.float64(0.00013869861245357332), 'lookback_window': 19, 'num_layers': 1}
+2026-05-23 08:41:26,656 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.25711391844033193), 'hidden_size': 128, 'learning_rate': np.float64(0.00013869861245357332), 'lookback_window': 19, 'num_layers': 1}
+2026-05-23 08:41:26,729 INFO Using device: cuda
+2026-05-23 08:41:26,729 INFO CUDA available: True
+2026-05-23 08:41:26,729 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 08:41:26,729 INFO cuDNN enabled: True
+2026-05-23 08:41:26,729 INFO cuDNN version: 92000
+2026-05-23 08:41:32,423 INFO Epoch 1/100 — loss: 0.7240, acc: 0.7391, val_loss: 0.7931, val_acc: 0.8103
+2026-05-23 08:41:37,970 INFO Epoch 2/100 — loss: 0.4358, acc: 0.8603, val_loss: 0.7169, val_acc: 0.8240
+2026-05-23 08:41:43,597 INFO Epoch 3/100 — loss: 0.3991, acc: 0.8725, val_loss: 0.6954, val_acc: 0.8391
+2026-05-23 08:41:49,349 INFO Epoch 4/100 — loss: 0.3771, acc: 0.8788, val_loss: 0.6933, val_acc: 0.8385
+2026-05-23 08:41:54,705 INFO Epoch 5/100 — loss: 0.3608, acc: 0.8845, val_loss: 0.6342, val_acc: 0.8474
+2026-05-23 08:42:00,317 INFO Epoch 6/100 — loss: 0.3505, acc: 0.8881, val_loss: 0.7159, val_acc: 0.8424
+2026-05-23 08:42:05,955 INFO Epoch 7/100 — loss: 0.3420, acc: 0.8903, val_loss: 0.6574, val_acc: 0.8443
+2026-05-23 08:42:12,091 INFO Epoch 8/100 — loss: 0.3340, acc: 0.8934, val_loss: 0.7175, val_acc: 0.8483
+2026-05-23 08:42:19,371 INFO Epoch 9/100 — loss: 0.3275, acc: 0.8957, val_loss: 0.6675, val_acc: 0.8495
+2026-05-23 08:42:26,710 INFO Epoch 10/100 — loss: 0.3206, acc: 0.8975, val_loss: 0.6626, val_acc: 0.8494
+2026-05-23 08:42:34,204 INFO Epoch 11/100 — loss: 0.3146, acc: 0.8987, val_loss: 0.6795, val_acc: 0.8509
+2026-05-23 08:42:41,540 INFO Epoch 12/100 — loss: 0.3097, acc: 0.9005, val_loss: 0.6660, val_acc: 0.8536
+2026-05-23 08:42:48,880 INFO Epoch 13/100 — loss: 0.3031, acc: 0.9029, val_loss: 0.6644, val_acc: 0.8502
+2026-05-23 08:42:48,880 INFO Early stopping at epoch 13 (patience=8, min_delta=0.000000)
+2026-05-23 08:42:48,881 INFO Restored best checkpoint from results/results_gru_2026-05-23_08-41-26/best_model.pt
+2026-05-23 08:42:48,881 INFO Best epoch (by val_loss): 5
+2026-05-23 08:42:48,881 INFO Best val_loss: 0.634154
+2026-05-23 08:42:48,881 INFO Best val_accuracy: 0.847387
+2026-05-23 08:42:48,881 INFO Total train time (s): 82.148
+2026-05-23 08:42:48,883 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 08:42:56,538 INFO Train — acc: 0.8851  prec: 0.8849  rec: 0.8851  f1: 0.8847  auc: 0.9746
+2026-05-23 08:42:56,538 INFO Val — acc: 0.8474  prec: 0.8601  rec: 0.8474  f1: 0.8408  auc: 0.9423
+2026-05-23 08:42:56,538 INFO Test — acc: 0.9139  prec: 0.9140  rec: 0.9139  f1: 0.9115  auc: 0.9673
+2026-05-23 08:42:56,635 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 08:42:56,746 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 08:42:56,781 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.92      0.86      0.89      2704
+          mp       0.84      0.83      0.83     18376
+          pd       0.85      0.88      0.87     27263
+          rh       0.67      0.49      0.57      1525
+          rl       0.87      0.91      0.89      2357
+          st       0.94      0.93      0.94     36862
+
+    accuracy                           0.89     89087
+   macro avg       0.85      0.82      0.83     89087
+weighted avg       0.88      0.89      0.88     89087
+
+2026-05-23 08:42:56,786 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.99      0.41      0.58      1292
+          mp       0.81      0.86      0.83      3047
+          pd       0.93      0.81      0.86      6951
+          rh       0.75      0.53      0.62       295
+          rl       0.79      0.95      0.86       764
+          st       0.80      0.97      0.88      6745
+
+    accuracy                           0.85     19094
+   macro avg       0.84      0.75      0.77     19094
+weighted avg       0.86      0.85      0.84     19094
+
+2026-05-23 08:42:56,791 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.94      0.88      0.91       303
+          mp       0.84      0.86      0.85      2469
+          pd       0.93      0.82      0.87      5034
+          rh       0.88      0.54      0.67       454
+          rl       0.97      0.95      0.96       697
+          st       0.92      0.99      0.95     10137
+
+    accuracy                           0.91     19094
+   macro avg       0.91      0.84      0.87     19094
+weighted avg       0.91      0.91      0.91     19094
+
+2026-05-23 08:42:56,940 INFO Writing train predictions...
+2026-05-23 08:43:34,205 INFO Writing val predictions...
+2026-05-23 08:43:41,373 INFO Writing test predictions...
+2026-05-23 08:43:49,562 INFO play executed in 142.906 seconds
+2026-05-23 08:43:49,562 INFO Trial 5/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.4330479382191752), 'hidden_size': 256, 'learning_rate': np.float64(0.00019085412933888738), 'lookback_window': 10, 'num_layers': 3}
+2026-05-23 08:43:49,563 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.4330479382191752), 'hidden_size': 256, 'learning_rate': np.float64(0.00019085412933888738), 'lookback_window': 10, 'num_layers': 3}
+2026-05-23 08:43:49,632 INFO Using device: cuda
+2026-05-23 08:43:49,633 INFO CUDA available: True
+2026-05-23 08:43:49,633 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 08:43:49,633 INFO cuDNN enabled: True
+2026-05-23 08:43:49,633 INFO cuDNN version: 92000
+2026-05-23 08:43:59,805 INFO Epoch 1/100 — loss: 0.6569, acc: 0.7727, val_loss: 0.7956, val_acc: 0.7514
+2026-05-23 08:44:09,663 INFO Epoch 2/100 — loss: 0.4987, acc: 0.8364, val_loss: 0.9371, val_acc: 0.7613
+2026-05-23 08:44:19,809 INFO Epoch 3/100 — loss: 0.4760, acc: 0.8430, val_loss: 0.8341, val_acc: 0.7613
+2026-05-23 08:44:30,286 INFO Epoch 4/100 — loss: 0.4602, acc: 0.8473, val_loss: 1.0125, val_acc: 0.7519
+2026-05-23 08:44:41,733 INFO Epoch 5/100 — loss: 0.4493, acc: 0.8496, val_loss: 0.9277, val_acc: 0.7644
+2026-05-23 08:44:54,238 INFO Epoch 6/100 — loss: 0.4387, acc: 0.8535, val_loss: 0.9046, val_acc: 0.7641
+2026-05-23 08:45:06,813 INFO Epoch 7/100 — loss: 0.4284, acc: 0.8561, val_loss: 0.9514, val_acc: 0.7649
+2026-05-23 08:45:19,380 INFO Epoch 8/100 — loss: 0.4207, acc: 0.8582, val_loss: 0.9630, val_acc: 0.7633
+2026-05-23 08:45:31,944 INFO Epoch 9/100 — loss: 0.4109, acc: 0.8612, val_loss: 0.8714, val_acc: 0.7656
+2026-05-23 08:45:31,944 INFO Early stopping at epoch 9 (patience=8, min_delta=0.000000)
+2026-05-23 08:45:31,946 INFO Restored best checkpoint from results/results_gru_2026-05-23_08-43-49/best_model.pt
+2026-05-23 08:45:31,946 INFO Best epoch (by val_loss): 1
+2026-05-23 08:45:31,946 INFO Best val_loss: 0.795598
+2026-05-23 08:45:31,946 INFO Best val_accuracy: 0.751388
+2026-05-23 08:45:31,946 INFO Total train time (s): 102.308
+2026-05-23 08:45:31,948 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 08:45:43,334 INFO Train — acc: 0.8285  prec: 0.8338  rec: 0.8285  f1: 0.8291  auc: 0.9475
+2026-05-23 08:45:43,334 INFO Val — acc: 0.7514  prec: 0.7919  rec: 0.7514  f1: 0.7441  auc: 0.8664
+2026-05-23 08:45:43,334 INFO Test — acc: 0.8368  prec: 0.8425  rec: 0.8368  f1: 0.8287  auc: 0.8821
+2026-05-23 08:45:43,422 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 08:45:43,517 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 08:45:43,549 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.97      0.76      0.85      2713
+          mp       0.88      0.76      0.82     18376
+          pd       0.75      0.84      0.79     27263
+          rh       0.52      0.53      0.52      1525
+          rl       0.93      0.86      0.89      2357
+          st       0.87      0.87      0.87     36862
+
+    accuracy                           0.83     89096
+   macro avg       0.82      0.77      0.79     89096
+weighted avg       0.83      0.83      0.83     89096
+
+2026-05-23 08:45:43,554 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       1.00      0.40      0.57      1292
+          mp       0.88      0.83      0.86      3047
+          pd       0.86      0.59      0.70      6951
+          rh       0.77      0.62      0.68       295
+          rl       0.82      0.94      0.87       764
+          st       0.64      0.93      0.76      6745
+
+    accuracy                           0.75     19094
+   macro avg       0.83      0.72      0.74     19094
+weighted avg       0.79      0.75      0.74     19094
+
+2026-05-23 08:45:43,559 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.99      0.87      0.93       303
+          mp       0.90      0.83      0.87      2469
+          pd       0.85      0.60      0.70      5034
+          rh       0.84      0.52      0.64       454
+          rl       1.00      0.91      0.95       697
+          st       0.81      0.97      0.88     10137
+
+    accuracy                           0.84     19094
+   macro avg       0.90      0.78      0.83     19094
+weighted avg       0.84      0.84      0.83     19094
+
+2026-05-23 08:45:43,699 INFO Writing train predictions...
+2026-05-23 08:46:04,981 INFO Writing val predictions...
+2026-05-23 08:46:08,854 INFO Writing test predictions...
+2026-05-23 08:46:13,694 INFO play executed in 144.132 seconds
+2026-05-23 08:46:13,695 INFO Trial 6/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.4203643007918577), 'hidden_size': 128, 'learning_rate': np.float64(0.0036396393567863887), 'lookback_window': 24, 'num_layers': 4}
+2026-05-23 08:46:13,695 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.4203643007918577), 'hidden_size': 128, 'learning_rate': np.float64(0.0036396393567863887), 'lookback_window': 24, 'num_layers': 4}
+2026-05-23 08:46:13,772 INFO Using device: cuda
+2026-05-23 08:46:13,772 INFO CUDA available: True
+2026-05-23 08:46:13,772 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 08:46:13,772 INFO cuDNN enabled: True
+2026-05-23 08:46:13,772 INFO cuDNN version: 92000
+2026-05-23 08:46:24,153 INFO Epoch 1/100 — loss: 0.6947, acc: 0.7669, val_loss: 0.8342, val_acc: 0.7802
+2026-05-23 08:46:34,622 INFO Epoch 2/100 — loss: 0.6152, acc: 0.7960, val_loss: 0.6467, val_acc: 0.8420
+2026-05-23 08:46:44,209 INFO Epoch 3/100 — loss: 0.6020, acc: 0.8010, val_loss: 0.7749, val_acc: 0.8210
+2026-05-23 08:46:52,498 INFO Epoch 4/100 — loss: 0.6034, acc: 0.7992, val_loss: 0.6816, val_acc: 0.8352
+2026-05-23 08:47:01,239 INFO Epoch 5/100 — loss: 0.5862, acc: 0.8051, val_loss: 0.6897, val_acc: 0.8360
+2026-05-23 08:47:10,392 INFO Epoch 6/100 — loss: 0.6008, acc: 0.8004, val_loss: 0.7229, val_acc: 0.8185
+2026-05-23 08:47:21,736 INFO Epoch 7/100 — loss: 0.6050, acc: 0.7971, val_loss: 0.6971, val_acc: 0.8373
+2026-05-23 08:47:33,202 INFO Epoch 8/100 — loss: 0.5849, acc: 0.8020, val_loss: 0.6530, val_acc: 0.8318
+2026-05-23 08:47:44,752 INFO Epoch 9/100 — loss: 0.5981, acc: 0.7978, val_loss: 0.6768, val_acc: 0.8407
+2026-05-23 08:47:56,260 INFO Epoch 10/100 — loss: 0.5845, acc: 0.8038, val_loss: 0.6576, val_acc: 0.8483
+2026-05-23 08:47:56,260 INFO Early stopping at epoch 10 (patience=8, min_delta=0.000000)
+2026-05-23 08:47:56,262 INFO Restored best checkpoint from results/results_gru_2026-05-23_08-46-13/best_model.pt
+2026-05-23 08:47:56,262 INFO Best epoch (by val_loss): 2
+2026-05-23 08:47:56,262 INFO Best val_loss: 0.646730
+2026-05-23 08:47:56,262 INFO Best val_accuracy: 0.841992
+2026-05-23 08:47:56,262 INFO Total train time (s): 102.483
+2026-05-23 08:47:56,264 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 08:48:07,082 INFO Train — acc: 0.8319  prec: 0.8392  rec: 0.8319  f1: 0.8252  auc: 0.9468
+2026-05-23 08:48:07,082 INFO Val — acc: 0.8420  prec: 0.8484  rec: 0.8420  f1: 0.8280  auc: 0.9265
+2026-05-23 08:48:07,082 INFO Test — acc: 0.8843  prec: 0.8850  rec: 0.8843  f1: 0.8716  auc: 0.9522
+2026-05-23 08:48:07,170 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 08:48:07,277 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 08:48:07,311 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.87      0.75      0.81      2699
+          mp       0.80      0.67      0.73     18376
+          pd       0.73      0.91      0.81     27263
+          rh       0.65      0.01      0.01      1525
+          rl       0.74      0.84      0.79      2357
+          st       0.95      0.90      0.92     36862
+
+    accuracy                           0.83     89082
+   macro avg       0.79      0.68      0.68     89082
+weighted avg       0.84      0.83      0.83     89082
+
+2026-05-23 08:48:07,316 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.94      0.39      0.55      1292
+          mp       0.82      0.73      0.77      3047
+          pd       0.85      0.90      0.88      6951
+          rh       1.00      0.01      0.02       295
+          rl       0.74      0.93      0.83       764
+          st       0.85      0.95      0.89      6745
+
+    accuracy                           0.84     19094
+   macro avg       0.87      0.65      0.66     19094
+weighted avg       0.85      0.84      0.83     19094
+
+2026-05-23 08:48:07,321 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.85      0.85      0.85       303
+          mp       0.81      0.66      0.73      2469
+          pd       0.83      0.88      0.85      5034
+          rh       1.00      0.01      0.02       454
+          rl       0.85      0.90      0.87       697
+          st       0.93      0.98      0.95     10137
+
+    accuracy                           0.88     19094
+   macro avg       0.88      0.71      0.71     19094
+weighted avg       0.89      0.88      0.87     19094
+
+2026-05-23 08:48:07,463 INFO Writing train predictions...
+2026-05-23 08:48:51,591 INFO Writing val predictions...
+2026-05-23 08:49:02,730 INFO Writing test predictions...
+2026-05-23 08:49:12,169 INFO play executed in 178.475 seconds
+2026-05-23 08:49:12,170 INFO Trial 7/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.33280791683004285), 'hidden_size': 128, 'learning_rate': np.float64(0.007750644796341917), 'lookback_window': 41, 'num_layers': 3}
+2026-05-23 08:49:12,170 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.33280791683004285), 'hidden_size': 128, 'learning_rate': np.float64(0.007750644796341917), 'lookback_window': 41, 'num_layers': 3}
+2026-05-23 08:49:12,266 INFO Using device: cuda
+2026-05-23 08:49:12,266 INFO CUDA available: True
+2026-05-23 08:49:12,266 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 08:49:12,266 INFO cuDNN enabled: True
+2026-05-23 08:49:12,266 INFO cuDNN version: 92000
+2026-05-23 08:49:23,659 INFO Epoch 1/100 — loss: 0.7971, acc: 0.7240, val_loss: 0.8640, val_acc: 0.8190
+2026-05-23 08:49:34,890 INFO Epoch 2/100 — loss: 0.7142, acc: 0.7581, val_loss: 0.8739, val_acc: 0.7573
+2026-05-23 08:49:46,035 INFO Epoch 3/100 — loss: 0.6652, acc: 0.7782, val_loss: 1.3558, val_acc: 0.6083
+2026-05-23 08:49:57,385 INFO Epoch 4/100 — loss: 0.6730, acc: 0.7735, val_loss: 0.8576, val_acc: 0.6815
+2026-05-23 08:50:08,717 INFO Epoch 5/100 — loss: 0.7057, acc: 0.7607, val_loss: 0.6905, val_acc: 0.8169
+2026-05-23 08:50:19,942 INFO Epoch 6/100 — loss: 0.7021, acc: 0.7645, val_loss: 0.6711, val_acc: 0.8165
+2026-05-23 08:50:31,081 INFO Epoch 7/100 — loss: 0.6689, acc: 0.7810, val_loss: 0.7963, val_acc: 0.7463
+2026-05-23 08:50:42,417 INFO Epoch 8/100 — loss: 0.6685, acc: 0.7776, val_loss: 0.8059, val_acc: 0.8130
+2026-05-23 08:50:53,815 INFO Epoch 9/100 — loss: 0.6765, acc: 0.7762, val_loss: 0.8183, val_acc: 0.8177
+2026-05-23 08:51:04,405 INFO Epoch 10/100 — loss: 0.6698, acc: 0.7791, val_loss: 0.7605, val_acc: 0.7426
+2026-05-23 08:51:14,633 INFO Epoch 11/100 — loss: 0.6587, acc: 0.7815, val_loss: 0.8931, val_acc: 0.7292
+2026-05-23 08:51:22,227 INFO Epoch 12/100 — loss: 0.6577, acc: 0.7847, val_loss: 0.9623, val_acc: 0.6894
+2026-05-23 08:51:29,801 INFO Epoch 13/100 — loss: 0.6625, acc: 0.7805, val_loss: 0.9170, val_acc: 0.8262
+2026-05-23 08:51:37,196 INFO Epoch 14/100 — loss: 0.6784, acc: 0.7722, val_loss: 0.6549, val_acc: 0.7872
+2026-05-23 08:51:44,923 INFO Epoch 15/100 — loss: 0.6745, acc: 0.7765, val_loss: 0.6252, val_acc: 0.8415
+2026-05-23 08:51:52,566 INFO Epoch 16/100 — loss: 0.6836, acc: 0.7708, val_loss: 0.8703, val_acc: 0.7852
+2026-05-23 08:52:00,299 INFO Epoch 17/100 — loss: 0.6842, acc: 0.7673, val_loss: 1.5313, val_acc: 0.6372
+2026-05-23 08:52:08,285 INFO Epoch 18/100 — loss: 0.6681, acc: 0.7770, val_loss: 0.9103, val_acc: 0.7651
+2026-05-23 08:52:15,863 INFO Epoch 19/100 — loss: 0.6745, acc: 0.7791, val_loss: 1.0209, val_acc: 0.6130
+2026-05-23 08:52:26,723 INFO Epoch 20/100 — loss: 0.6582, acc: 0.7847, val_loss: 0.7478, val_acc: 0.8266
+2026-05-23 08:52:37,799 INFO Epoch 21/100 — loss: 0.7130, acc: 0.7609, val_loss: 0.8353, val_acc: 0.8283
+2026-05-23 08:52:48,822 INFO Epoch 22/100 — loss: 0.7061, acc: 0.7739, val_loss: 0.8131, val_acc: 0.8318
+2026-05-23 08:52:59,852 INFO Epoch 23/100 — loss: 0.6688, acc: 0.7864, val_loss: 0.8857, val_acc: 0.8162
+2026-05-23 08:52:59,852 INFO Early stopping at epoch 23 (patience=8, min_delta=0.000000)
+2026-05-23 08:52:59,853 INFO Restored best checkpoint from results/results_gru_2026-05-23_08-49-12/best_model.pt
+2026-05-23 08:52:59,853 INFO Best epoch (by val_loss): 15
+2026-05-23 08:52:59,853 INFO Best val_loss: 0.625209
+2026-05-23 08:52:59,853 INFO Best val_accuracy: 0.841469
+2026-05-23 08:52:59,853 INFO Total train time (s): 227.578
+2026-05-23 08:52:59,855 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 08:53:12,300 INFO Train — acc: 0.8110  prec: 0.8194  rec: 0.8110  f1: 0.8076  auc: 0.9468
+2026-05-23 08:53:12,300 INFO Val — acc: 0.8415  prec: 0.8410  rec: 0.8415  f1: 0.8234  auc: 0.9441
+2026-05-23 08:53:12,300 INFO Test — acc: 0.8888  prec: 0.8725  rec: 0.8888  f1: 0.8787  auc: 0.9781
+2026-05-23 08:53:12,412 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 08:53:12,541 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 08:53:12,578 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.94      0.65      0.77      2695
+          mp       0.74      0.70      0.72     18376
+          pd       0.69      0.90      0.78     27263
+          rh       0.00      0.00      0.00      1512
+          rl       0.75      0.82      0.78      2357
+          st       0.98      0.84      0.91     36862
+
+    accuracy                           0.81     89065
+   macro avg       0.68      0.65      0.66     89065
+weighted avg       0.82      0.81      0.81     89065
+
+2026-05-23 08:53:12,583 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.99      0.25      0.40      1292
+          mp       0.76      0.75      0.76      3047
+          pd       0.82      0.96      0.88      6951
+          rh       0.00      0.00      0.00       295
+          rl       0.66      0.89      0.76       764
+          st       0.93      0.91      0.92      6745
+
+    accuracy                           0.84     19094
+   macro avg       0.69      0.63      0.62     19094
+weighted avg       0.84      0.84      0.82     19094
+
+2026-05-23 08:53:12,588 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.95      0.76      0.84       303
+          mp       0.74      0.70      0.72      2469
+          pd       0.79      0.94      0.86      5034
+          rh       0.00      0.00      0.00       454
+          rl       0.87      0.84      0.85       697
+          st       0.98      0.96      0.97     10137
+
+    accuracy                           0.89     19094
+   macro avg       0.72      0.70      0.71     19094
+weighted avg       0.87      0.89      0.88     19094
+
+2026-05-23 08:53:12,733 INFO Writing train predictions...
+2026-05-23 08:54:29,773 INFO Writing val predictions...
+2026-05-23 08:54:42,801 INFO Writing test predictions...
+2026-05-23 08:55:00,003 INFO play executed in 347.833 seconds
+2026-05-23 08:55:00,003 INFO Trial 8/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.289440167738663), 'hidden_size': 256, 'learning_rate': np.float64(0.003535634629148813), 'lookback_window': 38, 'num_layers': 3}
+2026-05-23 08:55:00,004 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.289440167738663), 'hidden_size': 256, 'learning_rate': np.float64(0.003535634629148813), 'lookback_window': 38, 'num_layers': 3}
+2026-05-23 08:55:00,085 INFO Using device: cuda
+2026-05-23 08:55:00,085 INFO CUDA available: True
+2026-05-23 08:55:00,085 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 08:55:00,085 INFO cuDNN enabled: True
+2026-05-23 08:55:00,085 INFO cuDNN version: 92000
+2026-05-23 08:55:15,296 INFO Epoch 1/100 — loss: 0.6791, acc: 0.7749, val_loss: 0.7721, val_acc: 0.8542
+2026-05-23 08:55:30,396 INFO Epoch 2/100 — loss: 0.6114, acc: 0.8056, val_loss: 0.5915, val_acc: 0.8574
+2026-05-23 08:55:45,601 INFO Epoch 3/100 — loss: 0.5846, acc: 0.8139, val_loss: 0.9099, val_acc: 0.7706
+2026-05-23 08:56:00,768 INFO Epoch 4/100 — loss: 0.5731, acc: 0.8213, val_loss: 0.7430, val_acc: 0.8339
+2026-05-23 08:56:17,752 INFO Epoch 5/100 — loss: 0.5779, acc: 0.8192, val_loss: 0.8778, val_acc: 0.7249
+2026-05-23 08:56:37,286 INFO Epoch 6/100 — loss: 0.5822, acc: 0.8197, val_loss: 0.6596, val_acc: 0.8617
+2026-05-23 08:56:56,921 INFO Epoch 7/100 — loss: 0.5823, acc: 0.8165, val_loss: 0.9377, val_acc: 0.8195
+2026-05-23 08:57:16,400 INFO Epoch 8/100 — loss: 0.5793, acc: 0.8179, val_loss: 0.7345, val_acc: 0.8353
+2026-05-23 08:57:35,847 INFO Epoch 9/100 — loss: 0.5791, acc: 0.8186, val_loss: 0.9155, val_acc: 0.6926
+2026-05-23 08:57:55,331 INFO Epoch 10/100 — loss: 0.5880, acc: 0.8155, val_loss: 0.6402, val_acc: 0.8614
+2026-05-23 08:57:55,331 INFO Early stopping at epoch 10 (patience=8, min_delta=0.000000)
+2026-05-23 08:57:55,333 INFO Restored best checkpoint from results/results_gru_2026-05-23_08-55-00/best_model.pt
+2026-05-23 08:57:55,333 INFO Best epoch (by val_loss): 2
+2026-05-23 08:57:55,333 INFO Best val_loss: 0.591463
+2026-05-23 08:57:55,333 INFO Best val_accuracy: 0.857390
+2026-05-23 08:57:55,333 INFO Total train time (s): 175.235
+2026-05-23 08:57:55,335 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 08:58:17,430 INFO Train — acc: 0.8266  prec: 0.8301  rec: 0.8266  f1: 0.8199  auc: 0.9433
+2026-05-23 08:58:17,430 INFO Val — acc: 0.8574  prec: 0.8506  rec: 0.8574  f1: 0.8425  auc: 0.9403
+2026-05-23 08:58:17,430 INFO Test — acc: 0.8837  prec: 0.8656  rec: 0.8837  f1: 0.8716  auc: 0.9661
+2026-05-23 08:58:17,525 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 08:58:17,629 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 08:58:17,661 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.91      0.79      0.84      2695
+          mp       0.81      0.63      0.71     18376
+          pd       0.70      0.94      0.80     27263
+          rh       0.00      0.00      0.00      1515
+          rl       0.87      0.79      0.83      2357
+          st       0.96      0.88      0.92     36862
+
+    accuracy                           0.83     89068
+   macro avg       0.71      0.67      0.68     89068
+weighted avg       0.83      0.83      0.82     89068
+
+2026-05-23 08:58:17,667 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.97      0.40      0.57      1292
+          mp       0.80      0.69      0.74      3047
+          pd       0.82      0.98      0.89      6951
+          rh       0.00      0.00      0.00       295
+          rl       0.80      0.84      0.82       764
+          st       0.93      0.93      0.93      6745
+
+    accuracy                           0.86     19094
+   macro avg       0.72      0.64      0.66     19094
+weighted avg       0.85      0.86      0.84     19094
+
+2026-05-23 08:58:17,672 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.97      0.85      0.91       303
+          mp       0.78      0.63      0.69      2469
+          pd       0.78      0.94      0.85      5034
+          rh       0.00      0.00      0.00       454
+          rl       0.94      0.84      0.88       697
+          st       0.96      0.96      0.96     10137
+
+    accuracy                           0.88     19094
+   macro avg       0.74      0.70      0.72     19094
+weighted avg       0.87      0.88      0.87     19094
+
+2026-05-23 08:58:17,808 INFO Writing train predictions...
+2026-05-23 08:59:29,597 INFO Writing val predictions...
+2026-05-23 08:59:43,392 INFO Writing test predictions...
+2026-05-23 08:59:59,276 INFO play executed in 299.273 seconds
+2026-05-23 08:59:59,277 INFO Trial 9/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.10751592017454206), 'hidden_size': 128, 'learning_rate': np.float64(0.00019922770602188457), 'lookback_window': 50, 'num_layers': 1}
+2026-05-23 08:59:59,277 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.10751592017454206), 'hidden_size': 128, 'learning_rate': np.float64(0.00019922770602188457), 'lookback_window': 50, 'num_layers': 1}
+2026-05-23 08:59:59,372 INFO Using device: cuda
+2026-05-23 08:59:59,372 INFO CUDA available: True
+2026-05-23 08:59:59,372 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 08:59:59,372 INFO cuDNN enabled: True
+2026-05-23 08:59:59,372 INFO cuDNN version: 92000
+2026-05-23 09:00:07,891 INFO Epoch 1/100 — loss: 0.6073, acc: 0.7791, val_loss: 0.5674, val_acc: 0.8766
+2026-05-23 09:00:16,361 INFO Epoch 2/100 — loss: 0.3463, acc: 0.8836, val_loss: 0.5461, val_acc: 0.8638
+2026-05-23 09:00:24,746 INFO Epoch 3/100 — loss: 0.3043, acc: 0.8985, val_loss: 0.5634, val_acc: 0.8685
+2026-05-23 09:00:33,346 INFO Epoch 4/100 — loss: 0.2827, acc: 0.9061, val_loss: 0.6032, val_acc: 0.8484
+2026-05-23 09:00:41,765 INFO Epoch 5/100 — loss: 0.2676, acc: 0.9120, val_loss: 0.5300, val_acc: 0.8789
+2026-05-23 09:00:50,334 INFO Epoch 6/100 — loss: 0.2517, acc: 0.9181, val_loss: 0.6182, val_acc: 0.8673
+2026-05-23 09:00:58,773 INFO Epoch 7/100 — loss: 0.2385, acc: 0.9232, val_loss: 0.6326, val_acc: 0.8597
+2026-05-23 09:01:07,071 INFO Epoch 8/100 — loss: 0.2283, acc: 0.9273, val_loss: 0.6671, val_acc: 0.8625
+2026-05-23 09:01:15,670 INFO Epoch 9/100 — loss: 0.2193, acc: 0.9299, val_loss: 0.6115, val_acc: 0.8686
+2026-05-23 09:01:24,347 INFO Epoch 10/100 — loss: 0.2105, acc: 0.9333, val_loss: 0.6600, val_acc: 0.8735
+2026-05-23 09:01:33,047 INFO Epoch 11/100 — loss: 0.2012, acc: 0.9360, val_loss: 0.6921, val_acc: 0.8555
+2026-05-23 09:01:41,357 INFO Epoch 12/100 — loss: 0.1965, acc: 0.9380, val_loss: 0.7028, val_acc: 0.8780
+2026-05-23 09:01:49,362 INFO Epoch 13/100 — loss: 0.1915, acc: 0.9398, val_loss: 0.7144, val_acc: 0.8667
+2026-05-23 09:01:49,362 INFO Early stopping at epoch 13 (patience=8, min_delta=0.000000)
+2026-05-23 09:01:49,363 INFO Restored best checkpoint from results/results_gru_2026-05-23_08-59-59/best_model.pt
+2026-05-23 09:01:49,363 INFO Best epoch (by val_loss): 5
+2026-05-23 09:01:49,363 INFO Best val_loss: 0.529952
+2026-05-23 09:01:49,363 INFO Best val_accuracy: 0.878862
+2026-05-23 09:01:49,363 INFO Total train time (s): 109.984
+2026-05-23 09:01:49,365 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 09:02:00,485 INFO Train — acc: 0.9157  prec: 0.9161  rec: 0.9157  f1: 0.9148  auc: 0.9848
+2026-05-23 09:02:00,485 INFO Val — acc: 0.8789  prec: 0.8844  rec: 0.8789  f1: 0.8728  auc: 0.9705
+2026-05-23 09:02:00,485 INFO Test — acc: 0.9236  prec: 0.9227  rec: 0.9236  f1: 0.9210  auc: 0.9897
+2026-05-23 09:02:00,586 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:02:00,704 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:02:00,739 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.95      0.96      0.96      2695
+          mp       0.90      0.81      0.85     18376
+          pd       0.87      0.93      0.89     27263
+          rh       0.85      0.65      0.73      1503
+          rl       0.92      0.94      0.93      2357
+          st       0.96      0.97      0.96     36862
+
+    accuracy                           0.92     89056
+   macro avg       0.91      0.87      0.89     89056
+weighted avg       0.92      0.92      0.91     89056
+
+2026-05-23 09:02:00,745 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.98      0.43      0.60      1292
+          mp       0.86      0.87      0.86      3047
+          pd       0.92      0.88      0.90      6951
+          rh       0.82      0.61      0.70       295
+          rl       0.82      0.94      0.88       764
+          st       0.85      0.97      0.91      6745
+
+    accuracy                           0.88     19094
+   macro avg       0.87      0.78      0.81     19094
+weighted avg       0.88      0.88      0.87     19094
+
+2026-05-23 09:02:00,750 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.80      0.87      0.84       303
+          mp       0.88      0.86      0.87      2469
+          pd       0.92      0.88      0.90      5034
+          rh       0.87      0.44      0.58       454
+          rl       0.92      0.92      0.92       697
+          st       0.94      0.98      0.96     10137
+
+    accuracy                           0.92     19094
+   macro avg       0.89      0.83      0.85     19094
+weighted avg       0.92      0.92      0.92     19094
+
+2026-05-23 09:02:00,910 INFO Writing train predictions...
+2026-05-23 09:03:31,712 INFO Writing val predictions...
+2026-05-23 09:03:47,955 INFO Writing test predictions...
+2026-05-23 09:04:08,904 INFO play executed in 249.627 seconds
+2026-05-23 09:04:08,904 INFO Trial 10/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 32, 'dropout': np.float64(0.4774992314058497), 'hidden_size': 128, 'learning_rate': np.float64(0.0007941453180482801), 'lookback_window': 41, 'num_layers': 1}
+2026-05-23 09:04:08,905 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 32, 'dropout': np.float64(0.4774992314058497), 'hidden_size': 128, 'learning_rate': np.float64(0.0007941453180482801), 'lookback_window': 41, 'num_layers': 1}
+2026-05-23 09:04:08,997 INFO Using device: cuda
+2026-05-23 09:04:08,997 INFO CUDA available: True
+2026-05-23 09:04:08,997 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 09:04:08,997 INFO cuDNN enabled: True
+2026-05-23 09:04:08,997 INFO cuDNN version: 92000
+2026-05-23 09:04:13,186 INFO Epoch 1/100 — loss: 0.5065, acc: 0.8222, val_loss: 0.5602, val_acc: 0.8572
+2026-05-23 09:04:17,142 INFO Epoch 2/100 — loss: 0.3098, acc: 0.8952, val_loss: 0.4786, val_acc: 0.8854
+2026-05-23 09:04:21,103 INFO Epoch 3/100 — loss: 0.2752, acc: 0.9073, val_loss: 0.5229, val_acc: 0.8910
+2026-05-23 09:04:25,079 INFO Epoch 4/100 — loss: 0.2493, acc: 0.9170, val_loss: 0.5423, val_acc: 0.8849
+2026-05-23 09:04:29,005 INFO Epoch 5/100 — loss: 0.2281, acc: 0.9238, val_loss: 0.5977, val_acc: 0.8667
+2026-05-23 09:04:32,748 INFO Epoch 6/100 — loss: 0.2122, acc: 0.9285, val_loss: 0.6718, val_acc: 0.8424
+2026-05-23 09:04:36,669 INFO Epoch 7/100 — loss: 0.1985, acc: 0.9324, val_loss: 0.6519, val_acc: 0.8633
+2026-05-23 09:04:40,520 INFO Epoch 8/100 — loss: 0.1893, acc: 0.9355, val_loss: 0.6268, val_acc: 0.8871
+2026-05-23 09:04:44,448 INFO Epoch 9/100 — loss: 0.1833, acc: 0.9372, val_loss: 0.6507, val_acc: 0.8794
+2026-05-23 09:04:48,316 INFO Epoch 10/100 — loss: 0.1743, acc: 0.9404, val_loss: 0.7260, val_acc: 0.8656
+2026-05-23 09:04:48,316 INFO Early stopping at epoch 10 (patience=8, min_delta=0.000000)
+2026-05-23 09:04:48,317 INFO Restored best checkpoint from results/results_gru_2026-05-23_09-04-08/best_model.pt
+2026-05-23 09:04:48,317 INFO Best epoch (by val_loss): 2
+2026-05-23 09:04:48,317 INFO Best val_loss: 0.478603
+2026-05-23 09:04:48,317 INFO Best val_accuracy: 0.885409
+2026-05-23 09:04:48,317 INFO Total train time (s): 39.310
+2026-05-23 09:04:48,319 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 09:04:52,970 INFO Train — acc: 0.9115  prec: 0.9124  rec: 0.9115  f1: 0.9112  auc: 0.9834
+2026-05-23 09:04:52,970 INFO Val — acc: 0.8854  prec: 0.8907  rec: 0.8854  f1: 0.8785  auc: 0.9713
+2026-05-23 09:04:52,970 INFO Test — acc: 0.9288  prec: 0.9279  rec: 0.9288  f1: 0.9269  auc: 0.9908
+2026-05-23 09:04:53,066 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:04:53,179 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:04:53,215 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.97      0.92      0.94      2695
+          mp       0.88      0.83      0.85     18376
+          pd       0.86      0.92      0.89     27263
+          rh       0.79      0.65      0.71      1512
+          rl       0.91      0.91      0.91      2357
+          st       0.97      0.95      0.96     36862
+
+    accuracy                           0.91     89065
+   macro avg       0.89      0.86      0.88     89065
+weighted avg       0.91      0.91      0.91     89065
+
+2026-05-23 09:04:53,220 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.99      0.40      0.57      1292
+          mp       0.84      0.88      0.86      3047
+          pd       0.92      0.90      0.91      6951
+          rh       0.70      0.62      0.66       295
+          rl       0.81      0.95      0.87       764
+          st       0.88      0.97      0.92      6745
+
+    accuracy                           0.89     19094
+   macro avg       0.86      0.79      0.80     19094
+weighted avg       0.89      0.89      0.88     19094
+
+2026-05-23 09:04:53,226 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.85      0.87      0.86       303
+          mp       0.86      0.88      0.87      2469
+          pd       0.92      0.89      0.90      5034
+          rh       0.86      0.48      0.62       454
+          rl       0.94      0.89      0.91       697
+          st       0.96      0.98      0.97     10137
+
+    accuracy                           0.93     19094
+   macro avg       0.90      0.83      0.86     19094
+weighted avg       0.93      0.93      0.93     19094
+
+2026-05-23 09:04:53,379 INFO Writing train predictions...
+2026-05-23 09:06:04,779 INFO Writing val predictions...
+2026-05-23 09:06:16,996 INFO Writing test predictions...
+2026-05-23 09:06:33,481 INFO play executed in 144.577 seconds
+2026-05-23 09:06:33,482 INFO Trial 11/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 32, 'dropout': np.float64(0.37905247837090594), 'hidden_size': 128, 'learning_rate': np.float64(0.008701981095758305), 'lookback_window': 48, 'num_layers': 4}
+2026-05-23 09:06:33,482 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 32, 'dropout': np.float64(0.37905247837090594), 'hidden_size': 128, 'learning_rate': np.float64(0.008701981095758305), 'lookback_window': 48, 'num_layers': 4}
+2026-05-23 09:06:33,571 INFO Using device: cuda
+2026-05-23 09:06:33,571 INFO CUDA available: True
+2026-05-23 09:06:33,571 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 09:06:33,571 INFO cuDNN enabled: True
+2026-05-23 09:06:33,571 INFO cuDNN version: 92000
+2026-05-23 09:06:38,199 INFO Epoch 1/100 — loss: 0.9164, acc: 0.6654, val_loss: 1.0768, val_acc: 0.6587
+2026-05-23 09:06:42,612 INFO Epoch 2/100 — loss: 0.8233, acc: 0.6991, val_loss: 0.6368, val_acc: 0.8239
+2026-05-23 09:06:47,173 INFO Epoch 3/100 — loss: 0.8055, acc: 0.7090, val_loss: 0.7652, val_acc: 0.8096
+2026-05-23 09:06:51,598 INFO Epoch 4/100 — loss: 0.7476, acc: 0.7234, val_loss: 1.4231, val_acc: 0.4745
+2026-05-23 09:06:56,018 INFO Epoch 5/100 — loss: 0.7431, acc: 0.7290, val_loss: 0.9546, val_acc: 0.6910
+2026-05-23 09:07:00,236 INFO Epoch 6/100 — loss: 0.7915, acc: 0.7142, val_loss: 0.6082, val_acc: 0.7714
+2026-05-23 09:07:04,654 INFO Epoch 7/100 — loss: 0.8708, acc: 0.6749, val_loss: 1.3172, val_acc: 0.3905
+2026-05-23 09:07:09,327 INFO Epoch 8/100 — loss: 0.7498, acc: 0.7329, val_loss: 0.7452, val_acc: 0.7779
+2026-05-23 09:07:15,319 INFO Epoch 9/100 — loss: 0.7118, acc: 0.7467, val_loss: 0.6499, val_acc: 0.8009
+2026-05-23 09:07:21,323 INFO Epoch 10/100 — loss: 0.7949, acc: 0.7106, val_loss: 1.1992, val_acc: 0.6124
+2026-05-23 09:07:27,363 INFO Epoch 11/100 — loss: 0.9446, acc: 0.6342, val_loss: 0.6203, val_acc: 0.8341
+2026-05-23 09:07:33,413 INFO Epoch 12/100 — loss: 0.7181, acc: 0.7452, val_loss: 0.6630, val_acc: 0.8292
+2026-05-23 09:07:39,494 INFO Epoch 13/100 — loss: 0.7077, acc: 0.7509, val_loss: 0.7141, val_acc: 0.8246
+2026-05-23 09:07:45,590 INFO Epoch 14/100 — loss: 0.7087, acc: 0.7490, val_loss: 0.6394, val_acc: 0.8163
+2026-05-23 09:07:45,590 INFO Early stopping at epoch 14 (patience=8, min_delta=0.000000)
+2026-05-23 09:07:45,592 INFO Restored best checkpoint from results/results_gru_2026-05-23_09-06-33/best_model.pt
+2026-05-23 09:07:45,592 INFO Best epoch (by val_loss): 6
+2026-05-23 09:07:45,592 INFO Best val_loss: 0.608173
+2026-05-23 09:07:45,592 INFO Best val_accuracy: 0.771447
+2026-05-23 09:07:45,592 INFO Total train time (s): 72.010
+2026-05-23 09:07:45,594 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 09:07:53,679 INFO Train — acc: 0.7654  prec: 0.7665  rec: 0.7654  f1: 0.7549  auc: 0.9380
+2026-05-23 09:07:53,679 INFO Val — acc: 0.7714  prec: 0.7451  rec: 0.7714  f1: 0.7507  auc: 0.9503
+2026-05-23 09:07:53,679 INFO Test — acc: 0.8166  prec: 0.7992  rec: 0.8166  f1: 0.7988  auc: 0.9729
+2026-05-23 09:07:53,792 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:07:53,910 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:07:53,948 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.30      0.92      0.45      2695
+          mp       0.73      0.64      0.68     18376
+          pd       0.77      0.70      0.73     27263
+          rh       0.00      0.00      0.00      1505
+          rl       0.36      0.01      0.01      2357
+          st       0.87      0.95      0.91     36862
+
+    accuracy                           0.77     89058
+   macro avg       0.51      0.53      0.46     89058
+weighted avg       0.77      0.77      0.75     89058
+
+2026-05-23 09:07:53,954 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.42      0.58      0.49      1292
+          mp       0.78      0.71      0.74      3047
+          pd       0.89      0.76      0.82      6951
+          rh       0.00      0.00      0.00       295
+          rl       0.00      0.00      0.00       764
+          st       0.76      0.97      0.85      6745
+
+    accuracy                           0.77     19094
+   macro avg       0.48      0.50      0.48     19094
+weighted avg       0.75      0.77      0.75     19094
+
+2026-05-23 09:07:53,959 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.22      0.99      0.36       303
+          mp       0.80      0.65      0.72      2469
+          pd       0.88      0.72      0.79      5034
+          rh       0.00      0.00      0.00       454
+          rl       0.00      0.00      0.00       697
+          st       0.87      0.99      0.93     10137
+
+    accuracy                           0.82     19094
+   macro avg       0.46      0.56      0.47     19094
+weighted avg       0.80      0.82      0.80     19094
+
+2026-05-23 09:07:54,132 INFO Writing train predictions...
+2026-05-23 09:09:22,166 INFO Writing val predictions...
+2026-05-23 09:09:37,349 INFO Writing test predictions...
+2026-05-23 09:09:55,538 INFO play executed in 202.056 seconds
+2026-05-23 09:09:55,539 INFO Trial 12/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 64, 'dropout': np.float64(0.24326086678781), 'hidden_size': 64, 'learning_rate': np.float64(0.0004274218324036844), 'lookback_window': 22, 'num_layers': 2}
+2026-05-23 09:09:55,539 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 64, 'dropout': np.float64(0.24326086678781), 'hidden_size': 64, 'learning_rate': np.float64(0.0004274218324036844), 'lookback_window': 22, 'num_layers': 2}
+2026-05-23 09:09:55,617 INFO Using device: cuda
+2026-05-23 09:09:55,617 INFO CUDA available: True
+2026-05-23 09:09:55,617 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 09:09:55,617 INFO cuDNN enabled: True
+2026-05-23 09:09:55,617 INFO cuDNN version: 92000
+2026-05-23 09:09:59,181 INFO Epoch 1/100 — loss: 0.7463, acc: 0.7324, val_loss: 0.7172, val_acc: 0.8186
+2026-05-23 09:10:02,945 INFO Epoch 2/100 — loss: 0.4420, acc: 0.8542, val_loss: 0.6235, val_acc: 0.8602
+2026-05-23 09:10:06,307 INFO Epoch 3/100 — loss: 0.3862, acc: 0.8737, val_loss: 0.6241, val_acc: 0.8619
+2026-05-23 09:10:10,141 INFO Epoch 4/100 — loss: 0.3572, acc: 0.8829, val_loss: 0.5840, val_acc: 0.8662
+2026-05-23 09:10:13,358 INFO Epoch 5/100 — loss: 0.3392, acc: 0.8887, val_loss: 0.5718, val_acc: 0.8763
+2026-05-23 09:10:17,204 INFO Epoch 6/100 — loss: 0.3302, acc: 0.8907, val_loss: 0.6371, val_acc: 0.8612
+2026-05-23 09:10:20,465 INFO Epoch 7/100 — loss: 0.3219, acc: 0.8935, val_loss: 0.6023, val_acc: 0.8698
+2026-05-23 09:10:24,312 INFO Epoch 8/100 — loss: 0.3132, acc: 0.8960, val_loss: 0.6226, val_acc: 0.8711
+2026-05-23 09:10:27,623 INFO Epoch 9/100 — loss: 0.3063, acc: 0.8982, val_loss: 0.6463, val_acc: 0.8589
+2026-05-23 09:10:31,484 INFO Epoch 10/100 — loss: 0.2986, acc: 0.9012, val_loss: 0.5928, val_acc: 0.8716
+2026-05-23 09:10:34,918 INFO Epoch 11/100 — loss: 0.2939, acc: 0.9021, val_loss: 0.6118, val_acc: 0.8615
+2026-05-23 09:10:38,748 INFO Epoch 12/100 — loss: 0.2885, acc: 0.9047, val_loss: 0.6703, val_acc: 0.8570
+2026-05-23 09:10:42,190 INFO Epoch 13/100 — loss: 0.2816, acc: 0.9068, val_loss: 0.5986, val_acc: 0.8733
+2026-05-23 09:10:42,190 INFO Early stopping at epoch 13 (patience=8, min_delta=0.000000)
+2026-05-23 09:10:42,196 INFO Restored best checkpoint from results/results_gru_2026-05-23_09-09-55/best_model.pt
+2026-05-23 09:10:42,196 INFO Best epoch (by val_loss): 5
+2026-05-23 09:10:42,196 INFO Best val_loss: 0.571825
+2026-05-23 09:10:42,196 INFO Best val_accuracy: 0.876296
+2026-05-23 09:10:42,196 INFO Total train time (s): 46.568
+2026-05-23 09:10:42,198 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 09:10:50,181 INFO Train — acc: 0.8934  prec: 0.8968  rec: 0.8934  f1: 0.8931  auc: 0.9782
+2026-05-23 09:10:50,181 INFO Val — acc: 0.8763  prec: 0.8834  rec: 0.8763  f1: 0.8701  auc: 0.9528
+2026-05-23 09:10:50,181 INFO Test — acc: 0.9333  prec: 0.9329  rec: 0.9333  f1: 0.9322  auc: 0.9789
+2026-05-23 09:10:50,274 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:10:50,386 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:10:50,420 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.89      0.88      0.88      2701
+          mp       0.91      0.78      0.84     18376
+          pd       0.83      0.93      0.88     27263
+          rh       0.60      0.63      0.62      1525
+          rl       0.93      0.87      0.89      2357
+          st       0.95      0.94      0.95     36862
+
+    accuracy                           0.89     89084
+   macro avg       0.85      0.84      0.84     89084
+weighted avg       0.90      0.89      0.89     89084
+
+2026-05-23 09:10:50,425 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.97      0.42      0.58      1292
+          mp       0.91      0.84      0.87      3047
+          pd       0.91      0.89      0.90      6951
+          rh       0.72      0.73      0.72       295
+          rl       0.83      0.95      0.88       764
+          st       0.84      0.97      0.90      6745
+
+    accuracy                           0.88     19094
+   macro avg       0.86      0.80      0.81     19094
+weighted avg       0.88      0.88      0.87     19094
+
+2026-05-23 09:10:50,431 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.92      0.90      0.91       303
+          mp       0.93      0.83      0.88      2469
+          pd       0.91      0.90      0.90      5034
+          rh       0.88      0.73      0.80       454
+          rl       1.00      0.93      0.96       697
+          st       0.94      0.99      0.96     10137
+
+    accuracy                           0.93     19094
+   macro avg       0.93      0.88      0.90     19094
+weighted avg       0.93      0.93      0.93     19094
+
+2026-05-23 09:10:50,580 INFO Writing train predictions...
+2026-05-23 09:11:32,920 INFO Writing val predictions...
+2026-05-23 09:11:39,852 INFO Writing test predictions...
+2026-05-23 09:11:48,256 INFO play executed in 112.717 seconds
+2026-05-23 09:11:48,257 INFO Trial 13/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 64, 'dropout': np.float64(0.27544060538492815), 'hidden_size': 64, 'learning_rate': np.float64(0.008277487569782088), 'lookback_window': 13, 'num_layers': 1}
+2026-05-23 09:11:48,258 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 64, 'dropout': np.float64(0.27544060538492815), 'hidden_size': 64, 'learning_rate': np.float64(0.008277487569782088), 'lookback_window': 13, 'num_layers': 1}
+2026-05-23 09:11:48,323 INFO Using device: cuda
+2026-05-23 09:11:48,323 INFO CUDA available: True
+2026-05-23 09:11:48,323 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 09:11:48,323 INFO cuDNN enabled: True
+2026-05-23 09:11:48,323 INFO cuDNN version: 92000
+2026-05-23 09:11:50,040 INFO Epoch 1/100 — loss: 0.6356, acc: 0.7865, val_loss: 0.9362, val_acc: 0.7481
+2026-05-23 09:11:51,543 INFO Epoch 2/100 — loss: 0.5564, acc: 0.8245, val_loss: 0.8546, val_acc: 0.7740
+2026-05-23 09:11:53,074 INFO Epoch 3/100 — loss: 0.5536, acc: 0.8250, val_loss: 0.7842, val_acc: 0.7863
+2026-05-23 09:11:54,617 INFO Epoch 4/100 — loss: 0.5489, acc: 0.8249, val_loss: 1.0395, val_acc: 0.7397
+2026-05-23 09:11:56,207 INFO Epoch 5/100 — loss: 0.5518, acc: 0.8260, val_loss: 0.7979, val_acc: 0.7862
+2026-05-23 09:11:57,712 INFO Epoch 6/100 — loss: 0.5458, acc: 0.8271, val_loss: 0.9545, val_acc: 0.7117
+2026-05-23 09:11:59,256 INFO Epoch 7/100 — loss: 0.5545, acc: 0.8249, val_loss: 0.9514, val_acc: 0.7611
+2026-05-23 09:12:00,744 INFO Epoch 8/100 — loss: 0.5551, acc: 0.8234, val_loss: 0.8435, val_acc: 0.7787
+2026-05-23 09:12:02,231 INFO Epoch 9/100 — loss: 0.5448, acc: 0.8281, val_loss: 1.0610, val_acc: 0.7154
+2026-05-23 09:12:03,720 INFO Epoch 10/100 — loss: 0.5548, acc: 0.8229, val_loss: 0.9389, val_acc: 0.7708
+2026-05-23 09:12:05,258 INFO Epoch 11/100 — loss: 0.5560, acc: 0.8234, val_loss: 0.9410, val_acc: 0.7622
+2026-05-23 09:12:05,258 INFO Early stopping at epoch 11 (patience=8, min_delta=0.000000)
+2026-05-23 09:12:05,258 INFO Restored best checkpoint from results/results_gru_2026-05-23_09-11-48/best_model.pt
+2026-05-23 09:12:05,258 INFO Best epoch (by val_loss): 3
+2026-05-23 09:12:05,258 INFO Best val_loss: 0.784249
+2026-05-23 09:12:05,258 INFO Best val_accuracy: 0.786320
+2026-05-23 09:12:05,258 INFO Total train time (s): 16.932
+2026-05-23 09:12:05,261 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 09:12:06,930 INFO Train — acc: 0.8333  prec: 0.8355  rec: 0.8333  f1: 0.8282  auc: 0.9462
+2026-05-23 09:12:06,930 INFO Val — acc: 0.7863  prec: 0.8175  rec: 0.7863  f1: 0.7783  auc: 0.8855
+2026-05-23 09:12:06,930 INFO Test — acc: 0.8568  prec: 0.8601  rec: 0.8568  f1: 0.8449  auc: 0.9113
+2026-05-23 09:12:07,016 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:12:07,118 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:12:07,150 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.86      0.86      0.86      2710
+          mp       0.82      0.70      0.76     18376
+          pd       0.76      0.85      0.80     27263
+          rh       0.85      0.14      0.24      1525
+          rl       0.89      0.85      0.87      2357
+          st       0.89      0.91      0.90     36862
+
+    accuracy                           0.83     89093
+   macro avg       0.84      0.72      0.74     89093
+weighted avg       0.84      0.83      0.83     89093
+
+2026-05-23 09:12:07,155 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.95      0.42      0.58      1292
+          mp       0.86      0.75      0.80      3047
+          pd       0.90      0.71      0.79      6951
+          rh       0.90      0.18      0.30       295
+          rl       0.80      0.92      0.85       764
+          st       0.69      0.97      0.81      6745
+
+    accuracy                           0.79     19094
+   macro avg       0.85      0.66      0.69     19094
+weighted avg       0.82      0.79      0.78     19094
+
+2026-05-23 09:12:07,160 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.97      0.90      0.93       303
+          mp       0.85      0.73      0.79      2469
+          pd       0.89      0.72      0.79      5034
+          rh       0.86      0.09      0.17       454
+          rl       0.89      0.92      0.90       697
+          st       0.84      0.99      0.91     10137
+
+    accuracy                           0.86     19094
+   macro avg       0.88      0.72      0.75     19094
+weighted avg       0.86      0.86      0.84     19094
+
+2026-05-23 09:12:07,305 INFO Writing train predictions...
+2026-05-23 09:12:29,745 INFO Writing val predictions...
+2026-05-23 09:12:33,680 INFO Writing test predictions...
+2026-05-23 09:12:37,806 INFO play executed in 49.549 seconds
+2026-05-23 09:12:37,807 INFO Trial 14/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.33274013177541373), 'hidden_size': 256, 'learning_rate': np.float64(0.000856291327881824), 'lookback_window': 45, 'num_layers': 3}
+2026-05-23 09:12:37,807 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.33274013177541373), 'hidden_size': 256, 'learning_rate': np.float64(0.000856291327881824), 'lookback_window': 45, 'num_layers': 3}
+2026-05-23 09:12:37,903 INFO Using device: cuda
+2026-05-23 09:12:37,904 INFO CUDA available: True
+2026-05-23 09:12:37,904 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 09:12:37,904 INFO cuDNN enabled: True
+2026-05-23 09:12:37,904 INFO cuDNN version: 92000
+2026-05-23 09:12:54,331 INFO Epoch 1/100 — loss: 0.4245, acc: 0.8521, val_loss: 0.6467, val_acc: 0.8418
+2026-05-23 09:13:10,954 INFO Epoch 2/100 — loss: 0.3153, acc: 0.8941, val_loss: 0.6437, val_acc: 0.8539
+2026-05-23 09:13:27,735 INFO Epoch 3/100 — loss: 0.2847, acc: 0.9061, val_loss: 0.4996, val_acc: 0.8867
+2026-05-23 09:13:45,384 INFO Epoch 4/100 — loss: 0.2591, acc: 0.9149, val_loss: 0.6132, val_acc: 0.8595
+2026-05-23 09:14:04,835 INFO Epoch 5/100 — loss: 0.2522, acc: 0.9170, val_loss: 0.7312, val_acc: 0.8572
+2026-05-23 09:14:24,386 INFO Epoch 6/100 — loss: 0.2438, acc: 0.9196, val_loss: 0.6766, val_acc: 0.8581
+2026-05-23 09:14:42,358 INFO Epoch 7/100 — loss: 0.2388, acc: 0.9222, val_loss: 0.6880, val_acc: 0.8704
+2026-05-23 09:14:58,884 INFO Epoch 8/100 — loss: 0.2371, acc: 0.9222, val_loss: 0.6591, val_acc: 0.8756
+2026-05-23 09:15:15,445 INFO Epoch 9/100 — loss: 0.2357, acc: 0.9219, val_loss: 0.7577, val_acc: 0.8630
+2026-05-23 09:15:32,168 INFO Epoch 10/100 — loss: 0.2342, acc: 0.9224, val_loss: 0.8253, val_acc: 0.8503
+2026-05-23 09:15:51,027 INFO Epoch 11/100 — loss: 0.2404, acc: 0.9212, val_loss: 0.7449, val_acc: 0.8662
+2026-05-23 09:15:51,027 INFO Early stopping at epoch 11 (patience=8, min_delta=0.000000)
+2026-05-23 09:15:51,029 INFO Restored best checkpoint from results/results_gru_2026-05-23_09-12-37/best_model.pt
+2026-05-23 09:15:51,029 INFO Best epoch (by val_loss): 3
+2026-05-23 09:15:51,029 INFO Best val_loss: 0.499649
+2026-05-23 09:15:51,029 INFO Best val_accuracy: 0.886666
+2026-05-23 09:15:51,029 INFO Total train time (s): 193.115
+2026-05-23 09:15:51,031 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 09:16:06,699 INFO Train — acc: 0.9123  prec: 0.9173  rec: 0.9123  f1: 0.9127  auc: 0.9852
+2026-05-23 09:16:06,699 INFO Val — acc: 0.8867  prec: 0.8876  rec: 0.8867  f1: 0.8806  auc: 0.9671
+2026-05-23 09:16:06,699 INFO Test — acc: 0.9337  prec: 0.9353  rec: 0.9337  f1: 0.9333  auc: 0.9893
+2026-05-23 09:16:06,788 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:16:06,892 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:16:06,924 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.93      0.97      0.95      2695
+          mp       0.90      0.82      0.86     18376
+          pd       0.83      0.95      0.89     27263
+          rh       0.89      0.79      0.84      1508
+          rl       0.92      0.94      0.93      2357
+          st       0.99      0.93      0.96     36862
+
+    accuracy                           0.91     89061
+   macro avg       0.91      0.90      0.90     89061
+weighted avg       0.92      0.91      0.91     89061
+
+2026-05-23 09:16:06,929 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.92      0.43      0.59      1292
+          mp       0.85      0.87      0.86      3047
+          pd       0.89      0.94      0.91      6951
+          rh       0.73      0.61      0.67       295
+          rl       0.82      0.88      0.85       764
+          st       0.91      0.94      0.92      6745
+
+    accuracy                           0.89     19094
+   macro avg       0.85      0.78      0.80     19094
+weighted avg       0.89      0.89      0.88     19094
+
+2026-05-23 09:16:06,934 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.68      0.88      0.77       303
+          mp       0.88      0.85      0.87      2469
+          pd       0.88      0.95      0.92      5034
+          rh       0.81      0.57      0.67       454
+          rl       0.96      0.85      0.90       697
+          st       0.99      0.97      0.98     10137
+
+    accuracy                           0.93     19094
+   macro avg       0.87      0.84      0.85     19094
+weighted avg       0.94      0.93      0.93     19094
+
+2026-05-23 09:16:07,072 INFO Writing train predictions...
+2026-05-23 09:17:34,641 INFO Writing val predictions...
+2026-05-23 09:17:49,826 INFO Writing test predictions...
+2026-05-23 09:18:08,823 INFO play executed in 331.016 seconds
+2026-05-23 09:18:08,823 INFO Trial 15/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 32, 'dropout': np.float64(0.36990092890360826), 'hidden_size': 64, 'learning_rate': np.float64(0.00018895826938026032), 'lookback_window': 45, 'num_layers': 1}
+2026-05-23 09:18:08,824 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 32, 'dropout': np.float64(0.36990092890360826), 'hidden_size': 64, 'learning_rate': np.float64(0.00018895826938026032), 'lookback_window': 45, 'num_layers': 1}
+2026-05-23 09:18:08,924 INFO Using device: cuda
+2026-05-23 09:18:08,924 INFO CUDA available: True
+2026-05-23 09:18:08,924 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 09:18:08,924 INFO cuDNN enabled: True
+2026-05-23 09:18:08,924 INFO cuDNN version: 92000
+2026-05-23 09:18:13,435 INFO Epoch 1/100 — loss: 0.9196, acc: 0.6478, val_loss: 0.7337, val_acc: 0.8251
+2026-05-23 09:18:17,565 INFO Epoch 2/100 — loss: 0.4743, acc: 0.8495, val_loss: 0.6657, val_acc: 0.8291
+2026-05-23 09:18:21,580 INFO Epoch 3/100 — loss: 0.3831, acc: 0.8704, val_loss: 0.5436, val_acc: 0.8707
+2026-05-23 09:18:25,657 INFO Epoch 4/100 — loss: 0.3483, acc: 0.8824, val_loss: 0.5382, val_acc: 0.8670
+2026-05-23 09:18:29,809 INFO Epoch 5/100 — loss: 0.3302, acc: 0.8882, val_loss: 0.5271, val_acc: 0.8626
+2026-05-23 09:18:33,958 INFO Epoch 6/100 — loss: 0.3169, acc: 0.8922, val_loss: 0.4902, val_acc: 0.8709
+2026-05-23 09:18:38,201 INFO Epoch 7/100 — loss: 0.3046, acc: 0.8968, val_loss: 0.5134, val_acc: 0.8730
+2026-05-23 09:18:42,438 INFO Epoch 8/100 — loss: 0.2946, acc: 0.9009, val_loss: 0.4821, val_acc: 0.8754
+2026-05-23 09:18:46,664 INFO Epoch 9/100 — loss: 0.2888, acc: 0.9022, val_loss: 0.4987, val_acc: 0.8826
+2026-05-23 09:18:50,908 INFO Epoch 10/100 — loss: 0.2836, acc: 0.9046, val_loss: 0.5314, val_acc: 0.8578
+2026-05-23 09:18:55,197 INFO Epoch 11/100 — loss: 0.2767, acc: 0.9068, val_loss: 0.5030, val_acc: 0.8797
+2026-05-23 09:18:59,388 INFO Epoch 12/100 — loss: 0.2695, acc: 0.9098, val_loss: 0.5115, val_acc: 0.8749
+2026-05-23 09:19:03,536 INFO Epoch 13/100 — loss: 0.2634, acc: 0.9120, val_loss: 0.5202, val_acc: 0.8849
+2026-05-23 09:19:07,564 INFO Epoch 14/100 — loss: 0.2579, acc: 0.9142, val_loss: 0.5415, val_acc: 0.8693
+2026-05-23 09:19:11,796 INFO Epoch 15/100 — loss: 0.2515, acc: 0.9161, val_loss: 0.5061, val_acc: 0.8840
+2026-05-23 09:19:15,943 INFO Epoch 16/100 — loss: 0.2487, acc: 0.9174, val_loss: 0.5575, val_acc: 0.8649
+2026-05-23 09:19:15,943 INFO Early stopping at epoch 16 (patience=8, min_delta=0.000000)
+2026-05-23 09:19:15,944 INFO Restored best checkpoint from results/results_gru_2026-05-23_09-18-08/best_model.pt
+2026-05-23 09:19:15,944 INFO Best epoch (by val_loss): 8
+2026-05-23 09:19:15,944 INFO Best val_loss: 0.482061
+2026-05-23 09:19:15,944 INFO Best val_accuracy: 0.875406
+2026-05-23 09:19:15,944 INFO Total train time (s): 67.011
+2026-05-23 09:19:15,946 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 09:19:21,218 INFO Train — acc: 0.9033  prec: 0.9043  rec: 0.9033  f1: 0.9024  auc: 0.9817
+2026-05-23 09:19:21,218 INFO Val — acc: 0.8754  prec: 0.8817  rec: 0.8754  f1: 0.8690  auc: 0.9690
+2026-05-23 09:19:21,218 INFO Test — acc: 0.9312  prec: 0.9301  rec: 0.9312  f1: 0.9289  auc: 0.9920
+2026-05-23 09:19:21,323 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:19:21,437 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:19:21,472 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.94      0.91      0.92      2695
+          mp       0.89      0.80      0.84     18376
+          pd       0.84      0.92      0.88     27263
+          rh       0.78      0.55      0.64      1508
+          rl       0.88      0.90      0.89      2357
+          st       0.96      0.95      0.96     36862
+
+    accuracy                           0.90     89061
+   macro avg       0.88      0.84      0.86     89061
+weighted avg       0.90      0.90      0.90     89061
+
+2026-05-23 09:19:21,477 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.99      0.42      0.59      1292
+          mp       0.87      0.86      0.87      3047
+          pd       0.91      0.88      0.90      6951
+          rh       0.77      0.61      0.68       295
+          rl       0.82      0.93      0.87       764
+          st       0.85      0.97      0.90      6745
+
+    accuracy                           0.88     19094
+   macro avg       0.87      0.78      0.80     19094
+weighted avg       0.88      0.88      0.87     19094
+
+2026-05-23 09:19:21,482 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.91      0.87      0.89       303
+          mp       0.91      0.86      0.88      2469
+          pd       0.92      0.89      0.90      5034
+          rh       0.88      0.49      0.63       454
+          rl       0.95      0.93      0.94       697
+          st       0.94      0.99      0.97     10137
+
+    accuracy                           0.93     19094
+   macro avg       0.92      0.84      0.87     19094
+weighted avg       0.93      0.93      0.93     19094
+
+2026-05-23 09:19:21,632 INFO Writing train predictions...
+2026-05-23 09:20:43,467 INFO Writing val predictions...
+2026-05-23 09:20:58,042 INFO Writing test predictions...
+2026-05-23 09:21:17,145 INFO play executed in 188.322 seconds
+2026-05-23 09:21:17,146 INFO Trial 16/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 32, 'dropout': np.float64(0.10542865424484393), 'hidden_size': 128, 'learning_rate': np.float64(0.004741216804249708), 'lookback_window': 44, 'num_layers': 1}
+2026-05-23 09:21:17,146 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 32, 'dropout': np.float64(0.10542865424484393), 'hidden_size': 128, 'learning_rate': np.float64(0.004741216804249708), 'lookback_window': 44, 'num_layers': 1}
+2026-05-23 09:21:17,233 INFO Using device: cuda
+2026-05-23 09:21:17,233 INFO CUDA available: True
+2026-05-23 09:21:17,233 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 09:21:17,233 INFO cuDNN enabled: True
+2026-05-23 09:21:17,233 INFO cuDNN version: 92000
+2026-05-23 09:21:20,382 INFO Epoch 1/100 — loss: 0.5481, acc: 0.8102, val_loss: 0.8222, val_acc: 0.7621
+2026-05-23 09:21:23,290 INFO Epoch 2/100 — loss: 0.4776, acc: 0.8406, val_loss: 0.7573, val_acc: 0.8111
+2026-05-23 09:21:26,098 INFO Epoch 3/100 — loss: 0.4663, acc: 0.8430, val_loss: 0.5984, val_acc: 0.8437
+2026-05-23 09:21:29,068 INFO Epoch 4/100 — loss: 0.4624, acc: 0.8440, val_loss: 0.8005, val_acc: 0.7254
+2026-05-23 09:21:31,934 INFO Epoch 5/100 — loss: 0.4494, acc: 0.8480, val_loss: 0.6093, val_acc: 0.8736
+2026-05-23 09:21:35,270 INFO Epoch 6/100 — loss: 0.4473, acc: 0.8480, val_loss: 0.5880, val_acc: 0.8578
+2026-05-23 09:21:38,110 INFO Epoch 7/100 — loss: 0.4452, acc: 0.8501, val_loss: 0.5825, val_acc: 0.8527
+2026-05-23 09:21:40,982 INFO Epoch 8/100 — loss: 0.4477, acc: 0.8478, val_loss: 0.5549, val_acc: 0.8661
+2026-05-23 09:21:43,807 INFO Epoch 9/100 — loss: 0.4468, acc: 0.8499, val_loss: 0.8936, val_acc: 0.7733
+2026-05-23 09:21:46,670 INFO Epoch 10/100 — loss: 0.4400, acc: 0.8502, val_loss: 0.6777, val_acc: 0.8136
+2026-05-23 09:21:49,453 INFO Epoch 11/100 — loss: 0.4364, acc: 0.8526, val_loss: 0.6492, val_acc: 0.8432
+2026-05-23 09:21:52,726 INFO Epoch 12/100 — loss: 0.4262, acc: 0.8555, val_loss: 0.6345, val_acc: 0.8639
+2026-05-23 09:21:55,571 INFO Epoch 13/100 — loss: 0.4465, acc: 0.8491, val_loss: 0.6651, val_acc: 0.8461
+2026-05-23 09:21:58,519 INFO Epoch 14/100 — loss: 0.4351, acc: 0.8522, val_loss: 0.9159, val_acc: 0.7660
+2026-05-23 09:22:01,398 INFO Epoch 15/100 — loss: 0.4217, acc: 0.8562, val_loss: 0.6476, val_acc: 0.8238
+2026-05-23 09:22:04,147 INFO Epoch 16/100 — loss: 0.4271, acc: 0.8557, val_loss: 0.6357, val_acc: 0.8210
+2026-05-23 09:22:04,147 INFO Early stopping at epoch 16 (patience=8, min_delta=0.000000)
+2026-05-23 09:22:04,147 INFO Restored best checkpoint from results/results_gru_2026-05-23_09-21-17/best_model.pt
+2026-05-23 09:22:04,147 INFO Best epoch (by val_loss): 8
+2026-05-23 09:22:04,147 INFO Best val_loss: 0.554922
+2026-05-23 09:22:04,147 INFO Best val_accuracy: 0.866136
+2026-05-23 09:22:04,147 INFO Total train time (s): 46.903
+2026-05-23 09:22:04,149 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 09:22:07,299 INFO Train — acc: 0.8551  prec: 0.8575  rec: 0.8551  f1: 0.8536  auc: 0.9654
+2026-05-23 09:22:07,299 INFO Val — acc: 0.8661  prec: 0.8658  rec: 0.8661  f1: 0.8586  auc: 0.9600
+2026-05-23 09:22:07,299 INFO Test — acc: 0.9067  prec: 0.9070  rec: 0.9067  f1: 0.9019  auc: 0.9865
+2026-05-23 09:22:07,395 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:22:07,508 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:22:07,542 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.77      0.94      0.85      2695
+          mp       0.80      0.77      0.78     18376
+          pd       0.79      0.86      0.82     27263
+          rh       0.77      0.31      0.44      1509
+          rl       0.93      0.77      0.84      2357
+          st       0.94      0.92      0.93     36862
+
+    accuracy                           0.86     89062
+   macro avg       0.83      0.76      0.78     89062
+weighted avg       0.86      0.86      0.85     89062
+
+2026-05-23 09:22:07,546 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.90      0.44      0.59      1292
+          mp       0.82      0.84      0.83      3047
+          pd       0.88      0.90      0.89      6951
+          rh       0.71      0.28      0.40       295
+          rl       0.86      0.87      0.86       764
+          st       0.87      0.95      0.91      6745
+
+    accuracy                           0.87     19094
+   macro avg       0.84      0.71      0.75     19094
+weighted avg       0.87      0.87      0.86     19094
+
+2026-05-23 09:22:07,551 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.69      0.90      0.78       303
+          mp       0.82      0.83      0.82      2469
+          pd       0.87      0.89      0.88      5034
+          rh       0.83      0.22      0.35       454
+          rl       0.99      0.80      0.89       697
+          st       0.95      0.97      0.96     10137
+
+    accuracy                           0.91     19094
+   macro avg       0.86      0.77      0.78     19094
+weighted avg       0.91      0.91      0.90     19094
+
+2026-05-23 09:22:07,690 INFO Writing train predictions...
+2026-05-23 09:23:27,772 INFO Writing val predictions...
+2026-05-23 09:23:41,364 INFO Writing test predictions...
+2026-05-23 09:23:54,666 INFO play executed in 157.520 seconds
+2026-05-23 09:23:54,666 INFO Trial 17/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 32, 'dropout': np.float64(0.4512773885388708), 'hidden_size': 256, 'learning_rate': np.float64(0.00898508471940606), 'lookback_window': 49, 'num_layers': 2}
+2026-05-23 09:23:54,667 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 32, 'dropout': np.float64(0.4512773885388708), 'hidden_size': 256, 'learning_rate': np.float64(0.00898508471940606), 'lookback_window': 49, 'num_layers': 2}
+2026-05-23 09:23:54,757 INFO Using device: cuda
+2026-05-23 09:23:54,757 INFO CUDA available: True
+2026-05-23 09:23:54,757 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 09:23:54,757 INFO cuDNN enabled: True
+2026-05-23 09:23:54,757 INFO cuDNN version: 92000
+2026-05-23 09:24:02,160 INFO Epoch 1/100 — loss: 0.8822, acc: 0.6929, val_loss: 1.8078, val_acc: 0.6116
+2026-05-23 09:24:08,970 INFO Epoch 2/100 — loss: 0.9056, acc: 0.6829, val_loss: 0.9824, val_acc: 0.7950
+2026-05-23 09:24:15,897 INFO Epoch 3/100 — loss: 0.8016, acc: 0.7241, val_loss: 0.6692, val_acc: 0.8425
+2026-05-23 09:24:22,760 INFO Epoch 4/100 — loss: 0.8249, acc: 0.7198, val_loss: 0.8191, val_acc: 0.7791
+2026-05-23 09:24:29,545 INFO Epoch 5/100 — loss: 0.7982, acc: 0.7288, val_loss: 0.9586, val_acc: 0.7183
+2026-05-23 09:24:36,356 INFO Epoch 6/100 — loss: 0.8115, acc: 0.7240, val_loss: 0.7600, val_acc: 0.7879
+2026-05-23 09:24:43,263 INFO Epoch 7/100 — loss: 0.8104, acc: 0.7234, val_loss: 0.8037, val_acc: 0.8186
+2026-05-23 09:24:51,595 INFO Epoch 8/100 — loss: 0.8274, acc: 0.7146, val_loss: 0.8339, val_acc: 0.8144
+2026-05-23 09:25:00,326 INFO Epoch 9/100 — loss: 0.7775, acc: 0.7378, val_loss: 1.5779, val_acc: 0.5581
+2026-05-23 09:25:09,076 INFO Epoch 10/100 — loss: 0.7494, acc: 0.7588, val_loss: 0.8690, val_acc: 0.8359
+2026-05-23 09:25:17,892 INFO Epoch 11/100 — loss: 0.7798, acc: 0.7444, val_loss: 0.7717, val_acc: 0.8459
+2026-05-23 09:25:17,892 INFO Early stopping at epoch 11 (patience=8, min_delta=0.000000)
+2026-05-23 09:25:17,894 INFO Restored best checkpoint from results/results_gru_2026-05-23_09-23-54/best_model.pt
+2026-05-23 09:25:17,894 INFO Best epoch (by val_loss): 3
+2026-05-23 09:25:17,894 INFO Best val_loss: 0.669215
+2026-05-23 09:25:17,894 INFO Best val_accuracy: 0.842464
+2026-05-23 09:25:17,894 INFO Total train time (s): 83.127
+2026-05-23 09:25:17,896 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 09:25:28,122 INFO Train — acc: 0.7977  prec: 0.8194  rec: 0.7977  f1: 0.7928  auc: 0.9158
+2026-05-23 09:25:28,122 INFO Val — acc: 0.8425  prec: 0.8289  rec: 0.8425  f1: 0.8285  auc: 0.9261
+2026-05-23 09:25:28,122 INFO Test — acc: 0.8753  prec: 0.8675  rec: 0.8753  f1: 0.8657  auc: 0.9556
+2026-05-23 09:25:28,215 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:25:28,323 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:25:28,357 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.51      0.86      0.64      2695
+          mp       0.82      0.57      0.68     18376
+          pd       0.67      0.95      0.79     27263
+          rh       0.00      0.00      0.00      1504
+          rl       0.94      0.72      0.81      2357
+          st       0.98      0.83      0.90     36862
+
+    accuracy                           0.80     89057
+   macro avg       0.65      0.65      0.64     89057
+weighted avg       0.82      0.80      0.79     89057
+
+2026-05-23 09:25:28,363 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.67      0.40      0.50      1292
+          mp       0.81      0.66      0.73      3047
+          pd       0.80      0.98      0.88      6951
+          rh       0.00      0.00      0.00       295
+          rl       0.86      0.85      0.85       764
+          st       0.93      0.90      0.92      6745
+
+    accuracy                           0.84     19094
+   macro avg       0.68      0.63      0.65     19094
+weighted avg       0.83      0.84      0.83     19094
+
+2026-05-23 09:25:28,368 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.40      0.76      0.53       303
+          mp       0.80      0.61      0.69      2469
+          pd       0.77      0.96      0.86      5034
+          rh       0.00      0.00      0.00       454
+          rl       0.96      0.78      0.86       697
+          st       0.98      0.95      0.96     10137
+
+    accuracy                           0.88     19094
+   macro avg       0.65      0.68      0.65     19094
+weighted avg       0.87      0.88      0.87     19094
+
+2026-05-23 09:25:28,518 INFO Writing train predictions...
+2026-05-23 09:27:02,742 INFO Writing val predictions...
+2026-05-23 09:27:18,425 INFO Writing test predictions...
+2026-05-23 09:27:37,987 INFO play executed in 223.321 seconds
+2026-05-23 09:27:37,988 INFO Trial 18/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 32, 'dropout': np.float64(0.1079950661635035), 'hidden_size': 256, 'learning_rate': np.float64(0.00036780186337684095), 'lookback_window': 33, 'num_layers': 4}
+2026-05-23 09:27:37,988 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 32, 'dropout': np.float64(0.1079950661635035), 'hidden_size': 256, 'learning_rate': np.float64(0.00036780186337684095), 'lookback_window': 33, 'num_layers': 4}
+2026-05-23 09:27:38,068 INFO Using device: cuda
+2026-05-23 09:27:38,069 INFO CUDA available: True
+2026-05-23 09:27:38,069 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 09:27:38,069 INFO cuDNN enabled: True
+2026-05-23 09:27:38,069 INFO cuDNN version: 92000
+2026-05-23 09:27:49,358 INFO Epoch 1/100 — loss: 0.4749, acc: 0.8321, val_loss: 0.5049, val_acc: 0.8840
+2026-05-23 09:28:00,326 INFO Epoch 2/100 — loss: 0.3073, acc: 0.8961, val_loss: 0.5167, val_acc: 0.8735
+2026-05-23 09:28:11,444 INFO Epoch 3/100 — loss: 0.2711, acc: 0.9087, val_loss: 0.5202, val_acc: 0.8774
+2026-05-23 09:28:22,612 INFO Epoch 4/100 — loss: 0.2345, acc: 0.9216, val_loss: 0.5999, val_acc: 0.8801
+2026-05-23 09:28:33,660 INFO Epoch 5/100 — loss: 0.2058, acc: 0.9298, val_loss: 0.5680, val_acc: 0.8814
+2026-05-23 09:28:44,785 INFO Epoch 6/100 — loss: 0.1797, acc: 0.9391, val_loss: 0.7109, val_acc: 0.8588
+2026-05-23 09:28:55,917 INFO Epoch 7/100 — loss: 0.1631, acc: 0.9440, val_loss: 0.6687, val_acc: 0.8725
+2026-05-23 09:29:07,093 INFO Epoch 8/100 — loss: 0.1478, acc: 0.9487, val_loss: 0.7387, val_acc: 0.8663
+2026-05-23 09:29:18,206 INFO Epoch 9/100 — loss: 0.1412, acc: 0.9508, val_loss: 0.7562, val_acc: 0.8699
+2026-05-23 09:29:18,207 INFO Early stopping at epoch 9 (patience=8, min_delta=0.000000)
+2026-05-23 09:29:18,209 INFO Restored best checkpoint from results/results_gru_2026-05-23_09-27-37/best_model.pt
+2026-05-23 09:29:18,209 INFO Best epoch (by val_loss): 1
+2026-05-23 09:29:18,209 INFO Best val_loss: 0.504938
+2026-05-23 09:29:18,209 INFO Best val_accuracy: 0.883995
+2026-05-23 09:29:18,209 INFO Total train time (s): 100.129
+2026-05-23 09:29:18,211 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 09:29:29,975 INFO Train — acc: 0.8948  prec: 0.8980  rec: 0.8948  f1: 0.8928  auc: 0.9802
+2026-05-23 09:29:29,975 INFO Val — acc: 0.8840  prec: 0.8910  rec: 0.8840  f1: 0.8772  auc: 0.9653
+2026-05-23 09:29:29,975 INFO Test — acc: 0.9355  prec: 0.9359  rec: 0.9355  f1: 0.9338  auc: 0.9888
+2026-05-23 09:29:30,067 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:29:30,169 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:29:30,203 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.92      0.87      0.89      2695
+          mp       0.93      0.75      0.83     18376
+          pd       0.82      0.93      0.87     27263
+          rh       0.76      0.47      0.58      1520
+          rl       0.88      0.92      0.90      2357
+          st       0.94      0.96      0.95     36862
+
+    accuracy                           0.89     89073
+   macro avg       0.88      0.82      0.84     89073
+weighted avg       0.90      0.89      0.89     89073
+
+2026-05-23 09:29:30,208 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.99      0.42      0.59      1292
+          mp       0.92      0.82      0.87      3047
+          pd       0.91      0.91      0.91      6951
+          rh       0.85      0.62      0.72       295
+          rl       0.80      0.96      0.87       764
+          st       0.85      0.97      0.91      6745
+
+    accuracy                           0.88     19094
+   macro avg       0.89      0.78      0.81     19094
+weighted avg       0.89      0.88      0.88     19094
+
+2026-05-23 09:29:30,213 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.96      0.89      0.92       303
+          mp       0.94      0.81      0.87      2469
+          pd       0.89      0.93      0.91      5034
+          rh       0.91      0.58      0.71       454
+          rl       0.99      0.96      0.97       697
+          st       0.96      0.99      0.97     10137
+
+    accuracy                           0.94     19094
+   macro avg       0.94      0.86      0.89     19094
+weighted avg       0.94      0.94      0.93     19094
+
+2026-05-23 09:29:30,366 INFO Writing train predictions...
+2026-05-23 09:30:30,646 INFO Writing val predictions...
+2026-05-23 09:30:41,091 INFO Writing test predictions...
+2026-05-23 09:30:54,429 INFO play executed in 196.441 seconds
+2026-05-23 09:30:54,429 INFO Trial 19/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 64, 'dropout': np.float64(0.37546447312230813), 'hidden_size': 256, 'learning_rate': np.float64(0.0006737922153052587), 'lookback_window': 13, 'num_layers': 3}
+2026-05-23 09:30:54,430 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 64, 'dropout': np.float64(0.37546447312230813), 'hidden_size': 256, 'learning_rate': np.float64(0.0006737922153052587), 'lookback_window': 13, 'num_layers': 3}
+2026-05-23 09:30:54,499 INFO Using device: cuda
+2026-05-23 09:30:54,499 INFO CUDA available: True
+2026-05-23 09:30:54,499 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 09:30:54,499 INFO cuDNN enabled: True
+2026-05-23 09:30:54,499 INFO cuDNN version: 92000
+2026-05-23 09:30:57,503 INFO Epoch 1/100 — loss: 0.5973, acc: 0.7962, val_loss: 0.8185, val_acc: 0.7831
+2026-05-23 09:31:00,292 INFO Epoch 2/100 — loss: 0.4334, acc: 0.8593, val_loss: 0.8280, val_acc: 0.8067
+2026-05-23 09:31:03,227 INFO Epoch 3/100 — loss: 0.4125, acc: 0.8643, val_loss: 0.8006, val_acc: 0.8041
+2026-05-23 09:31:05,988 INFO Epoch 4/100 — loss: 0.3926, acc: 0.8715, val_loss: 0.7797, val_acc: 0.8040
+2026-05-23 09:31:08,822 INFO Epoch 5/100 — loss: 0.3701, acc: 0.8762, val_loss: 0.8301, val_acc: 0.8141
+2026-05-23 09:31:11,584 INFO Epoch 6/100 — loss: 0.3548, acc: 0.8817, val_loss: 0.9007, val_acc: 0.8051
+2026-05-23 09:31:14,390 INFO Epoch 7/100 — loss: 0.3395, acc: 0.8851, val_loss: 0.7863, val_acc: 0.8062
+2026-05-23 09:31:17,221 INFO Epoch 8/100 — loss: 0.3218, acc: 0.8912, val_loss: 0.8227, val_acc: 0.8081
+2026-05-23 09:31:20,143 INFO Epoch 9/100 — loss: 0.3072, acc: 0.8951, val_loss: 0.8658, val_acc: 0.8096
+2026-05-23 09:31:22,896 INFO Epoch 10/100 — loss: 0.2901, acc: 0.9013, val_loss: 0.9155, val_acc: 0.8064
+2026-05-23 09:31:25,693 INFO Epoch 11/100 — loss: 0.2810, acc: 0.9042, val_loss: 0.9430, val_acc: 0.8040
+2026-05-23 09:31:28,524 INFO Epoch 12/100 — loss: 0.2673, acc: 0.9087, val_loss: 0.9689, val_acc: 0.8032
+2026-05-23 09:31:28,524 INFO Early stopping at epoch 12 (patience=8, min_delta=0.000000)
+2026-05-23 09:31:28,525 INFO Restored best checkpoint from results/results_gru_2026-05-23_09-30-54/best_model.pt
+2026-05-23 09:31:28,525 INFO Best epoch (by val_loss): 4
+2026-05-23 09:31:28,525 INFO Best val_loss: 0.779725
+2026-05-23 09:31:28,525 INFO Best val_accuracy: 0.804022
+2026-05-23 09:31:28,525 INFO Total train time (s): 34.020
+2026-05-23 09:31:28,527 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 09:31:31,043 INFO Train — acc: 0.8809  prec: 0.8810  rec: 0.8809  f1: 0.8790  auc: 0.9711
+2026-05-23 09:31:31,043 INFO Val — acc: 0.8040  prec: 0.8412  rec: 0.8040  f1: 0.7977  auc: 0.9068
+2026-05-23 09:31:31,043 INFO Test — acc: 0.8835  prec: 0.8901  rec: 0.8835  f1: 0.8788  auc: 0.9269
+2026-05-23 09:31:31,135 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:31:31,234 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:31:31,265 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.93      0.90      0.91      2710
+          mp       0.90      0.81      0.85     18376
+          pd       0.87      0.83      0.85     27263
+          rh       0.83      0.55      0.66      1525
+          rl       0.90      0.93      0.91      2357
+          st       0.88      0.96      0.92     36862
+
+    accuracy                           0.88     89093
+   macro avg       0.88      0.83      0.85     89093
+weighted avg       0.88      0.88      0.88     89093
+
+2026-05-23 09:31:31,270 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.99      0.42      0.59      1292
+          mp       0.87      0.86      0.86      3047
+          pd       0.94      0.67      0.79      6951
+          rh       0.87      0.61      0.72       295
+          rl       0.80      0.95      0.87       764
+          st       0.70      0.98      0.82      6745
+
+    accuracy                           0.80     19094
+   macro avg       0.86      0.75      0.77     19094
+weighted avg       0.84      0.80      0.80     19094
+
+2026-05-23 09:31:31,275 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.94      0.88      0.91       303
+          mp       0.90      0.85      0.87      2469
+          pd       0.94      0.70      0.80      5034
+          rh       0.91      0.66      0.77       454
+          rl       1.00      0.95      0.98       697
+          st       0.85      0.99      0.92     10137
+
+    accuracy                           0.88     19094
+   macro avg       0.93      0.84      0.87     19094
+weighted avg       0.89      0.88      0.88     19094
+
+2026-05-23 09:31:31,417 INFO Writing train predictions...
+2026-05-23 09:31:54,703 INFO Writing val predictions...
+2026-05-23 09:31:58,975 INFO Writing test predictions...
+2026-05-23 09:32:03,444 INFO play executed in 69.015 seconds
+2026-05-23 09:32:03,445 INFO Trial 20/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 64, 'dropout': np.float64(0.3266405816826301), 'hidden_size': 128, 'learning_rate': np.float64(0.0010421684497173222), 'lookback_window': 24, 'num_layers': 2}
+2026-05-23 09:32:03,445 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 64, 'dropout': np.float64(0.3266405816826301), 'hidden_size': 128, 'learning_rate': np.float64(0.0010421684497173222), 'lookback_window': 24, 'num_layers': 2}
+2026-05-23 09:32:03,531 INFO Using device: cuda
+2026-05-23 09:32:03,531 INFO CUDA available: True
+2026-05-23 09:32:03,531 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 09:32:03,531 INFO cuDNN enabled: True
+2026-05-23 09:32:03,531 INFO cuDNN version: 92000
+2026-05-23 09:32:06,829 INFO Epoch 1/100 — loss: 0.5322, acc: 0.8120, val_loss: 0.7367, val_acc: 0.8074
+2026-05-23 09:32:09,874 INFO Epoch 2/100 — loss: 0.3498, acc: 0.8837, val_loss: 0.5531, val_acc: 0.8721
+2026-05-23 09:32:12,722 INFO Epoch 3/100 — loss: 0.3183, acc: 0.8935, val_loss: 0.5620, val_acc: 0.8767
+2026-05-23 09:32:15,779 INFO Epoch 4/100 — loss: 0.2938, acc: 0.9025, val_loss: 0.6131, val_acc: 0.8567
+2026-05-23 09:32:18,789 INFO Epoch 5/100 — loss: 0.2726, acc: 0.9088, val_loss: 0.6163, val_acc: 0.8667
+2026-05-23 09:32:21,809 INFO Epoch 6/100 — loss: 0.2514, acc: 0.9151, val_loss: 0.6823, val_acc: 0.8469
+2026-05-23 09:32:24,600 INFO Epoch 7/100 — loss: 0.2333, acc: 0.9201, val_loss: 0.6748, val_acc: 0.8630
+2026-05-23 09:32:27,601 INFO Epoch 8/100 — loss: 0.2176, acc: 0.9258, val_loss: 0.6624, val_acc: 0.8577
+2026-05-23 09:32:30,596 INFO Epoch 9/100 — loss: 0.2069, acc: 0.9282, val_loss: 0.6774, val_acc: 0.8725
+2026-05-23 09:32:33,622 INFO Epoch 10/100 — loss: 0.1977, acc: 0.9316, val_loss: 0.7601, val_acc: 0.8573
+2026-05-23 09:32:33,622 INFO Early stopping at epoch 10 (patience=8, min_delta=0.000000)
+2026-05-23 09:32:33,624 INFO Restored best checkpoint from results/results_gru_2026-05-23_09-32-03/best_model.pt
+2026-05-23 09:32:33,624 INFO Best epoch (by val_loss): 2
+2026-05-23 09:32:33,624 INFO Best val_loss: 0.553063
+2026-05-23 09:32:33,624 INFO Best val_accuracy: 0.872054
+2026-05-23 09:32:33,624 INFO Total train time (s): 30.087
+2026-05-23 09:32:33,626 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 09:32:37,842 INFO Train — acc: 0.9021  prec: 0.9029  rec: 0.9021  f1: 0.9016  auc: 0.9808
+2026-05-23 09:32:37,842 INFO Val — acc: 0.8721  prec: 0.8804  rec: 0.8721  f1: 0.8648  auc: 0.9578
+2026-05-23 09:32:37,842 INFO Test — acc: 0.9340  prec: 0.9332  rec: 0.9340  f1: 0.9325  auc: 0.9818
+2026-05-23 09:32:37,930 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:32:38,028 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:32:38,060 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.97      0.87      0.92      2699
+          mp       0.89      0.81      0.85     18376
+          pd       0.85      0.92      0.88     27263
+          rh       0.75      0.63      0.68      1525
+          rl       0.86      0.93      0.89      2357
+          st       0.95      0.95      0.95     36862
+
+    accuracy                           0.90     89082
+   macro avg       0.88      0.85      0.86     89082
+weighted avg       0.90      0.90      0.90     89082
+
+2026-05-23 09:32:38,065 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       1.00      0.39      0.56      1292
+          mp       0.85      0.86      0.86      3047
+          pd       0.92      0.87      0.90      6951
+          rh       0.75      0.58      0.66       295
+          rl       0.78      0.95      0.86       764
+          st       0.84      0.97      0.90      6745
+
+    accuracy                           0.87     19094
+   macro avg       0.86      0.77      0.79     19094
+weighted avg       0.88      0.87      0.86     19094
+
+2026-05-23 09:32:38,069 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.96      0.87      0.91       303
+          mp       0.87      0.87      0.87      2469
+          pd       0.93      0.89      0.91      5034
+          rh       0.89      0.58      0.70       454
+          rl       0.99      0.95      0.97       697
+          st       0.95      0.99      0.97     10137
+
+    accuracy                           0.93     19094
+   macro avg       0.93      0.86      0.89     19094
+weighted avg       0.93      0.93      0.93     19094
+
+2026-05-23 09:32:38,216 INFO Writing train predictions...
+2026-05-23 09:33:23,197 INFO Writing val predictions...
+2026-05-23 09:33:30,838 INFO Writing test predictions...
+2026-05-23 09:33:40,439 INFO play executed in 96.994 seconds
+2026-05-23 09:33:40,440 INFO Trial 21/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 64, 'dropout': np.float64(0.33037859822247173), 'hidden_size': 256, 'learning_rate': np.float64(0.000359283375708533), 'lookback_window': 50, 'num_layers': 4}
+2026-05-23 09:33:40,440 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 64, 'dropout': np.float64(0.33037859822247173), 'hidden_size': 256, 'learning_rate': np.float64(0.000359283375708533), 'lookback_window': 50, 'num_layers': 4}
+2026-05-23 09:33:40,527 INFO Using device: cuda
+2026-05-23 09:33:40,527 INFO CUDA available: True
+2026-05-23 09:33:40,527 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 09:33:40,527 INFO cuDNN enabled: True
+2026-05-23 09:33:40,527 INFO cuDNN version: 92000
+2026-05-23 09:33:46,707 INFO Epoch 1/100 — loss: 0.5740, acc: 0.7838, val_loss: 0.5025, val_acc: 0.8876
+2026-05-23 09:33:52,478 INFO Epoch 2/100 — loss: 0.3052, acc: 0.8939, val_loss: 0.4997, val_acc: 0.8859
+2026-05-23 09:33:58,248 INFO Epoch 3/100 — loss: 0.2669, acc: 0.9075, val_loss: 0.5129, val_acc: 0.8799
+2026-05-23 09:34:03,977 INFO Epoch 4/100 — loss: 0.2301, acc: 0.9196, val_loss: 0.5711, val_acc: 0.8719
+2026-05-23 09:34:09,712 INFO Epoch 5/100 — loss: 0.2044, acc: 0.9291, val_loss: 0.6472, val_acc: 0.8638
+2026-05-23 09:34:15,616 INFO Epoch 6/100 — loss: 0.1784, acc: 0.9378, val_loss: 0.6704, val_acc: 0.8730
+2026-05-23 09:34:21,334 INFO Epoch 7/100 — loss: 0.1628, acc: 0.9427, val_loss: 0.6374, val_acc: 0.8741
+2026-05-23 09:34:27,360 INFO Epoch 8/100 — loss: 0.1503, acc: 0.9466, val_loss: 0.7006, val_acc: 0.8630
+2026-05-23 09:34:33,130 INFO Epoch 9/100 — loss: 0.1437, acc: 0.9483, val_loss: 0.7785, val_acc: 0.8574
+2026-05-23 09:34:39,174 INFO Epoch 10/100 — loss: 0.1342, acc: 0.9512, val_loss: 0.7885, val_acc: 0.8601
+2026-05-23 09:34:39,174 INFO Early stopping at epoch 10 (patience=8, min_delta=0.000000)
+2026-05-23 09:34:39,175 INFO Restored best checkpoint from results/results_gru_2026-05-23_09-33-40/best_model.pt
+2026-05-23 09:34:39,175 INFO Best epoch (by val_loss): 2
+2026-05-23 09:34:39,175 INFO Best val_loss: 0.499709
+2026-05-23 09:34:39,175 INFO Best val_accuracy: 0.885880
+2026-05-23 09:34:39,175 INFO Total train time (s): 58.636
+2026-05-23 09:34:39,177 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 09:34:44,159 INFO Train — acc: 0.9108  prec: 0.9120  rec: 0.9108  f1: 0.9102  auc: 0.9853
+2026-05-23 09:34:44,159 INFO Val — acc: 0.8859  prec: 0.8910  rec: 0.8859  f1: 0.8791  auc: 0.9726
+2026-05-23 09:34:44,159 INFO Test — acc: 0.9411  prec: 0.9406  rec: 0.9411  f1: 0.9397  auc: 0.9937
+2026-05-23 09:34:44,247 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:34:44,343 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:34:44,374 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.94      0.91      0.93      2695
+          mp       0.89      0.82      0.86     18376
+          pd       0.85      0.93      0.89     27263
+          rh       0.85      0.59      0.70      1503
+          rl       0.88      0.93      0.90      2357
+          st       0.97      0.96      0.96     36862
+
+    accuracy                           0.91     89056
+   macro avg       0.90      0.85      0.87     89056
+weighted avg       0.91      0.91      0.91     89056
+
+2026-05-23 09:34:44,379 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.99      0.41      0.58      1292
+          mp       0.86      0.87      0.86      3047
+          pd       0.92      0.91      0.91      6951
+          rh       0.80      0.59      0.68       295
+          rl       0.78      0.94      0.85       764
+          st       0.88      0.97      0.92      6745
+
+    accuracy                           0.89     19094
+   macro avg       0.87      0.78      0.80     19094
+weighted avg       0.89      0.89      0.88     19094
+
+2026-05-23 09:34:44,384 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.95      0.88      0.92       303
+          mp       0.87      0.88      0.88      2469
+          pd       0.93      0.92      0.92      5034
+          rh       0.91      0.56      0.69       454
+          rl       0.97      0.94      0.95       697
+          st       0.96      0.99      0.98     10137
+
+    accuracy                           0.94     19094
+   macro avg       0.93      0.86      0.89     19094
+weighted avg       0.94      0.94      0.94     19094
+
+2026-05-23 09:34:44,524 INFO Writing train predictions...
+2026-05-23 09:36:11,319 INFO Writing val predictions...
+2026-05-23 09:36:28,425 INFO Writing test predictions...
+2026-05-23 09:36:48,906 INFO play executed in 188.466 seconds
+2026-05-23 09:36:48,906 INFO Trial 22/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 64, 'dropout': np.float64(0.15271914496175687), 'hidden_size': 64, 'learning_rate': np.float64(0.004816951109575536), 'lookback_window': 48, 'num_layers': 4}
+2026-05-23 09:36:48,906 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 64, 'dropout': np.float64(0.15271914496175687), 'hidden_size': 64, 'learning_rate': np.float64(0.004816951109575536), 'lookback_window': 48, 'num_layers': 4}
+2026-05-23 09:36:48,987 INFO Using device: cuda
+2026-05-23 09:36:48,987 INFO CUDA available: True
+2026-05-23 09:36:48,987 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 09:36:48,987 INFO cuDNN enabled: True
+2026-05-23 09:36:48,987 INFO cuDNN version: 92000
+2026-05-23 09:36:51,429 INFO Epoch 1/100 — loss: 0.5274, acc: 0.8134, val_loss: 0.5388, val_acc: 0.8445
+2026-05-23 09:36:53,620 INFO Epoch 2/100 — loss: 0.3900, acc: 0.8651, val_loss: 0.4840, val_acc: 0.8741
+2026-05-23 09:36:55,762 INFO Epoch 3/100 — loss: 0.3922, acc: 0.8640, val_loss: 0.5605, val_acc: 0.8712
+2026-05-23 09:36:57,894 INFO Epoch 4/100 — loss: 0.4016, acc: 0.8595, val_loss: 0.5323, val_acc: 0.8835
+2026-05-23 09:37:00,092 INFO Epoch 5/100 — loss: 0.3978, acc: 0.8609, val_loss: 0.5330, val_acc: 0.8830
+2026-05-23 09:37:02,293 INFO Epoch 6/100 — loss: 0.3992, acc: 0.8584, val_loss: 0.5803, val_acc: 0.8802
+2026-05-23 09:37:04,453 INFO Epoch 7/100 — loss: 0.4131, acc: 0.8545, val_loss: 0.5042, val_acc: 0.8794
+2026-05-23 09:37:06,652 INFO Epoch 8/100 — loss: 0.4111, acc: 0.8559, val_loss: 0.5198, val_acc: 0.8738
+2026-05-23 09:37:08,822 INFO Epoch 9/100 — loss: 0.4011, acc: 0.8599, val_loss: 0.5858, val_acc: 0.8633
+2026-05-23 09:37:10,977 INFO Epoch 10/100 — loss: 0.4099, acc: 0.8574, val_loss: 0.5276, val_acc: 0.8689
+2026-05-23 09:37:10,977 INFO Early stopping at epoch 10 (patience=8, min_delta=0.000000)
+2026-05-23 09:37:10,978 INFO Restored best checkpoint from results/results_gru_2026-05-23_09-36-48/best_model.pt
+2026-05-23 09:37:10,978 INFO Best epoch (by val_loss): 2
+2026-05-23 09:37:10,978 INFO Best val_loss: 0.483953
+2026-05-23 09:37:10,978 INFO Best val_accuracy: 0.874149
+2026-05-23 09:37:10,978 INFO Total train time (s): 21.974
+2026-05-23 09:37:10,980 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 09:37:12,985 INFO Train — acc: 0.8754  prec: 0.8865  rec: 0.8754  f1: 0.8748  auc: 0.9746
+2026-05-23 09:37:12,985 INFO Val — acc: 0.8741  prec: 0.8783  rec: 0.8741  f1: 0.8697  auc: 0.9641
+2026-05-23 09:37:12,985 INFO Test — acc: 0.9221  prec: 0.9213  rec: 0.9221  f1: 0.9197  auc: 0.9893
+2026-05-23 09:37:13,076 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:37:13,176 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:37:13,207 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.88      0.91      0.89      2695
+          mp       0.92      0.69      0.79     18376
+          pd       0.78      0.95      0.86     27263
+          rh       0.45      0.47      0.46      1505
+          rl       0.80      0.88      0.84      2357
+          st       0.97      0.93      0.95     36862
+
+    accuracy                           0.88     89058
+   macro avg       0.80      0.80      0.80     89058
+weighted avg       0.89      0.88      0.87     89058
+
+2026-05-23 09:37:13,212 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.95      0.50      0.65      1292
+          mp       0.92      0.78      0.84      3047
+          pd       0.88      0.92      0.90      6951
+          rh       0.38      0.41      0.40       295
+          rl       0.82      0.95      0.88       764
+          st       0.88      0.95      0.91      6745
+
+    accuracy                           0.87     19094
+   macro avg       0.80      0.75      0.76     19094
+weighted avg       0.88      0.87      0.87     19094
+
+2026-05-23 09:37:13,217 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.88      0.90      0.89       303
+          mp       0.94      0.75      0.83      2469
+          pd       0.87      0.93      0.90      5034
+          rh       0.53      0.41      0.46       454
+          rl       0.83      0.96      0.89       697
+          st       0.97      0.98      0.98     10137
+
+    accuracy                           0.92     19094
+   macro avg       0.84      0.82      0.82     19094
+weighted avg       0.92      0.92      0.92     19094
+
+2026-05-23 09:37:13,355 INFO Writing train predictions...
+2026-05-23 09:38:41,068 INFO Writing val predictions...
+2026-05-23 09:38:56,185 INFO Writing test predictions...
+2026-05-23 09:39:16,634 INFO play executed in 147.728 seconds
+2026-05-23 09:39:16,635 INFO Trial 23/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 64, 'dropout': np.float64(0.3346051739240333), 'hidden_size': 64, 'learning_rate': np.float64(0.00021373759604990516), 'lookback_window': 23, 'num_layers': 3}
+2026-05-23 09:39:16,635 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 64, 'dropout': np.float64(0.3346051739240333), 'hidden_size': 64, 'learning_rate': np.float64(0.00021373759604990516), 'lookback_window': 23, 'num_layers': 3}
+2026-05-23 09:39:16,704 INFO Using device: cuda
+2026-05-23 09:39:16,704 INFO CUDA available: True
+2026-05-23 09:39:16,704 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 09:39:16,704 INFO cuDNN enabled: True
+2026-05-23 09:39:16,704 INFO cuDNN version: 92000
+2026-05-23 09:39:18,758 INFO Epoch 1/100 — loss: 0.9145, acc: 0.6326, val_loss: 0.9350, val_acc: 0.7256
+2026-05-23 09:39:20,563 INFO Epoch 2/100 — loss: 0.5679, acc: 0.8018, val_loss: 0.6943, val_acc: 0.7962
+2026-05-23 09:39:22,565 INFO Epoch 3/100 — loss: 0.4567, acc: 0.8492, val_loss: 0.6177, val_acc: 0.8596
+2026-05-23 09:39:24,470 INFO Epoch 4/100 — loss: 0.3964, acc: 0.8713, val_loss: 0.5808, val_acc: 0.8701
+2026-05-23 09:39:26,395 INFO Epoch 5/100 — loss: 0.3638, acc: 0.8799, val_loss: 0.5913, val_acc: 0.8729
+2026-05-23 09:39:28,303 INFO Epoch 6/100 — loss: 0.3446, acc: 0.8854, val_loss: 0.6015, val_acc: 0.8670
+2026-05-23 09:39:30,201 INFO Epoch 7/100 — loss: 0.3364, acc: 0.8881, val_loss: 0.5888, val_acc: 0.8773
+2026-05-23 09:39:32,176 INFO Epoch 8/100 — loss: 0.3280, acc: 0.8918, val_loss: 0.5793, val_acc: 0.8715
+2026-05-23 09:39:34,094 INFO Epoch 9/100 — loss: 0.3252, acc: 0.8921, val_loss: 0.5870, val_acc: 0.8716
+2026-05-23 09:39:36,006 INFO Epoch 10/100 — loss: 0.3195, acc: 0.8941, val_loss: 0.5830, val_acc: 0.8715
+2026-05-23 09:39:37,939 INFO Epoch 11/100 — loss: 0.3161, acc: 0.8952, val_loss: 0.6015, val_acc: 0.8630
+2026-05-23 09:39:39,845 INFO Epoch 12/100 — loss: 0.3111, acc: 0.8964, val_loss: 0.5807, val_acc: 0.8652
+2026-05-23 09:39:41,764 INFO Epoch 13/100 — loss: 0.3088, acc: 0.8972, val_loss: 0.5903, val_acc: 0.8657
+2026-05-23 09:39:43,774 INFO Epoch 14/100 — loss: 0.3051, acc: 0.8986, val_loss: 0.6252, val_acc: 0.8506
+2026-05-23 09:39:45,747 INFO Epoch 15/100 — loss: 0.3024, acc: 0.8991, val_loss: 0.5972, val_acc: 0.8645
+2026-05-23 09:39:47,705 INFO Epoch 16/100 — loss: 0.2997, acc: 0.9000, val_loss: 0.5685, val_acc: 0.8717
+2026-05-23 09:39:49,613 INFO Epoch 17/100 — loss: 0.2959, acc: 0.9016, val_loss: 0.5803, val_acc: 0.8722
+2026-05-23 09:39:51,581 INFO Epoch 18/100 — loss: 0.2935, acc: 0.9019, val_loss: 0.5970, val_acc: 0.8565
+2026-05-23 09:39:53,439 INFO Epoch 19/100 — loss: 0.2915, acc: 0.9026, val_loss: 0.6017, val_acc: 0.8633
+2026-05-23 09:39:55,395 INFO Epoch 20/100 — loss: 0.2886, acc: 0.9031, val_loss: 0.5876, val_acc: 0.8657
+2026-05-23 09:39:57,315 INFO Epoch 21/100 — loss: 0.2859, acc: 0.9043, val_loss: 0.5810, val_acc: 0.8705
+2026-05-23 09:39:59,224 INFO Epoch 22/100 — loss: 0.2838, acc: 0.9044, val_loss: 0.5953, val_acc: 0.8707
+2026-05-23 09:40:01,138 INFO Epoch 23/100 — loss: 0.2798, acc: 0.9064, val_loss: 0.6080, val_acc: 0.8582
+2026-05-23 09:40:03,306 INFO Epoch 24/100 — loss: 0.2781, acc: 0.9071, val_loss: 0.6288, val_acc: 0.8500
+2026-05-23 09:40:03,306 INFO Early stopping at epoch 24 (patience=8, min_delta=0.000000)
+2026-05-23 09:40:03,306 INFO Restored best checkpoint from results/results_gru_2026-05-23_09-39-16/best_model.pt
+2026-05-23 09:40:03,306 INFO Best epoch (by val_loss): 16
+2026-05-23 09:40:03,306 INFO Best val_loss: 0.568533
+2026-05-23 09:40:03,306 INFO Best val_accuracy: 0.871687
+2026-05-23 09:40:03,306 INFO Total train time (s): 46.590
+2026-05-23 09:40:03,308 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 09:40:05,121 INFO Train — acc: 0.9065  prec: 0.9077  rec: 0.9065  f1: 0.9055  auc: 0.9824
+2026-05-23 09:40:05,121 INFO Val — acc: 0.8717  prec: 0.8809  rec: 0.8717  f1: 0.8655  auc: 0.9569
+2026-05-23 09:40:05,121 INFO Test — acc: 0.9338  prec: 0.9334  rec: 0.9338  f1: 0.9326  auc: 0.9799
+2026-05-23 09:40:05,231 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:40:05,353 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:40:05,387 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.95      0.91      0.93      2700
+          mp       0.91      0.80      0.85     18376
+          pd       0.85      0.93      0.89     27263
+          rh       0.81      0.61      0.69      1525
+          rl       0.88      0.94      0.91      2357
+          st       0.95      0.96      0.95     36862
+
+    accuracy                           0.91     89083
+   macro avg       0.89      0.86      0.87     89083
+weighted avg       0.91      0.91      0.91     89083
+
+2026-05-23 09:40:05,392 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.98      0.42      0.59      1292
+          mp       0.89      0.86      0.87      3047
+          pd       0.93      0.86      0.89      6951
+          rh       0.83      0.60      0.70       295
+          rl       0.80      0.95      0.87       764
+          st       0.82      0.98      0.89      6745
+
+    accuracy                           0.87     19094
+   macro avg       0.87      0.78      0.80     19094
+weighted avg       0.88      0.87      0.87     19094
+
+2026-05-23 09:40:05,396 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.91      0.89      0.90       303
+          mp       0.92      0.86      0.89      2469
+          pd       0.93      0.88      0.90      5034
+          rh       0.91      0.69      0.79       454
+          rl       0.99      0.94      0.97       697
+          st       0.94      0.99      0.96     10137
+
+    accuracy                           0.93     19094
+   macro avg       0.93      0.88      0.90     19094
+weighted avg       0.93      0.93      0.93     19094
+
+2026-05-23 09:40:05,537 INFO Writing train predictions...
+2026-05-23 09:40:46,686 INFO Writing val predictions...
+2026-05-23 09:40:54,683 INFO Writing test predictions...
+2026-05-23 09:41:05,129 INFO play executed in 108.494 seconds
+2026-05-23 09:41:05,129 INFO Trial 24/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.37112661471849206), 'hidden_size': 256, 'learning_rate': np.float64(0.0029538473249561582), 'lookback_window': 23, 'num_layers': 1}
+2026-05-23 09:41:05,130 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.37112661471849206), 'hidden_size': 256, 'learning_rate': np.float64(0.0029538473249561582), 'lookback_window': 23, 'num_layers': 1}
+2026-05-23 09:41:05,215 INFO Using device: cuda
+2026-05-23 09:41:05,215 INFO CUDA available: True
+2026-05-23 09:41:05,215 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 09:41:05,215 INFO cuDNN enabled: True
+2026-05-23 09:41:05,215 INFO cuDNN version: 92000
+2026-05-23 09:41:16,513 INFO Epoch 1/100 — loss: 0.5657, acc: 0.8195, val_loss: 0.7728, val_acc: 0.8409
+2026-05-23 09:41:25,221 INFO Epoch 2/100 — loss: 0.5360, acc: 0.8361, val_loss: 0.7241, val_acc: 0.8514
+2026-05-23 09:41:32,573 INFO Epoch 3/100 — loss: 0.5107, acc: 0.8429, val_loss: 0.8289, val_acc: 0.8442
+2026-05-23 09:41:39,983 INFO Epoch 4/100 — loss: 0.5144, acc: 0.8411, val_loss: 0.8439, val_acc: 0.8473
+2026-05-23 09:41:47,199 INFO Epoch 5/100 — loss: 0.4991, acc: 0.8463, val_loss: 0.7174, val_acc: 0.8481
+2026-05-23 09:41:54,531 INFO Epoch 6/100 — loss: 0.5097, acc: 0.8445, val_loss: 0.6987, val_acc: 0.8578
+2026-05-23 09:42:01,612 INFO Epoch 7/100 — loss: 0.5061, acc: 0.8449, val_loss: 0.7905, val_acc: 0.8496
+2026-05-23 09:42:08,734 INFO Epoch 8/100 — loss: 0.5033, acc: 0.8456, val_loss: 0.7321, val_acc: 0.8487
+2026-05-23 09:42:15,832 INFO Epoch 9/100 — loss: 0.5029, acc: 0.8451, val_loss: 0.7316, val_acc: 0.8583
+2026-05-23 09:42:23,129 INFO Epoch 10/100 — loss: 0.5049, acc: 0.8439, val_loss: 0.7201, val_acc: 0.8547
+2026-05-23 09:42:30,304 INFO Epoch 11/100 — loss: 0.5013, acc: 0.8453, val_loss: 0.6688, val_acc: 0.8529
+2026-05-23 09:42:37,579 INFO Epoch 12/100 — loss: 0.4945, acc: 0.8464, val_loss: 0.7070, val_acc: 0.8515
+2026-05-23 09:42:44,811 INFO Epoch 13/100 — loss: 0.4882, acc: 0.8485, val_loss: 0.6324, val_acc: 0.8636
+2026-05-23 09:42:52,021 INFO Epoch 14/100 — loss: 0.4936, acc: 0.8466, val_loss: 0.7160, val_acc: 0.8573
+2026-05-23 09:42:59,130 INFO Epoch 15/100 — loss: 0.4874, acc: 0.8482, val_loss: 0.7234, val_acc: 0.8499
+2026-05-23 09:43:06,479 INFO Epoch 16/100 — loss: 0.4879, acc: 0.8495, val_loss: 0.6795, val_acc: 0.8514
+2026-05-23 09:43:13,747 INFO Epoch 17/100 — loss: 0.4858, acc: 0.8496, val_loss: 0.6266, val_acc: 0.8535
+2026-05-23 09:43:21,040 INFO Epoch 18/100 — loss: 0.4808, acc: 0.8514, val_loss: 0.6334, val_acc: 0.8498
+2026-05-23 09:43:28,242 INFO Epoch 19/100 — loss: 0.4857, acc: 0.8491, val_loss: 0.6292, val_acc: 0.8639
+2026-05-23 09:43:37,168 INFO Epoch 20/100 — loss: 0.4838, acc: 0.8498, val_loss: 0.6069, val_acc: 0.8559
+2026-05-23 09:43:47,023 INFO Epoch 21/100 — loss: 0.4779, acc: 0.8515, val_loss: 0.7014, val_acc: 0.8523
+2026-05-23 09:43:56,848 INFO Epoch 22/100 — loss: 0.4710, acc: 0.8528, val_loss: 0.7230, val_acc: 0.8517
+2026-05-23 09:44:06,643 INFO Epoch 23/100 — loss: 0.4674, acc: 0.8537, val_loss: 0.6160, val_acc: 0.8680
+2026-05-23 09:44:15,994 INFO Epoch 24/100 — loss: 0.4684, acc: 0.8537, val_loss: 0.6842, val_acc: 0.8568
+2026-05-23 09:44:23,170 INFO Epoch 25/100 — loss: 0.4690, acc: 0.8541, val_loss: 0.6459, val_acc: 0.8666
+2026-05-23 09:44:30,415 INFO Epoch 26/100 — loss: 0.4680, acc: 0.8529, val_loss: 0.5816, val_acc: 0.8704
+2026-05-23 09:44:37,585 INFO Epoch 27/100 — loss: 0.4702, acc: 0.8528, val_loss: 0.6529, val_acc: 0.8556
+2026-05-23 09:44:44,844 INFO Epoch 28/100 — loss: 0.4670, acc: 0.8525, val_loss: 0.6945, val_acc: 0.8537
+2026-05-23 09:44:52,215 INFO Epoch 29/100 — loss: 0.4658, acc: 0.8548, val_loss: 0.6662, val_acc: 0.8553
+2026-05-23 09:44:59,535 INFO Epoch 30/100 — loss: 0.4664, acc: 0.8540, val_loss: 0.6865, val_acc: 0.8550
+2026-05-23 09:45:06,645 INFO Epoch 31/100 — loss: 0.4641, acc: 0.8550, val_loss: 0.6608, val_acc: 0.8601
+2026-05-23 09:45:13,862 INFO Epoch 32/100 — loss: 0.4687, acc: 0.8523, val_loss: 0.6803, val_acc: 0.8597
+2026-05-23 09:45:22,633 INFO Epoch 33/100 — loss: 0.4683, acc: 0.8531, val_loss: 0.7053, val_acc: 0.8420
+2026-05-23 09:45:31,833 INFO Epoch 34/100 — loss: 0.4611, acc: 0.8536, val_loss: 0.6716, val_acc: 0.8645
+2026-05-23 09:45:31,833 INFO Early stopping at epoch 34 (patience=8, min_delta=0.000000)
+2026-05-23 09:45:31,834 INFO Restored best checkpoint from results/results_gru_2026-05-23_09-41-05/best_model.pt
+2026-05-23 09:45:31,834 INFO Best epoch (by val_loss): 26
+2026-05-23 09:45:31,834 INFO Best val_loss: 0.581581
+2026-05-23 09:45:31,834 INFO Best val_accuracy: 0.870431
+2026-05-23 09:45:31,834 INFO Total train time (s): 266.614
+2026-05-23 09:45:31,836 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 09:45:41,796 INFO Train — acc: 0.8577  prec: 0.8635  rec: 0.8577  f1: 0.8561  auc: 0.9600
+2026-05-23 09:45:41,797 INFO Val — acc: 0.8704  prec: 0.8711  rec: 0.8704  f1: 0.8604  auc: 0.9484
+2026-05-23 09:45:41,797 INFO Test — acc: 0.9164  prec: 0.9149  rec: 0.9164  f1: 0.9082  auc: 0.9743
+2026-05-23 09:45:41,940 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:45:42,094 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:45:42,134 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.81      0.90      0.86      2700
+          mp       0.76      0.80      0.78     18376
+          pd       0.80      0.87      0.83     27263
+          rh       0.86      0.21      0.34      1525
+          rl       0.93      0.82      0.88      2357
+          st       0.96      0.90      0.93     36862
+
+    accuracy                           0.86     89083
+   macro avg       0.85      0.75      0.77     89083
+weighted avg       0.86      0.86      0.86     89083
+
+2026-05-23 09:45:42,139 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.89      0.45      0.60      1292
+          mp       0.83      0.84      0.83      3047
+          pd       0.90      0.91      0.90      6951
+          rh       0.85      0.09      0.17       295
+          rl       0.84      0.93      0.88       764
+          st       0.86      0.95      0.91      6745
+
+    accuracy                           0.87     19094
+   macro avg       0.86      0.70      0.72     19094
+weighted avg       0.87      0.87      0.86     19094
+
+2026-05-23 09:45:42,144 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.89      0.89      0.89       303
+          mp       0.80      0.83      0.81      2469
+          pd       0.89      0.91      0.90      5034
+          rh       0.83      0.09      0.16       454
+          rl       1.00      0.89      0.94       697
+          st       0.95      0.98      0.97     10137
+
+    accuracy                           0.92     19094
+   macro avg       0.89      0.76      0.78     19094
+weighted avg       0.91      0.92      0.91     19094
+
+2026-05-23 09:45:42,295 INFO Writing train predictions...
+2026-05-23 09:46:26,843 INFO Writing val predictions...
+2026-05-23 09:46:35,065 INFO Writing test predictions...
+2026-05-23 09:46:45,739 INFO play executed in 340.609 seconds
+2026-05-23 09:46:45,739 INFO Trial 25/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.40244267754601637), 'hidden_size': 64, 'learning_rate': np.float64(0.006195505901769136), 'lookback_window': 13, 'num_layers': 1}
+2026-05-23 09:46:45,740 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.40244267754601637), 'hidden_size': 64, 'learning_rate': np.float64(0.006195505901769136), 'lookback_window': 13, 'num_layers': 1}
+2026-05-23 09:46:45,810 INFO Using device: cuda
+2026-05-23 09:46:45,810 INFO CUDA available: True
+2026-05-23 09:46:45,810 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 09:46:45,810 INFO cuDNN enabled: True
+2026-05-23 09:46:45,810 INFO cuDNN version: 92000
+2026-05-23 09:46:53,371 INFO Epoch 1/100 — loss: 0.6453, acc: 0.7908, val_loss: 0.9063, val_acc: 0.7475
+2026-05-23 09:47:00,756 INFO Epoch 2/100 — loss: 0.5942, acc: 0.8170, val_loss: 1.0153, val_acc: 0.7559
+2026-05-23 09:47:08,237 INFO Epoch 3/100 — loss: 0.5846, acc: 0.8177, val_loss: 0.8045, val_acc: 0.7671
+2026-05-23 09:47:15,488 INFO Epoch 4/100 — loss: 0.5717, acc: 0.8211, val_loss: 0.8342, val_acc: 0.7715
+2026-05-23 09:47:22,868 INFO Epoch 5/100 — loss: 0.5649, acc: 0.8232, val_loss: 0.8478, val_acc: 0.7781
+2026-05-23 09:47:28,866 INFO Epoch 6/100 — loss: 0.5629, acc: 0.8235, val_loss: 0.8911, val_acc: 0.7694
+2026-05-23 09:47:34,418 INFO Epoch 7/100 — loss: 0.5595, acc: 0.8240, val_loss: 0.8022, val_acc: 0.7673
+2026-05-23 09:47:39,996 INFO Epoch 8/100 — loss: 0.5522, acc: 0.8256, val_loss: 0.9405, val_acc: 0.7227
+2026-05-23 09:47:45,670 INFO Epoch 9/100 — loss: 0.5645, acc: 0.8230, val_loss: 0.8440, val_acc: 0.7520
+2026-05-23 09:47:51,472 INFO Epoch 10/100 — loss: 0.5621, acc: 0.8235, val_loss: 0.8018, val_acc: 0.7913
+2026-05-23 09:47:57,199 INFO Epoch 11/100 — loss: 0.5652, acc: 0.8213, val_loss: 0.8186, val_acc: 0.7729
+2026-05-23 09:48:02,909 INFO Epoch 12/100 — loss: 0.5623, acc: 0.8241, val_loss: 0.8864, val_acc: 0.7631
+2026-05-23 09:48:08,609 INFO Epoch 13/100 — loss: 0.5660, acc: 0.8220, val_loss: 0.9117, val_acc: 0.7619
+2026-05-23 09:48:14,358 INFO Epoch 14/100 — loss: 0.5755, acc: 0.8221, val_loss: 0.9405, val_acc: 0.7450
+2026-05-23 09:48:20,027 INFO Epoch 15/100 — loss: 0.5709, acc: 0.8234, val_loss: 0.9243, val_acc: 0.7622
+2026-05-23 09:48:25,600 INFO Epoch 16/100 — loss: 0.5828, acc: 0.8192, val_loss: 0.9600, val_acc: 0.7479
+2026-05-23 09:48:32,573 INFO Epoch 17/100 — loss: 0.5750, acc: 0.8219, val_loss: 0.7967, val_acc: 0.7835
+2026-05-23 09:48:39,447 INFO Epoch 18/100 — loss: 0.5797, acc: 0.8213, val_loss: 0.9186, val_acc: 0.7596
+2026-05-23 09:48:46,414 INFO Epoch 19/100 — loss: 0.5742, acc: 0.8233, val_loss: 0.8960, val_acc: 0.7700
+2026-05-23 09:48:53,533 INFO Epoch 20/100 — loss: 0.5781, acc: 0.8204, val_loss: 0.8698, val_acc: 0.7602
+2026-05-23 09:49:00,654 INFO Epoch 21/100 — loss: 0.5831, acc: 0.8203, val_loss: 1.0010, val_acc: 0.7576
+2026-05-23 09:49:07,577 INFO Epoch 22/100 — loss: 0.5859, acc: 0.8198, val_loss: 0.9134, val_acc: 0.7582
+2026-05-23 09:49:14,427 INFO Epoch 23/100 — loss: 0.5812, acc: 0.8193, val_loss: 0.9352, val_acc: 0.7628
+2026-05-23 09:49:21,391 INFO Epoch 24/100 — loss: 0.5782, acc: 0.8203, val_loss: 0.8845, val_acc: 0.7760
+2026-05-23 09:49:28,429 INFO Epoch 25/100 — loss: 0.5774, acc: 0.8218, val_loss: 0.9747, val_acc: 0.7560
+2026-05-23 09:49:28,429 INFO Early stopping at epoch 25 (patience=8, min_delta=0.000000)
+2026-05-23 09:49:28,429 INFO Restored best checkpoint from results/results_gru_2026-05-23_09-46-45/best_model.pt
+2026-05-23 09:49:28,429 INFO Best epoch (by val_loss): 17
+2026-05-23 09:49:28,429 INFO Best val_loss: 0.796652
+2026-05-23 09:49:28,429 INFO Best val_accuracy: 0.783492
+2026-05-23 09:49:28,430 INFO Total train time (s): 162.616
+2026-05-23 09:49:28,432 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 09:49:35,445 INFO Train — acc: 0.8327  prec: 0.8309  rec: 0.8327  f1: 0.8263  auc: 0.9436
+2026-05-23 09:49:35,446 INFO Val — acc: 0.7835  prec: 0.8159  rec: 0.7835  f1: 0.7729  auc: 0.8875
+2026-05-23 09:49:35,446 INFO Test — acc: 0.8572  prec: 0.8526  rec: 0.8572  f1: 0.8424  auc: 0.9129
+2026-05-23 09:49:35,566 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:49:35,702 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:49:35,740 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.78      0.86      0.82      2710
+          mp       0.75      0.79      0.77     18376
+          pd       0.82      0.79      0.80     27263
+          rh       0.70      0.04      0.08      1525
+          rl       0.85      0.85      0.85      2357
+          st       0.89      0.92      0.90     36862
+
+    accuracy                           0.83     89093
+   macro avg       0.80      0.71      0.70     89093
+weighted avg       0.83      0.83      0.83     89093
+
+2026-05-23 09:49:35,745 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.89      0.44      0.59      1292
+          mp       0.83      0.84      0.83      3047
+          pd       0.93      0.66      0.77      6951
+          rh       0.76      0.05      0.10       295
+          rl       0.78      0.92      0.84       764
+          st       0.69      0.97      0.80      6745
+
+    accuracy                           0.78     19094
+   macro avg       0.81      0.65      0.66     19094
+weighted avg       0.82      0.78      0.77     19094
+
+2026-05-23 09:49:35,751 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.79      0.90      0.84       303
+          mp       0.84      0.83      0.83      2469
+          pd       0.93      0.67      0.78      5034
+          rh       0.38      0.01      0.03       454
+          rl       0.87      0.91      0.89       697
+          st       0.84      0.99      0.91     10137
+
+    accuracy                           0.86     19094
+   macro avg       0.77      0.72      0.71     19094
+weighted avg       0.85      0.86      0.84     19094
+
+2026-05-23 09:49:35,910 INFO Writing train predictions...
+2026-05-23 09:50:00,887 INFO Writing val predictions...
+2026-05-23 09:50:05,359 INFO Writing test predictions...
+2026-05-23 09:50:11,159 INFO play executed in 205.419 seconds
+2026-05-23 09:50:11,159 INFO Trial 26/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 32, 'dropout': np.float64(0.27885015144705094), 'hidden_size': 64, 'learning_rate': np.float64(0.00906028495406396), 'lookback_window': 21, 'num_layers': 1}
+2026-05-23 09:50:11,160 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 32, 'dropout': np.float64(0.27885015144705094), 'hidden_size': 64, 'learning_rate': np.float64(0.00906028495406396), 'lookback_window': 21, 'num_layers': 1}
+2026-05-23 09:50:11,236 INFO Using device: cuda
+2026-05-23 09:50:11,236 INFO CUDA available: True
+2026-05-23 09:50:11,236 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 09:50:11,236 INFO cuDNN enabled: True
+2026-05-23 09:50:11,236 INFO cuDNN version: 92000
+2026-05-23 09:50:14,376 INFO Epoch 1/100 — loss: 0.7049, acc: 0.7525, val_loss: 1.0533, val_acc: 0.7282
+2026-05-23 09:50:17,408 INFO Epoch 2/100 — loss: 0.5832, acc: 0.8247, val_loss: 0.8025, val_acc: 0.7933
+2026-05-23 09:50:20,315 INFO Epoch 3/100 — loss: 0.5637, acc: 0.8310, val_loss: 0.7352, val_acc: 0.8331
+2026-05-23 09:50:23,893 INFO Epoch 4/100 — loss: 0.5569, acc: 0.8314, val_loss: 0.7425, val_acc: 0.8342
+2026-05-23 09:50:27,500 INFO Epoch 5/100 — loss: 0.5543, acc: 0.8324, val_loss: 0.6160, val_acc: 0.8552
+2026-05-23 09:50:31,079 INFO Epoch 6/100 — loss: 0.5412, acc: 0.8366, val_loss: 0.7959, val_acc: 0.8290
+2026-05-23 09:50:34,673 INFO Epoch 7/100 — loss: 0.5423, acc: 0.8366, val_loss: 0.9228, val_acc: 0.8200
+2026-05-23 09:50:38,303 INFO Epoch 8/100 — loss: 0.5470, acc: 0.8342, val_loss: 0.8232, val_acc: 0.7954
+2026-05-23 09:50:41,887 INFO Epoch 9/100 — loss: 0.5375, acc: 0.8383, val_loss: 0.6365, val_acc: 0.8540
+2026-05-23 09:50:45,530 INFO Epoch 10/100 — loss: 0.5477, acc: 0.8359, val_loss: 0.7423, val_acc: 0.8525
+2026-05-23 09:50:49,121 INFO Epoch 11/100 — loss: 0.5505, acc: 0.8336, val_loss: 0.8084, val_acc: 0.8278
+2026-05-23 09:50:52,723 INFO Epoch 12/100 — loss: 0.5340, acc: 0.8383, val_loss: 0.7069, val_acc: 0.8395
+2026-05-23 09:50:56,330 INFO Epoch 13/100 — loss: 0.5379, acc: 0.8373, val_loss: 0.7627, val_acc: 0.8399
+2026-05-23 09:50:56,330 INFO Early stopping at epoch 13 (patience=8, min_delta=0.000000)
+2026-05-23 09:50:56,331 INFO Restored best checkpoint from results/results_gru_2026-05-23_09-50-11/best_model.pt
+2026-05-23 09:50:56,331 INFO Best epoch (by val_loss): 5
+2026-05-23 09:50:56,331 INFO Best val_loss: 0.616014
+2026-05-23 09:50:56,331 INFO Best val_accuracy: 0.855190
+2026-05-23 09:50:56,331 INFO Total train time (s): 45.090
+2026-05-23 09:50:56,333 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 09:51:00,134 INFO Train — acc: 0.8514  prec: 0.8565  rec: 0.8514  f1: 0.8454  auc: 0.9494
+2026-05-23 09:51:00,134 INFO Val — acc: 0.8552  prec: 0.8547  rec: 0.8552  f1: 0.8437  auc: 0.9277
+2026-05-23 09:51:00,134 INFO Test — acc: 0.9047  prec: 0.8824  rec: 0.9047  f1: 0.8933  auc: 0.9595
+2026-05-23 09:51:00,230 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:51:00,341 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:51:00,375 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.79      0.89      0.83      2702
+          mp       0.77      0.76      0.77     18376
+          pd       0.78      0.88      0.83     27263
+          rh       0.87      0.01      0.02      1525
+          rl       0.92      0.81      0.86      2357
+          st       0.95      0.91      0.93     36862
+
+    accuracy                           0.85     89085
+   macro avg       0.85      0.71      0.71     89085
+weighted avg       0.86      0.85      0.85     89085
+
+2026-05-23 09:51:00,381 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.89      0.45      0.60      1292
+          mp       0.83      0.81      0.82      3047
+          pd       0.89      0.88      0.89      6951
+          rh       0.67      0.01      0.01       295
+          rl       0.82      0.88      0.85       764
+          st       0.83      0.96      0.89      6745
+
+    accuracy                           0.86     19094
+   macro avg       0.82      0.67      0.68     19094
+weighted avg       0.85      0.86      0.84     19094
+
+2026-05-23 09:51:00,386 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.80      0.89      0.85       303
+          mp       0.81      0.80      0.81      2469
+          pd       0.88      0.89      0.88      5034
+          rh       0.00      0.00      0.00       454
+          rl       0.92      0.88      0.90       697
+          st       0.94      0.98      0.96     10137
+
+    accuracy                           0.90     19094
+   macro avg       0.73      0.74      0.73     19094
+weighted avg       0.88      0.90      0.89     19094
+
+2026-05-23 09:51:00,542 INFO Writing train predictions...
+2026-05-23 09:51:38,530 INFO Writing val predictions...
+2026-05-23 09:51:45,534 INFO Writing test predictions...
+2026-05-23 09:51:54,322 INFO play executed in 103.162 seconds
+2026-05-23 09:51:54,322 INFO Trial 27/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 64, 'dropout': np.float64(0.4255191278809909), 'hidden_size': 128, 'learning_rate': np.float64(0.002243252510208117), 'lookback_window': 26, 'num_layers': 1}
+2026-05-23 09:51:54,322 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 64, 'dropout': np.float64(0.4255191278809909), 'hidden_size': 128, 'learning_rate': np.float64(0.002243252510208117), 'lookback_window': 26, 'num_layers': 1}
+2026-05-23 09:51:54,399 INFO Using device: cuda
+2026-05-23 09:51:54,399 INFO CUDA available: True
+2026-05-23 09:51:54,399 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 09:51:54,399 INFO cuDNN enabled: True
+2026-05-23 09:51:54,399 INFO cuDNN version: 92000
+2026-05-23 09:51:56,185 INFO Epoch 1/100 — loss: 0.5314, acc: 0.8159, val_loss: 0.6284, val_acc: 0.8516
+2026-05-23 09:51:57,703 INFO Epoch 2/100 — loss: 0.3820, acc: 0.8725, val_loss: 0.6086, val_acc: 0.8706
+2026-05-23 09:51:59,154 INFO Epoch 3/100 — loss: 0.3558, acc: 0.8820, val_loss: 0.6728, val_acc: 0.8461
+2026-05-23 09:52:00,572 INFO Epoch 4/100 — loss: 0.3481, acc: 0.8835, val_loss: 0.5772, val_acc: 0.8727
+2026-05-23 09:52:02,077 INFO Epoch 5/100 — loss: 0.3282, acc: 0.8900, val_loss: 0.5907, val_acc: 0.8728
+2026-05-23 09:52:03,766 INFO Epoch 6/100 — loss: 0.3120, acc: 0.8966, val_loss: 0.6462, val_acc: 0.8427
+2026-05-23 09:52:05,872 INFO Epoch 7/100 — loss: 0.3049, acc: 0.8972, val_loss: 0.6372, val_acc: 0.8719
+2026-05-23 09:52:08,060 INFO Epoch 8/100 — loss: 0.2901, acc: 0.9025, val_loss: 0.6310, val_acc: 0.8716
+2026-05-23 09:52:10,202 INFO Epoch 9/100 — loss: 0.2827, acc: 0.9045, val_loss: 0.6848, val_acc: 0.8584
+2026-05-23 09:52:12,363 INFO Epoch 10/100 — loss: 0.2737, acc: 0.9074, val_loss: 0.6841, val_acc: 0.8700
+2026-05-23 09:52:14,534 INFO Epoch 11/100 — loss: 0.2665, acc: 0.9104, val_loss: 0.6483, val_acc: 0.8596
+2026-05-23 09:52:16,713 INFO Epoch 12/100 — loss: 0.2594, acc: 0.9113, val_loss: 0.6750, val_acc: 0.8668
+2026-05-23 09:52:16,713 INFO Early stopping at epoch 12 (patience=8, min_delta=0.000000)
+2026-05-23 09:52:16,713 INFO Restored best checkpoint from results/results_gru_2026-05-23_09-51-54/best_model.pt
+2026-05-23 09:52:16,714 INFO Best epoch (by val_loss): 4
+2026-05-23 09:52:16,714 INFO Best val_loss: 0.577163
+2026-05-23 09:52:16,714 INFO Best val_accuracy: 0.872683
+2026-05-23 09:52:16,714 INFO Total train time (s): 22.309
+2026-05-23 09:52:16,716 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 09:52:19,600 INFO Train — acc: 0.8883  prec: 0.8910  rec: 0.8883  f1: 0.8887  auc: 0.9772
+2026-05-23 09:52:19,600 INFO Val — acc: 0.8727  prec: 0.8782  rec: 0.8727  f1: 0.8655  auc: 0.9569
+2026-05-23 09:52:19,600 INFO Test — acc: 0.9285  prec: 0.9276  rec: 0.9285  f1: 0.9259  auc: 0.9820
+2026-05-23 09:52:19,696 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:52:19,802 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:52:19,836 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.96      0.88      0.92      2697
+          mp       0.81      0.83      0.82     18376
+          pd       0.83      0.89      0.86     27263
+          rh       0.80      0.54      0.64      1525
+          rl       0.92      0.92      0.92      2357
+          st       0.97      0.93      0.95     36862
+
+    accuracy                           0.89     89080
+   macro avg       0.88      0.83      0.85     89080
+weighted avg       0.89      0.89      0.89     89080
+
+2026-05-23 09:52:19,841 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.99      0.40      0.57      1292
+          mp       0.82      0.87      0.84      3047
+          pd       0.91      0.89      0.90      6951
+          rh       0.76      0.48      0.59       295
+          rl       0.80      0.94      0.86       764
+          st       0.87      0.96      0.91      6745
+
+    accuracy                           0.87     19094
+   macro avg       0.86      0.76      0.78     19094
+weighted avg       0.88      0.87      0.87     19094
+
+2026-05-23 09:52:19,847 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.96      0.87      0.91       303
+          mp       0.84      0.88      0.86      2469
+          pd       0.92      0.90      0.91      5034
+          rh       0.85      0.40      0.54       454
+          rl       0.93      0.91      0.92       697
+          st       0.96      0.98      0.97     10137
+
+    accuracy                           0.93     19094
+   macro avg       0.91      0.82      0.85     19094
+weighted avg       0.93      0.93      0.93     19094
+
+2026-05-23 09:52:20,004 INFO Writing train predictions...
+2026-05-23 09:53:06,215 INFO Writing val predictions...
+2026-05-23 09:53:14,289 INFO Writing test predictions...
+2026-05-23 09:53:25,110 INFO play executed in 90.788 seconds
+2026-05-23 09:53:25,110 INFO Trial 28/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 32, 'dropout': np.float64(0.45269414474194114), 'hidden_size': 128, 'learning_rate': np.float64(0.0015029002965245952), 'lookback_window': 29, 'num_layers': 2}
+2026-05-23 09:53:25,111 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 32, 'dropout': np.float64(0.45269414474194114), 'hidden_size': 128, 'learning_rate': np.float64(0.0015029002965245952), 'lookback_window': 29, 'num_layers': 2}
+2026-05-23 09:53:25,189 INFO Using device: cuda
+2026-05-23 09:53:25,189 INFO CUDA available: True
+2026-05-23 09:53:25,189 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 09:53:25,189 INFO cuDNN enabled: True
+2026-05-23 09:53:25,189 INFO cuDNN version: 92000
+2026-05-23 09:53:28,875 INFO Epoch 1/100 — loss: 0.4668, acc: 0.8370, val_loss: 0.5254, val_acc: 0.8758
+2026-05-23 09:53:32,295 INFO Epoch 2/100 — loss: 0.3468, acc: 0.8820, val_loss: 0.4934, val_acc: 0.8915
+2026-05-23 09:53:36,986 INFO Epoch 3/100 — loss: 0.3204, acc: 0.8922, val_loss: 0.5649, val_acc: 0.8568
+2026-05-23 09:53:41,891 INFO Epoch 4/100 — loss: 0.3054, acc: 0.8963, val_loss: 0.5376, val_acc: 0.8760
+2026-05-23 09:53:46,889 INFO Epoch 5/100 — loss: 0.2946, acc: 0.9009, val_loss: 0.5884, val_acc: 0.8651
+2026-05-23 09:53:51,833 INFO Epoch 6/100 — loss: 0.2810, acc: 0.9050, val_loss: 0.5978, val_acc: 0.8768
+2026-05-23 09:53:56,814 INFO Epoch 7/100 — loss: 0.2730, acc: 0.9071, val_loss: 0.5824, val_acc: 0.8778
+2026-05-23 09:54:01,787 INFO Epoch 8/100 — loss: 0.2670, acc: 0.9089, val_loss: 0.5922, val_acc: 0.8753
+2026-05-23 09:54:06,834 INFO Epoch 9/100 — loss: 0.2636, acc: 0.9102, val_loss: 0.7382, val_acc: 0.8306
+2026-05-23 09:54:11,876 INFO Epoch 10/100 — loss: 0.2568, acc: 0.9125, val_loss: 0.5825, val_acc: 0.8804
+2026-05-23 09:54:11,876 INFO Early stopping at epoch 10 (patience=8, min_delta=0.000000)
+2026-05-23 09:54:11,877 INFO Restored best checkpoint from results/results_gru_2026-05-23_09-53-25/best_model.pt
+2026-05-23 09:54:11,877 INFO Best epoch (by val_loss): 2
+2026-05-23 09:54:11,877 INFO Best val_loss: 0.493371
+2026-05-23 09:54:11,877 INFO Best val_accuracy: 0.891537
+2026-05-23 09:54:11,877 INFO Total train time (s): 46.682
+2026-05-23 09:54:11,880 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 09:54:18,349 INFO Train — acc: 0.8969  prec: 0.9019  rec: 0.8969  f1: 0.8964  auc: 0.9814
+2026-05-23 09:54:18,349 INFO Val — acc: 0.8915  prec: 0.8955  rec: 0.8915  f1: 0.8840  auc: 0.9655
+2026-05-23 09:54:18,349 INFO Test — acc: 0.9389  prec: 0.9386  rec: 0.9389  f1: 0.9376  auc: 0.9866
+2026-05-23 09:54:18,440 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:54:18,543 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:54:18,576 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.98      0.87      0.92      2695
+          mp       0.90      0.79      0.84     18376
+          pd       0.81      0.95      0.88     27263
+          rh       0.78      0.55      0.64      1524
+          rl       0.91      0.90      0.90      2357
+          st       0.97      0.93      0.95     36862
+
+    accuracy                           0.90     89077
+   macro avg       0.89      0.83      0.86     89077
+weighted avg       0.90      0.90      0.90     89077
+
+2026-05-23 09:54:18,581 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.99      0.40      0.58      1292
+          mp       0.88      0.85      0.86      3047
+          pd       0.91      0.94      0.92      6951
+          rh       0.79      0.56      0.66       295
+          rl       0.80      0.92      0.86       764
+          st       0.89      0.97      0.93      6745
+
+    accuracy                           0.89     19094
+   macro avg       0.88      0.77      0.80     19094
+weighted avg       0.90      0.89      0.88     19094
+
+2026-05-23 09:54:18,586 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.90      0.85      0.87       303
+          mp       0.90      0.84      0.87      2469
+          pd       0.90      0.94      0.92      5034
+          rh       0.88      0.57      0.69       454
+          rl       1.00      0.91      0.95       697
+          st       0.97      0.98      0.97     10137
+
+    accuracy                           0.94     19094
+   macro avg       0.92      0.85      0.88     19094
+weighted avg       0.94      0.94      0.94     19094
+
+2026-05-23 09:54:18,738 INFO Writing train predictions...
+2026-05-23 09:55:08,001 INFO Writing val predictions...
+2026-05-23 09:55:17,032 INFO Writing test predictions...
+2026-05-23 09:55:28,819 INFO play executed in 123.708 seconds
+2026-05-23 09:55:28,819 INFO Trial 29/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.2695420194232719), 'hidden_size': 128, 'learning_rate': np.float64(0.0008714939539565855), 'lookback_window': 41, 'num_layers': 2}
+2026-05-23 09:55:28,820 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.2695420194232719), 'hidden_size': 128, 'learning_rate': np.float64(0.0008714939539565855), 'lookback_window': 41, 'num_layers': 2}
+2026-05-23 09:55:28,904 INFO Using device: cuda
+2026-05-23 09:55:28,904 INFO CUDA available: True
+2026-05-23 09:55:28,904 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 09:55:28,904 INFO cuDNN enabled: True
+2026-05-23 09:55:28,904 INFO cuDNN version: 92000
+2026-05-23 09:55:35,870 INFO Epoch 1/100 — loss: 0.4286, acc: 0.8518, val_loss: 0.5486, val_acc: 0.8748
+2026-05-23 09:55:43,139 INFO Epoch 2/100 — loss: 0.3057, acc: 0.8977, val_loss: 0.4923, val_acc: 0.8947
+2026-05-23 09:55:52,450 INFO Epoch 3/100 — loss: 0.2702, acc: 0.9103, val_loss: 0.6019, val_acc: 0.8627
+2026-05-23 09:56:01,764 INFO Epoch 4/100 — loss: 0.2469, acc: 0.9189, val_loss: 0.6341, val_acc: 0.8695
+2026-05-23 09:56:11,121 INFO Epoch 5/100 — loss: 0.2294, acc: 0.9258, val_loss: 0.6843, val_acc: 0.8703
+2026-05-23 09:56:20,427 INFO Epoch 6/100 — loss: 0.2151, acc: 0.9297, val_loss: 0.6331, val_acc: 0.8802
+2026-05-23 09:56:29,822 INFO Epoch 7/100 — loss: 0.2074, acc: 0.9321, val_loss: 0.7042, val_acc: 0.8721
+2026-05-23 09:56:39,167 INFO Epoch 8/100 — loss: 0.1998, acc: 0.9342, val_loss: 0.6677, val_acc: 0.8879
+2026-05-23 09:56:48,533 INFO Epoch 9/100 — loss: 0.1952, acc: 0.9361, val_loss: 0.7343, val_acc: 0.8871
+2026-05-23 09:56:57,903 INFO Epoch 10/100 — loss: 0.1887, acc: 0.9386, val_loss: 0.8927, val_acc: 0.8520
+2026-05-23 09:56:57,903 INFO Early stopping at epoch 10 (patience=8, min_delta=0.000000)
+2026-05-23 09:56:57,904 INFO Restored best checkpoint from results/results_gru_2026-05-23_09-55-28/best_model.pt
+2026-05-23 09:56:57,904 INFO Best epoch (by val_loss): 2
+2026-05-23 09:56:57,904 INFO Best val_loss: 0.492286
+2026-05-23 09:56:57,904 INFO Best val_accuracy: 0.894731
+2026-05-23 09:56:57,904 INFO Total train time (s): 88.993
+2026-05-23 09:56:57,906 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 09:57:07,682 INFO Train — acc: 0.9072  prec: 0.9118  rec: 0.9072  f1: 0.9061  auc: 0.9848
+2026-05-23 09:57:07,682 INFO Val — acc: 0.8947  prec: 0.8969  rec: 0.8947  f1: 0.8884  auc: 0.9673
+2026-05-23 09:57:07,682 INFO Test — acc: 0.9359  prec: 0.9375  rec: 0.9359  f1: 0.9349  auc: 0.9913
+2026-05-23 09:57:07,783 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:57:07,890 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 09:57:07,924 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.89      0.94      0.91      2695
+          mp       0.94      0.76      0.84     18376
+          pd       0.83      0.95      0.89     27263
+          rh       0.84      0.67      0.74      1512
+          rl       0.94      0.84      0.89      2357
+          st       0.96      0.96      0.96     36862
+
+    accuracy                           0.91     89065
+   macro avg       0.90      0.85      0.87     89065
+weighted avg       0.91      0.91      0.91     89065
+
+2026-05-23 09:57:07,930 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.94      0.44      0.60      1292
+          mp       0.91      0.83      0.87      3047
+          pd       0.90      0.95      0.93      6951
+          rh       0.77      0.68      0.72       295
+          rl       0.84      0.89      0.86       764
+          st       0.88      0.97      0.92      6745
+
+    accuracy                           0.89     19094
+   macro avg       0.88      0.79      0.82     19094
+weighted avg       0.90      0.89      0.89     19094
+
+2026-05-23 09:57:07,935 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.73      0.89      0.80       303
+          mp       0.93      0.82      0.87      2469
+          pd       0.89      0.95      0.92      5034
+          rh       0.91      0.63      0.74       454
+          rl       1.00      0.82      0.90       697
+          st       0.97      0.98      0.97     10137
+
+    accuracy                           0.94     19094
+   macro avg       0.90      0.85      0.87     19094
+weighted avg       0.94      0.94      0.93     19094
+
+2026-05-23 09:57:08,097 INFO Writing train predictions...
+2026-05-23 09:58:21,848 INFO Writing val predictions...
+2026-05-23 09:58:34,884 INFO Writing test predictions...
+2026-05-23 09:58:52,256 INFO play executed in 203.437 seconds
+2026-05-23 09:58:52,256 INFO Trial 30/30 — hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.2533848900139791), 'hidden_size': 128, 'learning_rate': np.float64(0.0007203397849770152), 'lookback_window': 25, 'num_layers': 4}
+2026-05-23 09:58:52,257 INFO Play function called with hyperparameters: {'epochs': 100, 'seed': 42, 'deterministic': True, 'benchmark': False, 'early_stopping_patience': 8, 'early_stopping_min_delta': 0.0, 'grad_clip_norm': 1.0, 'batch_size': 16, 'dropout': np.float64(0.2533848900139791), 'hidden_size': 128, 'learning_rate': np.float64(0.0007203397849770152), 'lookback_window': 25, 'num_layers': 4}
+2026-05-23 09:58:52,327 INFO Using device: cuda
+2026-05-23 09:58:52,328 INFO CUDA available: True
+2026-05-23 09:58:52,328 INFO GPU name: NVIDIA GeForce RTX 5060
+2026-05-23 09:58:52,328 INFO cuDNN enabled: True
+2026-05-23 09:58:52,328 INFO cuDNN version: 92000
+2026-05-23 09:59:02,935 INFO Epoch 1/100 — loss: 0.4796, acc: 0.8348, val_loss: 0.5659, val_acc: 0.8765
+2026-05-23 09:59:14,463 INFO Epoch 2/100 — loss: 0.3617, acc: 0.8828, val_loss: 0.5492, val_acc: 0.8669
+2026-05-23 09:59:26,004 INFO Epoch 3/100 — loss: 0.3358, acc: 0.8906, val_loss: 0.5709, val_acc: 0.8794
+2026-05-23 09:59:37,528 INFO Epoch 4/100 — loss: 0.3178, acc: 0.8975, val_loss: 0.5763, val_acc: 0.8859
+2026-05-23 09:59:49,123 INFO Epoch 5/100 — loss: 0.3023, acc: 0.9029, val_loss: 0.6472, val_acc: 0.8628
+2026-05-23 10:00:00,716 INFO Epoch 6/100 — loss: 0.2914, acc: 0.9072, val_loss: 0.6729, val_acc: 0.8611
+2026-05-23 10:00:12,406 INFO Epoch 7/100 — loss: 0.2808, acc: 0.9108, val_loss: 0.6523, val_acc: 0.8614
+2026-05-23 10:00:23,943 INFO Epoch 8/100 — loss: 0.2715, acc: 0.9140, val_loss: 0.7071, val_acc: 0.8693
+2026-05-23 10:00:35,565 INFO Epoch 9/100 — loss: 0.2665, acc: 0.9163, val_loss: 0.6911, val_acc: 0.8722
+2026-05-23 10:00:47,119 INFO Epoch 10/100 — loss: 0.2626, acc: 0.9186, val_loss: 0.6639, val_acc: 0.8746
+2026-05-23 10:00:47,119 INFO Early stopping at epoch 10 (patience=8, min_delta=0.000000)
+2026-05-23 10:00:47,120 INFO Restored best checkpoint from results/results_gru_2026-05-23_09-58-52/best_model.pt
+2026-05-23 10:00:47,120 INFO Best epoch (by val_loss): 2
+2026-05-23 10:00:47,121 INFO Best val_loss: 0.549160
+2026-05-23 10:00:47,121 INFO Best val_accuracy: 0.866922
+2026-05-23 10:00:47,121 INFO Total train time (s): 114.785
+2026-05-23 10:00:47,123 INFO Original Labels: ['mf' 'mp' 'pd' 'rh' 'rl' 'st']
+2026-05-23 10:00:58,272 INFO Train — acc: 0.8957  prec: 0.8975  rec: 0.8957  f1: 0.8938  auc: 0.9783
+2026-05-23 10:00:58,272 INFO Val — acc: 0.8669  prec: 0.8767  rec: 0.8669  f1: 0.8603  auc: 0.9606
+2026-05-23 10:00:58,272 INFO Test — acc: 0.9277  prec: 0.9271  rec: 0.9277  f1: 0.9257  auc: 0.9816
+2026-05-23 10:00:58,359 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 10:00:58,456 WARNING The PostScript backend does not support transparency; partially transparent artists will be rendered opaque.
+2026-05-23 10:00:58,488 INFO Train Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.91      0.90      0.90      2698
+          mp       0.91      0.77      0.83     18376
+          pd       0.83      0.92      0.88     27263
+          rh       0.87      0.48      0.62      1525
+          rl       0.87      0.92      0.89      2357
+          st       0.94      0.96      0.95     36862
+
+    accuracy                           0.90     89081
+   macro avg       0.89      0.82      0.84     89081
+weighted avg       0.90      0.90      0.89     89081
+
+2026-05-23 10:00:58,493 INFO Val Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.98      0.42      0.59      1292
+          mp       0.90      0.84      0.87      3047
+          pd       0.92      0.87      0.89      6951
+          rh       0.86      0.48      0.62       295
+          rl       0.78      0.94      0.85       764
+          st       0.82      0.97      0.89      6745
+
+    accuracy                           0.87     19094
+   macro avg       0.87      0.75      0.78     19094
+weighted avg       0.88      0.87      0.86     19094
+
+2026-05-23 10:00:58,498 INFO Test Classification Report:
+              precision    recall  f1-score   support
+
+          mf       0.92      0.88      0.90       303
+          mp       0.91      0.82      0.86      2469
+          pd       0.91      0.89      0.90      5034
+          rh       0.92      0.58      0.71       454
+          rl       0.97      0.94      0.95       697
+          st       0.94      0.99      0.96     10137
+
+    accuracy                           0.93     19094
+   macro avg       0.93      0.85      0.88     19094
+weighted avg       0.93      0.93      0.93     19094
+
+2026-05-23 10:00:58,649 INFO Writing train predictions...
+2026-05-23 10:01:45,191 INFO Writing val predictions...
+2026-05-23 10:01:53,355 INFO Writing test predictions...
+2026-05-23 10:02:04,051 INFO play executed in 191.794 seconds
