@@ -54,7 +54,7 @@ HP_DISTRIBUTIONS: dict[str, Any] = {
 
 # ↓ Fixed hyperparameters — passed unchanged to every trial.
 HP_FIXED: dict[str, Any] = {
-    "epochs": 50,
+    "epochs": 100,
     "seed": 42,
     "deterministic": True,
     "benchmark": False,
@@ -225,11 +225,43 @@ def write_predictions(
     )
 
 
+def _collect_predictions(
+    model: nn.Module,
+    loader: DataLoader,
+    device: torch.device | str,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
+    """Run inference over a loader and return true labels, predicted classes, and softmax probs."""
+    model.eval()
+    all_true, all_preds, all_probs = [], [], []
+    with torch.no_grad():
+        for xb, yb in loader:
+            logits = model(xb.to(device, non_blocking=True))
+            all_true.append(yb.numpy())
+            all_preds.append(logits.argmax(1).cpu().numpy())
+            all_probs.append(torch.softmax(logits, dim=1).cpu().numpy())
+    return np.concatenate(all_true), np.concatenate(all_preds), np.concatenate(all_probs)
+
+
+def _compute_metrics(
+    y_true: np.ndarray,
+    y_pred: np.ndarray,
+    y_probs: np.ndarray,
+) -> dict[str, float]:
+    """Return accuracy, precision, recall, F1, and AUC (all weighted) for one subset."""
+    return {
+        "accuracy":  float((y_pred == y_true).mean()),
+        "precision": float(precision_score(y_true, y_pred, average="weighted", zero_division=0)),
+        "recall":    float(recall_score(y_true, y_pred, average="weighted", zero_division=0)),
+        "f1":        float(f1_score(y_true, y_pred, average="weighted", zero_division=0)),
+        "auc":       float(roc_auc_score(y_true, y_probs, multi_class="ovr", average="weighted")),
+    }
+
+
 @timeit
 def play(
     df: pd.DataFrame,
     verbose: bool = True,
-    save_eps: bool = False,
+    save_eps: bool = True,
     **hyperparameters: Any,
 ) -> tuple[dict[str, list[float]], np.ndarray, np.ndarray, np.ndarray, GRUClassifier]:
     run_config = dict(hyperparameters)
@@ -381,56 +413,44 @@ def play(
     logger.info("Best val_accuracy: %.6f", best_val_accuracy)
     logger.info("Total train time (s): %.3f", total_train_time_seconds)
 
-    test_loss, test_accuracy = run_epoch(model, test_loader, criterion, device=device)
-    logger.info("Test loss: %.6f", test_loss)
-    logger.info("Test accuracy: %.6f", test_accuracy)
-
     pd.DataFrame(history).to_csv(
         os.path.join(dir_name, "training_log.csv"), index=False
     )
-
-    model.eval()
-    all_preds: list[np.ndarray] = []
-    all_probs: list[np.ndarray] = []
-    all_true: list[np.ndarray] = []
-    with torch.no_grad():
-        for xb, yb in test_loader:
-            logits = model(xb.to(device, non_blocking=True))
-            all_preds.append(logits.argmax(1).cpu().numpy())
-            all_probs.append(torch.softmax(logits, dim=1).cpu().numpy())
-            all_true.append(yb.numpy())
-    y_pred_classes_test = np.concatenate(all_preds)
-    y_pred_probs_test = np.concatenate(all_probs)
-    y_true_classes_test = np.concatenate(all_true)
 
     original_labels: np.ndarray = label_encoder.inverse_transform(
         np.arange(len(label_encoder.classes_))
     )
     logger.info("Original Labels: %s", original_labels)
 
-    test_precision = precision_score(
-        y_true_classes_test, y_pred_classes_test, average="weighted", zero_division=0
-    )
-    test_recall = recall_score(
-        y_true_classes_test, y_pred_classes_test, average="weighted", zero_division=0
-    )
-    test_f1 = f1_score(
-        y_true_classes_test, y_pred_classes_test, average="weighted", zero_division=0
-    )
-    test_auc = roc_auc_score(
-        y_true_classes_test, y_pred_probs_test, multi_class="ovr", average="weighted"
-    )
+    train_loss, _ = run_epoch(model, train_loader, criterion, device=device)
+    val_loss, _ = run_epoch(model, val_loader, criterion, device=device)
+    test_loss, _ = run_epoch(model, test_loader, criterion, device=device)
+
+    y_true_train, y_pred_train, y_probs_train = _collect_predictions(model, train_loader, device)
+    y_true_val, y_pred_val, y_probs_val = _collect_predictions(model, val_loader, device)
+    y_true_test, y_pred_test, y_probs_test = _collect_predictions(model, test_loader, device)
+
+    train_metrics = _compute_metrics(y_true_train, y_pred_train, y_probs_train)
+    val_metrics = _compute_metrics(y_true_val, y_pred_val, y_probs_val)
+    test_metrics = _compute_metrics(y_true_test, y_pred_test, y_probs_test)
+
+    for split, metrics in [("Train", train_metrics), ("Val", val_metrics), ("Test", test_metrics)]:
+        logger.info(
+            "%s — acc: %.4f  prec: %.4f  rec: %.4f  f1: %.4f  auc: %.4f",
+            split,
+            metrics["accuracy"], metrics["precision"], metrics["recall"],
+            metrics["f1"], metrics["auc"],
+        )
 
     summary_metrics = {
         "best_epoch": best_epoch,
         "best_val_loss": best_val_loss,
-        "best_val_accuracy": best_val_accuracy,
+        "train_loss": train_loss,
+        **{f"train_{k}": v for k, v in train_metrics.items()},
+        "val_loss": val_loss,
+        **{f"val_{k}": v for k, v in val_metrics.items()},
         "test_loss": test_loss,
-        "test_accuracy": test_accuracy,
-        "test_precision": test_precision,
-        "test_recall": test_recall,
-        "test_f1": test_f1,
-        "test_auc": test_auc,
+        **{f"test_{k}": v for k, v in test_metrics.items()},
         "stopped_early": stopped_early,
         "epochs_ran": len(history["train_loss"]),
         "total_train_time_seconds": total_train_time_seconds,
@@ -453,33 +473,34 @@ def play(
 
     plot_history(history, dir_name, save_eps=save_eps)
 
-    report = classification_report(
-        y_true_classes_test, y_pred_classes_test, target_names=original_labels
-    )
-    logger.info("Classification Report:\n%s", report)
-    logger.info("Test precision (weighted): %.6f", test_precision)
-    logger.info("Test recall (weighted): %.6f", test_recall)
-    logger.info("Test F1 (weighted): %.6f", test_f1)
-    logger.info("Test AUC (OvR weighted): %.6f", test_auc)
     with open(os.path.join(dir_name, "classification_report.txt"), "wt") as f:
-        f.write(f"Test loss: {test_loss:.6f}\n")
-        f.write(f"Test accuracy: {test_accuracy:.6f}\n")
-        f.write(f"Test precision (weighted): {test_precision:.6f}\n")
-        f.write(f"Test recall (weighted): {test_recall:.6f}\n")
-        f.write(f"Test F1 (weighted): {test_f1:.6f}\n")
-        f.write(f"Test AUC (OvR weighted): {test_auc:.6f}\n\n")
-        f.write("Classification Report:\n")
-        f.write(report)
+        for split, loss, metrics, y_true, y_pred in [
+            ("Train", train_loss, train_metrics, y_true_train, y_pred_train),
+            ("Val",   val_loss,   val_metrics,   y_true_val,   y_pred_val),
+            ("Test",  test_loss,  test_metrics,  y_true_test,  y_pred_test),
+        ]:
+            f.write(f"[{split}]\n")
+            f.write(f"loss:      {loss:.6f}\n")
+            f.write(f"accuracy:  {metrics['accuracy']:.6f}\n")
+            f.write(f"precision: {metrics['precision']:.6f}\n")
+            f.write(f"recall:    {metrics['recall']:.6f}\n")
+            f.write(f"f1:        {metrics['f1']:.6f}\n")
+            f.write(f"auc:       {metrics['auc']:.6f}\n\n")
+            report = classification_report(y_true, y_pred, target_names=original_labels, output_dict=False)
+            logger.info("%s Classification Report:\n%s", split, report)
+            f.write("Classification Report:\n")
+            f.write(report)
+            f.write("\n")
 
-    cm = confusion_matrix(y_true_classes_test, y_pred_classes_test)
+    cm = confusion_matrix(y_true_test, y_pred_test)
     plt.figure(figsize=(8, 6))
     sns.heatmap(
         cm,
         annot=True,
         cmap="Reds",
         fmt="d",
-        xticklabels=original_labels,
-        yticklabels=original_labels,
+        xticklabels=original_labels.tolist(),
+        yticklabels=original_labels.tolist(),
     )
     plt.xlabel("Predicted")
     plt.ylabel("Actual")
@@ -492,9 +513,7 @@ def play(
 
     all_results_path = os.path.join(dir_root_results, "all_results_gru.xlsx")
     summary_keys = list(summary_metrics.keys())
-    all_results_columns = (
-        ["timestamp"] + list(run_config.keys()) + list(history.keys()) + summary_keys
-    )
+    all_results_columns = ["timestamp"] + list(run_config.keys()) + summary_keys
 
     if os.path.exists(all_results_path):
         df_results = pd.read_excel(all_results_path)
@@ -519,7 +538,7 @@ def play(
     logger.info("Writing test predictions...")
     write_predictions(model, test_loader, y_test, dir_name, "test", device)
 
-    return history, x_test, y_test, y_pred_classes_test, model
+    return history, x_test, y_test, y_pred_test, model
 
 
 if __name__ == "__main__":
