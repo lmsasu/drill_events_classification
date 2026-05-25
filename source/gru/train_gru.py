@@ -247,13 +247,16 @@ def _compute_metrics(
     y_pred: np.ndarray,
     y_probs: np.ndarray,
 ) -> dict[str, float]:
-    """Return accuracy, precision, recall, F1, and AUC (all weighted) for one subset."""
+    """Return accuracy, weighted and macro precision/recall/F1, and weighted AUC."""
     return {
-        "accuracy":  float((y_pred == y_true).mean()),
-        "precision": float(precision_score(y_true, y_pred, average="weighted", zero_division=0)),
-        "recall":    float(recall_score(y_true, y_pred, average="weighted", zero_division=0)),
-        "f1":        float(f1_score(y_true, y_pred, average="weighted", zero_division=0)),
-        "auc":       float(roc_auc_score(y_true, y_probs, multi_class="ovr", average="weighted")),
+        "accuracy":        float((y_pred == y_true).mean()),
+        "precision":       float(precision_score(y_true, y_pred, average="weighted", zero_division=0)),
+        "recall":          float(recall_score(y_true, y_pred, average="weighted", zero_division=0)),
+        "f1":              float(f1_score(y_true, y_pred, average="weighted", zero_division=0)),
+        "auc":             float(roc_auc_score(y_true, y_probs, multi_class="ovr", average="weighted")),
+        "macro_precision": float(precision_score(y_true, y_pred, average="macro", zero_division=0)),
+        "macro_recall":    float(recall_score(y_true, y_pred, average="macro", zero_division=0)),
+        "macro_f1":        float(f1_score(y_true, y_pred, average="macro", zero_division=0)),
     }
 
 
