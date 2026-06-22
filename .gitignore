@@ -10,6 +10,6 @@ wheels/
 .venv
 
 # Results and large binary artifacts
-source/tcn/results/results_*
-source/tcn/results.zip
-source/tcn/runs/
+source/tcn_continuous/results/results_*
+source/tcn_continuous/results.zip
+source/tcn_continuous/runs/
