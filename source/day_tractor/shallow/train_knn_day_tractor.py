@@ -9,6 +9,13 @@ spreadsheet for cross-trial comparison.
 Sliding windows from :class:`TractorActivityDataset` are flattened to
 ``(n_samples, window_size * n_features)`` before being passed to sklearn.
 ``window_size`` is a hyper-parameter, so datasets are re-created each trial.
+
+The model is wrapped in a :class:`~sklearn.pipeline.Pipeline` with a
+:class:`~sklearn.preprocessing.StandardScaler` as the first step.  The scaler
+is fitted exclusively on the training split; val and test are transformed with
+the same statistics, preventing data leakage.  Scaling is particularly
+important for KNN because the Minkowski distance is sensitive to feature
+magnitude differences.
 """
 
 import logging
@@ -33,6 +40,8 @@ from sklearn.metrics import (
 )
 from sklearn.model_selection import ParameterSampler
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from day_tractor.data.dataset import TractorActivityDataset
@@ -46,7 +55,7 @@ DATA_DIR    = Path(__file__).resolve().parents[3] / "data" / "day_tractor"
 RESULTS_DIR = Path(__file__).resolve().parents[3] / "results" / "day_tractor" / "shallow" / "KNN"
 
 # ── random search configuration ───────────────────────────────────────────────
-N_TRIALS: int = 30
+N_TRIALS: int = 100
 SEARCH_SEED: int | None = 0
 
 HP_DISTRIBUTIONS: dict[str, Any] = {
@@ -165,12 +174,13 @@ def play(
     verbose: bool = True,
     save_eps: bool = True,
     **hyperparameters: Any,
-) -> KNeighborsClassifier:
-    """Fit and evaluate a KNN classifier on the day-tractor splits.
+) -> Pipeline:
+    """Fit and evaluate a StandardScaler → KNN pipeline on the day-tractor splits.
 
     Loads the three pre-split Excel files, builds datasets with the trial's
-    ``window_size``, fits the model, and writes metrics, plots, and predictions
-    to a timestamped results sub-directory.
+    ``window_size``, fits the pipeline (scaler fitted on train only), and
+    writes metrics, plots, and predictions to a timestamped results
+    sub-directory.
 
     Args:
         verbose: When ``True``, log dataset statistics.
@@ -179,7 +189,7 @@ def play(
             ``window_size``, ``n_neighbors``, ``p``, ``n_jobs``, ``seed``.
 
     Returns:
-        The fitted :class:`~sklearn.neighbors.KNeighborsClassifier`.
+        The fitted :class:`~sklearn.pipeline.Pipeline`.
     """
     run_config = dict(hyperparameters)
     run_config.setdefault("seed",   42)
@@ -223,28 +233,31 @@ def play(
     X_val,   y_val   = _extract_arrays(val_ds)
     X_test,  y_test  = _extract_arrays(test_ds)
 
-    model = KNeighborsClassifier(
-        n_neighbors = int(run_config["n_neighbors"]),
-        p           = int(run_config["p"]),
-        n_jobs      = int(run_config["n_jobs"]),
-    )
+    pipeline = Pipeline([
+        ("scaler", StandardScaler()),
+        ("knn", KNeighborsClassifier(
+            n_neighbors = int(run_config["n_neighbors"]),
+            p           = int(run_config["p"]),
+            n_jobs      = int(run_config["n_jobs"]),
+        )),
+    ])
 
     fit_start = time.perf_counter()
-    model.fit(X_train, y_train)
+    pipeline.fit(X_train, y_train)
     fit_time = time.perf_counter() - fit_start
-    logger.info("Model fitted in %.3f seconds", fit_time)
+    logger.info("Pipeline fitted in %.3f seconds", fit_time)
 
     original_labels = train_ds.classes
     n_classes       = train_ds.n_classes
     logger.info("Class labels: %s", original_labels)
 
-    y_pred_train  = model.predict(X_train)
-    y_pred_val    = model.predict(X_val)
-    y_pred_test   = model.predict(X_test)
+    y_pred_train  = np.asarray(pipeline.predict(X_train))
+    y_pred_val    = np.asarray(pipeline.predict(X_val))
+    y_pred_test   = np.asarray(pipeline.predict(X_test))
 
-    y_probs_train = _align_proba(model.predict_proba(X_train), model.classes_, n_classes)
-    y_probs_val   = _align_proba(model.predict_proba(X_val),   model.classes_, n_classes)
-    y_probs_test  = _align_proba(model.predict_proba(X_test),  model.classes_, n_classes)
+    y_probs_train = _align_proba(pipeline.predict_proba(X_train), pipeline.classes_, n_classes)
+    y_probs_val   = _align_proba(pipeline.predict_proba(X_val),   pipeline.classes_, n_classes)
+    y_probs_test  = _align_proba(pipeline.predict_proba(X_test),  pipeline.classes_, n_classes)
 
     train_metrics = _compute_metrics(y_train, y_pred_train, y_probs_train)
     val_metrics   = _compute_metrics(y_val,   y_pred_val,   y_probs_val)
@@ -315,7 +328,7 @@ def play(
 
     all_results_path = str(RESULTS_DIR / "all_results_knn.xlsx")
     summary_keys     = list(summary_metrics.keys())
-    all_results_cols = ["timestamp"] + list(run_config.keys()) + summary_keys
+    all_results_cols = ["model", "timestamp"] + list(run_config.keys()) + summary_keys
 
     if os.path.exists(all_results_path):
         df_results = pd.read_excel(all_results_path)
@@ -325,7 +338,7 @@ def play(
     else:
         df_results = pd.DataFrame(columns=all_results_cols)
 
-    row: dict[str, Any] = {"timestamp": timestamp}
+    row: dict[str, Any] = {"model": "KNN", "timestamp": timestamp}
     row.update(run_config)
     row.update(summary_metrics)
     df_results.loc[len(df_results)] = row
@@ -337,7 +350,7 @@ def play(
     write_predictions(X_val,   y_val,   y_pred_val,   dir_name, "val")
     write_predictions(X_test,  y_test,  y_pred_test,  dir_name, "test")
 
-    return model
+    return pipeline
 
 
 if __name__ == "__main__":

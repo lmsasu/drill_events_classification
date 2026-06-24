@@ -46,7 +46,7 @@ DATA_DIR = Path(__file__).resolve().parents[3] / "data" / "day_tractor"
 RESULTS_DIR = Path(__file__).resolve().parents[3] / "results" / "day_tractor" / "shallow" / "DT"
 
 # ── random search configuration ───────────────────────────────────────────────
-N_TRIALS: int = 30
+N_TRIALS: int = 100
 SEARCH_SEED: int | None = 0
 
 HP_DISTRIBUTIONS: dict[str, Any] = {
@@ -361,7 +361,7 @@ def play(
 
     all_results_path = str(RESULTS_DIR / "all_results_dt.xlsx")
     summary_keys = list(summary_metrics.keys())
-    all_results_cols = ["timestamp"] + list(run_config.keys()) + summary_keys
+    all_results_cols = ["model", "timestamp"] + list(run_config.keys()) + summary_keys
 
     if os.path.exists(all_results_path):
         df_results = pd.read_excel(all_results_path)
@@ -371,7 +371,7 @@ def play(
     else:
         df_results = pd.DataFrame(columns=all_results_cols)
 
-    row: dict[str, Any] = {"timestamp": timestamp}
+    row: dict[str, Any] = {"model": "DT", "timestamp": timestamp}
     row.update(run_config)
     row.update(summary_metrics)
     df_results.loc[len(df_results)] = row

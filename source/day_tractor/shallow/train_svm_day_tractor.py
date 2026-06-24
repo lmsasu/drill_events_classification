@@ -1,5 +1,5 @@
 """
-Logistic Regression activity classifier for the day-tractor dataset.
+SVM activity classifier for the day-tractor dataset.
 
 Training data is loaded from the three pre-split Excel files produced by
 ``split_dataset.py``.  A random hyper-parameter search is performed over
@@ -13,15 +13,17 @@ Sliding windows from :class:`TractorActivityDataset` are flattened to
 The model is wrapped in a :class:`~sklearn.pipeline.Pipeline` with a
 :class:`~sklearn.preprocessing.StandardScaler` as the first step.  The scaler
 is fitted exclusively on the training split; val and test are transformed with
-the same statistics, preventing data leakage.
+the same statistics, preventing data leakage.  Scaling is mandatory for SVM
+because the kernel functions are distance-based.
 
-The ``saga`` solver is fixed because it is the only sklearn solver that
-supports all four penalty types (``l1``, ``l2``, ``elasticnet``, ``None``).
-``l1_ratio`` is always passed to the model; it is silently ignored by sklearn
-when ``penalty`` is not ``'elasticnet'``.
+``probability=True`` is fixed so that :meth:`predict_proba` is available for
+AUC computation; this adds an internal 5-fold cross-validation step during
+fitting and increases wall time.  ``gamma`` is silently ignored by sklearn when
+``kernel='linear'``.
 
-When ``penalty=None`` the ``C`` parameter has no effect; it is fixed to ``1.0``
-in that case to avoid wasting random-search budget sampling a meaningless value.
+Warning: ``SVC`` training complexity is roughly O(n²)–O(n³) in the number of
+training samples.  With ~38 k windows per trial this can be slow; consider
+reducing ``N_TRIALS`` or ``window_size`` bounds if runtime is a concern.
 """
 
 import logging
@@ -35,8 +37,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from scipy.stats import loguniform, randint, uniform
-from sklearn.linear_model import LogisticRegression
+from scipy.stats import loguniform, randint
 from sklearn.metrics import (
     classification_report,
     confusion_matrix,
@@ -48,6 +49,7 @@ from sklearn.metrics import (
 from sklearn.model_selection import ParameterSampler
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from day_tractor.data.dataset import TractorActivityDataset
@@ -58,25 +60,28 @@ logger = logging.getLogger(__name__)
 
 # ── paths ─────────────────────────────────────────────────────────────────────
 DATA_DIR    = Path(__file__).resolve().parents[3] / "data" / "day_tractor"
-RESULTS_DIR = Path(__file__).resolve().parents[3] / "results" / "day_tractor" / "shallow" / "LR"
+RESULTS_DIR = Path(__file__).resolve().parents[3] / "results" / "day_tractor" / "shallow" / "SVM"
 
 # ── random search configuration ───────────────────────────────────────────────
 N_TRIALS: int = 100
 SEARCH_SEED: int | None = 0
 
-# penalty is deprecated in sklearn 1.8. Regularisation type is now controlled
-# solely via l1_ratio (0=ridge/L2, 1=lasso/L1, in-between=elasticnet) and C.
+# gamma   — ignored by 'linear'; sklearn silently disregards it.
+# degree  — only used by 'poly'; silently ignored by all other kernels.
+# coef0   — used by 'poly' (independent term) and 'sigmoid'; ignored by 'rbf'/'linear'.
 HP_DISTRIBUTIONS: dict[str, Any] = {
     "window_size": randint(10, 51),
-    "l1_ratio":    uniform(0.0, 1.0),
-    "C":           loguniform(1e-2, 1e2),
+    "kernel":      ["rbf", "linear", "poly", "sigmoid"],
+    "C":           loguniform(1e-1, 1e2),
+    "gamma":       ["scale", "auto"],
+    "degree":      [2, 3, 4],
+    "coef0":       loguniform(1e-2, 1e1),
 }
 
 HP_FIXED: dict[str, Any] = {
     "seed":              42,
     "use_class_weights": True,
-    "solver":            "saga",
-    "max_iter":          3000,
+    "probability":       True,   # required for predict_proba / AUC
 }
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -100,11 +105,10 @@ def _extract_arrays(ds: TractorActivityDataset) -> tuple[np.ndarray, np.ndarray]
 def _align_proba(proba: np.ndarray, model_classes: np.ndarray, n_classes: int) -> np.ndarray:
     """Expand ``predict_proba`` output to cover all encoder classes.
 
-    ``LogisticRegression.predict_proba`` only includes columns for classes
-    that appeared in the training set.  If a class had zero training windows its
-    column is absent, which would cause shape mismatches in the metric
-    functions.  This function inserts zero-probability columns for any missing
-    class.
+    ``SVC.predict_proba`` only includes columns for classes that appeared in
+    the training set.  If a class had zero training windows its column is
+    absent, which would cause shape mismatches in the metric functions.  This
+    function inserts zero-probability columns for any missing class.
 
     Args:
         proba: Raw output of ``predict_proba``, shape ``(n, len(model_classes))``.
@@ -185,7 +189,7 @@ def play(
     save_eps: bool = True,
     **hyperparameters: Any,
 ) -> Pipeline:
-    """Fit and evaluate a StandardScaler → LogisticRegression pipeline.
+    """Fit and evaluate a StandardScaler → SVC pipeline on the day-tractor splits.
 
     Loads the three pre-split Excel files, builds datasets with the trial's
     ``window_size``, fits the pipeline (scaler fitted on train only), and
@@ -196,8 +200,8 @@ def play(
         verbose: When ``True``, log dataset statistics.
         save_eps: When ``True``, also save EPS versions of all figures.
         **hyperparameters: Training configuration.  Expected keys:
-            ``window_size``, ``penalty``, ``C``, ``l1_ratio``,
-            ``solver``, ``max_iter``, ``seed``, ``use_class_weights``.
+            ``window_size``, ``kernel``, ``C``, ``gamma``, ``degree``, ``coef0``,
+            ``probability``, ``seed``, ``use_class_weights``.
 
     Returns:
         The fitted :class:`~sklearn.pipeline.Pipeline`.
@@ -205,13 +209,12 @@ def play(
     run_config = dict(hyperparameters)
     run_config.setdefault("seed",              42)
     run_config.setdefault("use_class_weights", True)
-    run_config.setdefault("solver",            "saga")
-    run_config.setdefault("max_iter",          1000)
+    run_config.setdefault("probability",       True)
 
     logger.info("Play called with hyperparameters: %s", run_config)
 
     timestamp = pd.Timestamp.now().strftime("%Y-%m-%d_%H-%M-%S")
-    dir_name  = str(RESULTS_DIR / f"results_lr_{timestamp}")
+    dir_name  = str(RESULTS_DIR / f"results_svm_{timestamp}")
     os.makedirs(dir_name, exist_ok=True)
 
     with open(os.path.join(dir_name, "hyperparameters.txt"), "wt") as f:
@@ -250,11 +253,13 @@ def play(
 
     pipeline = Pipeline([
         ("scaler", StandardScaler()),
-        ("logreg", LogisticRegression(
+        ("svm", SVC(
+            kernel       = run_config["kernel"],
             C            = float(run_config["C"]),
-            l1_ratio     = float(run_config["l1_ratio"]),
-            solver       = run_config["solver"],
-            max_iter     = int(run_config["max_iter"]),
+            gamma        = run_config["gamma"],
+            degree       = int(run_config["degree"]),
+            coef0        = float(run_config["coef0"]),
+            probability  = bool(run_config["probability"]),
             class_weight = class_weight,
             random_state = int(run_config["seed"]),
         )),
@@ -262,12 +267,11 @@ def play(
 
     fit_start = time.perf_counter()
     pipeline.fit(X_train, y_train)
-    fit_time  = time.perf_counter() - fit_start
-    n_iter    = int(pipeline.named_steps["logreg"].n_iter_.max())
-    converged = n_iter < int(run_config["max_iter"])
+    fit_time = time.perf_counter() - fit_start
+    svm      = pipeline.named_steps["svm"]
     logger.info(
-        "Pipeline fitted in %.3f seconds  (iterations=%d, converged=%s)",
-        fit_time, n_iter, converged,
+        "Pipeline fitted in %.3f seconds  (support vectors: %d)",
+        fit_time, svm.n_support_.sum(),
     )
 
     original_labels = train_ds.classes
@@ -295,9 +299,8 @@ def play(
         )
 
     summary_metrics = {
-        "fit_time_seconds": fit_time,
-        "n_iter":           n_iter,
-        "converged":        converged,
+        "fit_time_seconds":  fit_time,
+        "n_support_vectors": int(svm.n_support_.sum()),
         **{f"train_{k}": v for k, v in train_metrics.items()},
         **{f"val_{k}":   v for k, v in val_metrics.items()},
         **{f"test_{k}":  v for k, v in test_metrics.items()},
@@ -351,7 +354,7 @@ def play(
         plt.savefig(os.path.join(dir_name, "confusion_matrix.eps"), bbox_inches="tight")
     plt.close()
 
-    all_results_path = str(RESULTS_DIR / "all_results_lr.xlsx")
+    all_results_path = str(RESULTS_DIR / "all_results_svm.xlsx")
     summary_keys     = list(summary_metrics.keys())
     all_results_cols = ["model", "timestamp"] + list(run_config.keys()) + summary_keys
 
@@ -363,7 +366,7 @@ def play(
     else:
         df_results = pd.DataFrame(columns=all_results_cols)
 
-    row: dict[str, Any] = {"model": "LR", "timestamp": timestamp}
+    row: dict[str, Any] = {"model": "SVM", "timestamp": timestamp}
     row.update(run_config)
     row.update(summary_metrics)
     df_results.loc[len(df_results)] = row

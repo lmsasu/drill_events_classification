@@ -9,6 +9,11 @@ spreadsheet for cross-trial comparison.
 Sliding windows from :class:`TractorActivityDataset` are flattened to
 ``(n_samples, window_size * n_features)`` before being passed to sklearn.
 ``window_size`` is a hyper-parameter, so datasets are re-created each trial.
+
+The model is wrapped in a :class:`~sklearn.pipeline.Pipeline` with a
+:class:`~sklearn.preprocessing.StandardScaler` as the first step.  The scaler
+is fitted exclusively on the training split; val and test are transformed with
+the same statistics, preventing data leakage.
 """
 
 import logging
@@ -33,6 +38,8 @@ from sklearn.metrics import (
 )
 from sklearn.model_selection import ParameterSampler
 from sklearn.neural_network import MLPClassifier
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from day_tractor.data.dataset import TractorActivityDataset
@@ -46,13 +53,12 @@ DATA_DIR    = Path(__file__).resolve().parents[3] / "data" / "day_tractor"
 RESULTS_DIR = Path(__file__).resolve().parents[3] / "results" / "day_tractor" / "shallow" / "MLP"
 
 # ── random search configuration ───────────────────────────────────────────────
-N_TRIALS: int = 30
+N_TRIALS: int = 100
 SEARCH_SEED: int | None = 0
 
 HP_DISTRIBUTIONS: dict[str, Any] = {
     "window_size":         randint(10, 51),
     "hidden_layer_sizes":  [(10,), (30,), (50,), (20, 30), (30, 30)],
-    "activation":          ["tanh", "relu"],
     "alpha":               [1e-4, 1e-3, 1e-2],
     "learning_rate_init":  [1e-3, 1e-2, 1e-1],
     "learning_rate":       ["constant", "invscaling", "adaptive"],
@@ -61,6 +67,7 @@ HP_DISTRIBUTIONS: dict[str, Any] = {
 HP_FIXED: dict[str, Any] = {
     "seed":              42,
     "use_class_weights": True,
+    "activation":        "relu",
     "max_iter":          1000,
     "early_stopping":    False,
 }
@@ -170,12 +177,13 @@ def play(
     verbose: bool = True,
     save_eps: bool = True,
     **hyperparameters: Any,
-) -> MLPClassifier:
-    """Fit and evaluate an MLP classifier on the day-tractor splits.
+) -> Pipeline:
+    """Fit and evaluate a StandardScaler → MLP pipeline on the day-tractor splits.
 
     Loads the three pre-split Excel files, builds datasets with the trial's
-    ``window_size``, fits the model, and writes metrics, plots, and predictions
-    to a timestamped results sub-directory.
+    ``window_size``, fits the pipeline (scaler fitted on train only), and
+    writes metrics, plots, and predictions to a timestamped results
+    sub-directory.
 
     Args:
         verbose: When ``True``, log dataset statistics.
@@ -186,7 +194,7 @@ def play(
             ``max_iter``, ``early_stopping``, ``seed``, ``use_class_weights``.
 
     Returns:
-        The fitted :class:`~sklearn.neural_network.MLPClassifier`.
+        The fitted :class:`~sklearn.pipeline.Pipeline`.
     """
     run_config = dict(hyperparameters)
     run_config.setdefault("seed",              42)
@@ -232,36 +240,40 @@ def play(
     X_val,   y_val   = _extract_arrays(val_ds)
     X_test,  y_test  = _extract_arrays(test_ds)
 
-    model = MLPClassifier(
-        hidden_layer_sizes = run_config["hidden_layer_sizes"],
-        activation         = run_config["activation"],
-        alpha              = float(run_config["alpha"]),
-        learning_rate_init = float(run_config["learning_rate_init"]),
-        learning_rate      = run_config["learning_rate"],
-        max_iter           = int(run_config["max_iter"]),
-        early_stopping     = bool(run_config["early_stopping"]),
-        random_state       = int(run_config["seed"]),
-    )
+    pipeline = Pipeline([
+        ("scaler", StandardScaler()),
+        ("mlp", MLPClassifier(
+            hidden_layer_sizes = run_config["hidden_layer_sizes"],
+            activation         = run_config["activation"],
+            alpha              = float(run_config["alpha"]),
+            learning_rate_init = float(run_config["learning_rate_init"]),
+            learning_rate      = run_config["learning_rate"],
+            max_iter           = int(run_config["max_iter"]),
+            early_stopping     = bool(run_config["early_stopping"]),
+            random_state       = int(run_config["seed"]),
+        )),
+    ])
 
     fit_start = time.perf_counter()
-    model.fit(X_train, y_train)
+    pipeline.fit(X_train, y_train)
     fit_time = time.perf_counter() - fit_start
+    n_iter   = pipeline.named_steps["mlp"].n_iter_
     logger.info(
-        "Model fitted in %.3f seconds  (iterations=%d, converged=%s)",
-        fit_time, model.n_iter_, not model.n_iter_ >= run_config["max_iter"],
+        "Pipeline fitted in %.3f seconds  (iterations=%d, converged=%s)",
+        fit_time, n_iter, n_iter < int(run_config["max_iter"]),
     )
 
     original_labels = train_ds.classes
     n_classes       = train_ds.n_classes
     logger.info("Class labels: %s", original_labels)
 
-    y_pred_train  = model.predict(X_train)
-    y_pred_val    = model.predict(X_val)
-    y_pred_test   = model.predict(X_test)
+    y_pred_train  = np.asarray(pipeline.predict(X_train))
+    y_pred_val    = np.asarray(pipeline.predict(X_val))
+    y_pred_test   = np.asarray(pipeline.predict(X_test))
 
-    y_probs_train = _align_proba(model.predict_proba(X_train), model.classes_, n_classes)
-    y_probs_val   = _align_proba(model.predict_proba(X_val),   model.classes_, n_classes)
-    y_probs_test  = _align_proba(model.predict_proba(X_test),  model.classes_, n_classes)
+    y_probs_train = _align_proba(pipeline.predict_proba(X_train), pipeline.classes_, n_classes)
+    y_probs_val   = _align_proba(pipeline.predict_proba(X_val),   pipeline.classes_, n_classes)
+    y_probs_test  = _align_proba(pipeline.predict_proba(X_test),  pipeline.classes_, n_classes)
 
     train_metrics = _compute_metrics(y_train, y_pred_train, y_probs_train)
     val_metrics   = _compute_metrics(y_val,   y_pred_val,   y_probs_val)
@@ -277,8 +289,8 @@ def play(
 
     summary_metrics = {
         "fit_time_seconds": fit_time,
-        "n_iter":           model.n_iter_,
-        "converged":        model.n_iter_ < int(run_config["max_iter"]),
+        "n_iter":           n_iter,
+        "converged":        n_iter < int(run_config["max_iter"]),
         **{f"train_{k}": v for k, v in train_metrics.items()},
         **{f"val_{k}":   v for k, v in val_metrics.items()},
         **{f"test_{k}":  v for k, v in test_metrics.items()},
@@ -334,7 +346,7 @@ def play(
 
     all_results_path = str(RESULTS_DIR / "all_results_mlp.xlsx")
     summary_keys     = list(summary_metrics.keys())
-    all_results_cols = ["timestamp"] + list(run_config.keys()) + summary_keys
+    all_results_cols = ["model", "timestamp"] + list(run_config.keys()) + summary_keys
 
     if os.path.exists(all_results_path):
         df_results = pd.read_excel(all_results_path)
@@ -344,7 +356,7 @@ def play(
     else:
         df_results = pd.DataFrame(columns=all_results_cols)
 
-    row: dict[str, Any] = {"timestamp": timestamp}
+    row: dict[str, Any] = {"model": "MLP", "timestamp": timestamp}
     row.update(run_config)
     row.update(summary_metrics)
     df_results.loc[len(df_results)] = row
@@ -356,7 +368,7 @@ def play(
     write_predictions(X_val,   y_val,   y_pred_val,   dir_name, "val")
     write_predictions(X_test,  y_test,  y_pred_test,  dir_name, "test")
 
-    return model
+    return pipeline
 
 
 if __name__ == "__main__":
