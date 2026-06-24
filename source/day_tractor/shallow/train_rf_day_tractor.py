@@ -44,6 +44,7 @@ from sklearn.model_selection import ParameterSampler
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 from day_tractor.data.dataset import TractorActivityDataset
 from shared_modules.logging_setup import setup_logging
+from shared_modules.config import OPTIMIZATION_TRIALS
 from shared_modules.timing import timeit
 
 logger = logging.getLogger(__name__)
@@ -55,7 +56,7 @@ RESULTS_DIR = (
 )
 
 # ── random search configuration ───────────────────────────────────────────────
-N_TRIALS: int = 100
+N_TRIALS: int = OPTIMIZATION_TRIALS
 SEARCH_SEED: int | None = 0
 
 HP_DISTRIBUTIONS: dict[str, Any] = {
